@@ -31,11 +31,12 @@ struct houseSettings
 struct farmSettings
 {
 	sizes size = { 3, 3 };
+	short int income = 10;
 };
 
 
 
 namespace gameSettings {
 	extern humanSettings humanSetting;
-
+	extern farmSettings farmSetting;
 }
