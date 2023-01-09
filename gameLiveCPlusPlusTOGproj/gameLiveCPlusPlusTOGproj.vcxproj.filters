@@ -51,6 +51,9 @@
     <ClCompile Include="builderClass.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
+    <ClCompile Include="farmerClass.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="settings.h">
@@ -72,6 +75,9 @@
       <Filter>Файлы заголовков\additional</Filter>
     </ClInclude>
     <ClInclude Include="builderClass.h">
+      <Filter>Файлы заголовков\humans</Filter>
+    </ClInclude>
+    <ClInclude Include="farmerClass.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>

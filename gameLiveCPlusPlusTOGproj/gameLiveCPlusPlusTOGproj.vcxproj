@@ -134,6 +134,7 @@
   <ItemGroup>
     <ClCompile Include="builderClass.cpp" />
     <ClCompile Include="farmClass.cpp" />
+    <ClCompile Include="farmerClass.cpp" />
     <ClCompile Include="houseClass.cpp" />
     <ClCompile Include="humanClass.cpp" />
     <ClCompile Include="main.cpp" />
@@ -144,6 +145,7 @@
   <ItemGroup>
     <ClInclude Include="builderClass.h" />
     <ClInclude Include="farmClass.h" />
+    <ClInclude Include="farmerClass.h" />
     <ClInclude Include="houseClass.h" />
     <ClInclude Include="objectClass.h" />
     <ClInclude Include="queueClass.h" />
