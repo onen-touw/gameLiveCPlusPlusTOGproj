@@ -132,12 +132,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="houseClass.cpp" />
     <ClCompile Include="humanClass.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="queueClass.cpp" />
     <ClCompile Include="settings.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="houseClass.h" />
     <ClInclude Include="queueClass.h" />
     <ClInclude Include="settings.h" />
     <ClInclude Include="humanClass.h" />

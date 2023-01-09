@@ -17,6 +17,21 @@ struct humanSettings
 	short int satiety = 6;
 };
 
+struct sizes
+{
+	short int width = 0;
+	short int height = 0;
+};
+
+struct houseSettings
+{
+	sizes size = { 2, 2 };
+};
+
+struct farmSettings
+{
+	sizes size = { 3, 3 };
+};
 
 
 
