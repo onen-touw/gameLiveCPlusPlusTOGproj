@@ -4,18 +4,20 @@
 #include <vector>
 #include <string>
 
-struct humanSettings
-{
-	short int hp = 10;
-	short int stamina = 30;
-	short int satiety = 6;
-};
-
 struct position
 {
 	short int i = 0;
 	short int j = 0;
 };
+
+struct humanSettings
+{
+	short int hp = 10;
+	short int stamina = 160;
+	short int satiety = 6;
+};
+
+
 
 
 namespace gameSettings {
