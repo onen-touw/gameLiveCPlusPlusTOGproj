@@ -13,6 +13,18 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Файлы заголовков\object">
+      <UniqueIdentifier>{4b79b5b3-a008-40e9-a726-3c099a151907}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы заголовков\buildings">
+      <UniqueIdentifier>{d15d710c-3b4f-4d08-91f5-e38adc87c9a9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы заголовков\humans">
+      <UniqueIdentifier>{396642b0-cb1c-4c45-8baf-6df6add8ae08}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы заголовков\additional">
+      <UniqueIdentifier>{f80cecb9-14ef-434b-ad1d-06f7d59c9895}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -36,24 +48,30 @@
     <ClCompile Include="objectClass.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
+    <ClCompile Include="builderClass.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="humanClass.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
     <ClInclude Include="settings.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="queueClass.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="houseClass.h">
-      <Filter>Файлы заголовков</Filter>
+    <ClInclude Include="objectClass.h">
+      <Filter>Файлы заголовков\object</Filter>
     </ClInclude>
     <ClInclude Include="farmClass.h">
-      <Filter>Файлы заголовков</Filter>
+      <Filter>Файлы заголовков\buildings</Filter>
     </ClInclude>
-    <ClInclude Include="objectClass.h">
+    <ClInclude Include="houseClass.h">
+      <Filter>Файлы заголовков\buildings</Filter>
+    </ClInclude>
+    <ClInclude Include="humanClass.h">
+      <Filter>Файлы заголовков\humans</Filter>
+    </ClInclude>
+    <ClInclude Include="queueClass.h">
+      <Filter>Файлы заголовков\additional</Filter>
+    </ClInclude>
+    <ClInclude Include="builderClass.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>

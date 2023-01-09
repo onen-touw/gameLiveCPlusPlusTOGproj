@@ -3,4 +3,5 @@
 namespace gameSettings {
 	humanSettings humanSetting;
 	farmSettings farmSetting;
+	builderSettings builderSetting;
 }

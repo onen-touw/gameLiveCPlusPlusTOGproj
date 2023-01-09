@@ -34,9 +34,20 @@ struct farmSettings
 	short int income = 10;
 };
 
+enum material
+{
+	wood = 1,
+	stone
+};
+
+struct builderSettings
+{
+	short int inventorySize = 4;
+};
 
 
 namespace gameSettings {
 	extern humanSettings humanSetting;
 	extern farmSettings farmSetting;
+	extern builderSettings builderSetting;
 }
