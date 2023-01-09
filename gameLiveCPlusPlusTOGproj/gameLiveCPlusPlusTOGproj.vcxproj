@@ -136,12 +136,14 @@
     <ClCompile Include="houseClass.cpp" />
     <ClCompile Include="humanClass.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="objectClass.cpp" />
     <ClCompile Include="queueClass.cpp" />
     <ClCompile Include="settings.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="farmClass.h" />
     <ClInclude Include="houseClass.h" />
+    <ClInclude Include="objectClass.h" />
     <ClInclude Include="queueClass.h" />
     <ClInclude Include="settings.h" />
     <ClInclude Include="humanClass.h" />
