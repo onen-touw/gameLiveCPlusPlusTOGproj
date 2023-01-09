@@ -12,13 +12,11 @@ protected:
 	position humanPosition;
 	queueClass<position> taskQueue;
 	bool work = false;
-	short int homeNumber = 0;
 public:
-	humanClass(short int i, short int j, short int homeNumber)
+	humanClass(short int i, short int j)
 	{
 		this->humanPosition.i = i;
 		this->humanPosition.j = j;
-		this->homeNumber = homeNumber;
 		this->hp = gameSettings::humanSetting.hp;
 		this->stamina = gameSettings::humanSetting.stamina;
 		this->satiety = gameSettings::humanSetting.satiety;
