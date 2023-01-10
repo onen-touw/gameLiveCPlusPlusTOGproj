@@ -23,7 +23,6 @@ private:
 	std::vector<humanClass> humans;
 	std::vector<farmClass> farms;
 	houseClass house = houseClass(0, 0);
-	houseAreaSettings Coords;
 public:
 	houseAreaClass(short int i, short int j, int* pole)
 	{

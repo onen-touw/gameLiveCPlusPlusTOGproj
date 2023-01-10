@@ -52,18 +52,6 @@ struct builderSettings
 	short int inventorySize = 4;
 };
 
-struct houseAreaSettings
-{
-	short int i1 = 0;
-	short int j1 = 0;
-	short int i2 = 0;
-	short int j2 = 0;
-	short int i3 = 0;
-	short int j3 = 0;
-	short int i4 = 0;
-	short int j4 = 0;
-};
-
 
 namespace gameSettings {
 	extern humanSettings humanSetting;
