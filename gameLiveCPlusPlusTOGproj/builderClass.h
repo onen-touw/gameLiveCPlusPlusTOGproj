@@ -31,5 +31,9 @@ public:
             }
         }
     }
+    short int getResourcesCount()
+    {
+        return resourcesCount;
+    }
 };
 

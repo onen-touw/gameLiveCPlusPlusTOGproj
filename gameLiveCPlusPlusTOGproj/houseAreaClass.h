@@ -20,7 +20,7 @@ private:
 	std::vector<treeClass> treesInArea;
 	std::vector<rockClass> rocksInArea;
 	std::vector<bushClass> bushesInArea;
-	std::vector<humanClass> humans;
+	std::vector<humanClass*> humans;
 	std::vector<farmClass> farms;
 	houseClass house = houseClass(0, 0);
 public:
@@ -37,15 +37,55 @@ public:
 		return abs(point1.i - point2.i) + abs(point1.j - point2.j);
 	}
 
-	queueClass<position> createBuilderQueue(short int taskType, short int humanNumber)
+	queueClass<task> createBuilderQueue(short int taskType, short int humanNumber)
 	{
-		short int staminacounter = humans[humanNumber].getStamina();
-		if (taskType == 1)
+		short int staminaСounter = this->humans[humanNumber]->getStamina();
+		queueClass<task> tasksQueue;
+		task task;
+		short int quantityOfFreeSlots = gameSettings::builderSetting.inventorySize - ((builderClass*)humans[humanNumber])->getResourcesCount();
+		short int distanceToWorkPlace;
+		short int workTime;
+		short int taskExpenses;
+		if (taskType == taskType::getWood)
 		{
-			position task = this->treesInArea[treesInArea.size() - 1].getPosition();
-			if (staminacounter >= distance(this->house.getPosition(), task))
+			distanceToWorkPlace = distance(this->house.getPosition(), this->treesInArea[treesInArea.size() - 1].getPosition());
+			workTime = std::fmin(staminaСounter - distanceToWorkPlace * 2, std::fmin(quantityOfFreeSlots, this->treesInArea[treesInArea.size() - 1].getResources()));
+			taskExpenses = distanceToWorkPlace * 2 + workTime;
+			if (staminaСounter >= taskExpenses)
 			{
-
+				//добавление задачи бежать к ближайшему дереву и добывать его
+				task = { this->treesInArea[treesInArea.size() - 1].getPosition(), workTime };
+				tasksQueue.addTask(task);
+				staminaСounter -= (distanceToWorkPlace + workTime);
+				if(quantityOfFreeSlots > 0) 
+				{
+					//если в инвенторе есть место ищем ближайшее дерево и если хватает энергии идем его добывать
+				} 
+				//добавление задачи идти домой
+				task = { house.getPosition(), 0 };
+				tasksQueue.addTask(task);
+				staminaСounter -= workTime;
+			}
+		}
+		if (taskType == taskType::getStone)
+		{
+			distanceToWorkPlace = distance(this->house.getPosition(), this->rocksInArea[rocksInArea.size() - 1].getPosition());
+			workTime = std::fmin(staminaСounter - distanceToWorkPlace * 2, std::fmin(quantityOfFreeSlots, this->rocksInArea[treesInArea.size() - 1].getResources()));
+			taskExpenses = distanceToWorkPlace * 2 + workTime;
+			if (staminaСounter >= taskExpenses)
+			{
+				//добавление задачи бежать к ближайшей скале и добывать её
+				task = { rocksInArea[rocksInArea.size() - 1].getPosition(), workTime };
+				tasksQueue.addTask(task);
+				staminaСounter -= (distanceToWorkPlace + workTime);
+				if (quantityOfFreeSlots > 0)
+				{
+					//если в инвенторе есть место ищем ближайшую скалу и если хватает энергии идем её добывать
+				} 
+				//добавление задачи идти домой
+				task = { house.getPosition(), 0 };
+				tasksQueue.addTask(task);
+				staminaСounter -= workTime;
 			}
 		}
 	}
