@@ -132,6 +132,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="baseGameClass.cpp" />
     <ClCompile Include="builderClass.cpp" />
     <ClCompile Include="bushClass.cpp" />
     <ClCompile Include="farmClass.cpp" />
@@ -147,6 +148,7 @@
     <ClCompile Include="treeClass.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="baseGameClass.h" />
     <ClInclude Include="builderClass.h" />
     <ClInclude Include="bushClass.h" />
     <ClInclude Include="farmClass.h" />

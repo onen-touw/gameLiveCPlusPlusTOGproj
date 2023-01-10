@@ -1,9 +1,14 @@
 #pragma once
 
+#include<SDL.h>
+#include<SDL_image.h>
+
 #include <iostream>
 #include <vector>
 #include <string>
  
+
+
 enum material
 {
 	wood = 1,
@@ -62,4 +67,6 @@ namespace gameSettings {
 	extern humanSettings humanSetting;
 	extern farmSettings farmSetting;
 	extern builderSettings builderSetting;
+	extern SDL_Window* win;
+	extern SDL_Surface* surface;
 }

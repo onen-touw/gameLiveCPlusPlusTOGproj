@@ -66,6 +66,9 @@
     <ClCompile Include="houseAreaClass.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
+    <ClCompile Include="baseGameClass.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="settings.h">
@@ -102,6 +105,9 @@
       <Filter>Файлы заголовков\humans</Filter>
     </ClInclude>
     <ClInclude Include="houseAreaClass.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="baseGameClass.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>
