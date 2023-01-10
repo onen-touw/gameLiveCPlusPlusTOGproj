@@ -16,22 +16,25 @@ int main(int argc, char* argv[]) {
 	{
 		
 		std::cout << "ready\n";
-	}
-	SDL_Event event;
-	bool game = true;
-	while (game)
-	{
-
-
-		while (SDL_PollEvent(&event))
+		SDL_Event event;
+		bool game = true;
+		while (game)
 		{
-			if (event.type == SDL_QUIT)//отслеживание закрытия окна через кнопку "Крест"
+			while (SDL_PollEvent(&event))
 			{
-				game = false;
+				if (event.type == SDL_QUIT)//отслеживание закрытия окна через кнопку "Крест"
+				{
+					game = false;
+				}
+				SDL_UpdateWindowSurface(gameSettings::win);
 			}
-			SDL_UpdateWindowSurface(gameSettings::win);
 		}
 	}
+	else
+	{
+		std::cout << "problemm\n";
+	}
+	
 
 	
 
