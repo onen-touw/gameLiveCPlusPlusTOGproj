@@ -20,6 +20,11 @@ public:
 		return true;
 	}
 	
+	position getPosition()
+	{
+		return objectPosition;
+	}
+
 	void blit() {}
 };
 

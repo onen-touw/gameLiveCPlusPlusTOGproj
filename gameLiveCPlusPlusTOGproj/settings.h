@@ -10,6 +10,13 @@ struct position
 	short int j = 0;
 };
 
+struct task
+{
+	short int i = 0;
+	short int j = 0;
+	short int workTime = 0;
+};
+
 struct humanSettings
 {
 	short int hp = 10;
@@ -43,6 +50,18 @@ enum material
 struct builderSettings
 {
 	short int inventorySize = 4;
+};
+
+struct houseAreaSettings
+{
+	short int i1 = 0;
+	short int j1 = 0;
+	short int i2 = 0;
+	short int j2 = 0;
+	short int i3 = 0;
+	short int j3 = 0;
+	short int i4 = 0;
+	short int j4 = 0;
 };
 
 

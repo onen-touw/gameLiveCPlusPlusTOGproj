@@ -14,6 +14,12 @@ public:
 		this->housePosition.j = j;
 	}
 	~houseClass() { }
+
+	position getPosition()
+	{
+		return housePosition;
+	}
+
 	void blit(){}
 };
 

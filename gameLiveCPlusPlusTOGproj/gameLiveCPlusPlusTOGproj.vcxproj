@@ -136,6 +136,7 @@
     <ClCompile Include="bushClass.cpp" />
     <ClCompile Include="farmClass.cpp" />
     <ClCompile Include="farmerClass.cpp" />
+    <ClCompile Include="houseAreaClass.cpp" />
     <ClCompile Include="houseClass.cpp" />
     <ClCompile Include="humanClass.cpp" />
     <ClCompile Include="main.cpp" />
@@ -150,6 +151,7 @@
     <ClInclude Include="bushClass.h" />
     <ClInclude Include="farmClass.h" />
     <ClInclude Include="farmerClass.h" />
+    <ClInclude Include="houseAreaClass.h" />
     <ClInclude Include="houseClass.h" />
     <ClInclude Include="objectClass.h" />
     <ClInclude Include="queueClass.h" />

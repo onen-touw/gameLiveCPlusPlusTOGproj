@@ -10,7 +10,7 @@ protected:
 	short int stamina = 0;
 	short int satiety = 0;
 	position humanPosition;
-	queueClass<position> taskQueue;
+	queueClass<task> tasksQueue;
 	bool work = false;
 public:
 	humanClass(short int i, short int j)
@@ -22,5 +22,9 @@ public:
 		this->satiety = gameSettings::humanSetting.satiety;
 	}
 	~humanClass() { }
+	short int getStamina()
+	{
+		return stamina;
+	}
 };
 
