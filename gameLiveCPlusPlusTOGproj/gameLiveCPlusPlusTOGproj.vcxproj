@@ -132,7 +132,33 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Source.cpp" />
+    <ClCompile Include="builderClass.cpp" />
+    <ClCompile Include="bushClass.cpp" />
+    <ClCompile Include="farmClass.cpp" />
+    <ClCompile Include="farmerClass.cpp" />
+    <ClCompile Include="houseAreaClass.cpp" />
+    <ClCompile Include="houseClass.cpp" />
+    <ClCompile Include="humanClass.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="objectClass.cpp" />
+    <ClCompile Include="queueClass.cpp" />
+    <ClCompile Include="rockClass.cpp" />
+    <ClCompile Include="settings.cpp" />
+    <ClCompile Include="treeClass.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="builderClass.h" />
+    <ClInclude Include="bushClass.h" />
+    <ClInclude Include="farmClass.h" />
+    <ClInclude Include="farmerClass.h" />
+    <ClInclude Include="houseAreaClass.h" />
+    <ClInclude Include="houseClass.h" />
+    <ClInclude Include="objectClass.h" />
+    <ClInclude Include="queueClass.h" />
+    <ClInclude Include="rockClass.h" />
+    <ClInclude Include="settings.h" />
+    <ClInclude Include="humanClass.h" />
+    <ClInclude Include="treeClass.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
