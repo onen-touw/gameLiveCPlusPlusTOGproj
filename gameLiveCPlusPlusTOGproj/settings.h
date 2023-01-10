@@ -3,6 +3,19 @@
 #include <iostream>
 #include <vector>
 #include <string>
+ 
+enum material
+{
+	wood = 1,
+	stone
+};
+enum taskType
+{
+	getWood = 1,
+	getStone,
+	buildingFarm,
+	buildingHouse
+};
 
 struct position
 {
@@ -12,8 +25,7 @@ struct position
 
 struct task
 {
-	short int i = 0;
-	short int j = 0;
+	position position = { 0,0 };
 	short int workTime = 0;
 };
 
@@ -41,17 +53,10 @@ struct farmSettings
 	short int income = 10;
 };
 
-enum material
-{
-	wood = 1,
-	stone
-};
-
 struct builderSettings
 {
 	short int inventorySize = 4;
 };
-
 
 namespace gameSettings {
 	extern humanSettings humanSetting;

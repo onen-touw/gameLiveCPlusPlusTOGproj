@@ -20,6 +20,11 @@ public:
 		return true;
 	}
 	
+	short int getResources()
+	{
+		return resources;
+	}
+
 	position getPosition()
 	{
 		return objectPosition;
