@@ -7,6 +7,7 @@ class objectClass
 protected:
 	position objectPosition;
 	short int resources = 0;
+	short int tempResources = 0;
 public:
 	objectClass(short int i, short int j)
 	{
@@ -20,14 +21,19 @@ public:
 		return true;
 	}
 	
-	short int getResources()
+	short int getTempResources()
 	{
-		return resources;
+		return this->tempResources;
+	}
+
+	void setTempResources(short int tempResources)
+	{
+		this->tempResources = tempResources;
 	}
 
 	position getPosition()
 	{
-		return objectPosition;
+		return this->objectPosition;
 	}
 
 	void blit() {}

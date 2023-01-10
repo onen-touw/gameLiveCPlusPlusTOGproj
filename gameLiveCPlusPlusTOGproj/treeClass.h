@@ -3,7 +3,9 @@
 class treeClass :
     public objectClass
 {
+private:
+    
 public:
-    void blit() {}
+    void blit() { }
 };
 
