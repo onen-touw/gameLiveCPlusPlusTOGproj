@@ -11,6 +11,13 @@ private:
 
 public:
 
+	std::vector<std::vector<cell>>getPartOfField(position housePosition) {
+		/*if (housePosition.i - )
+		{
+
+		}*/
+	}
+
 	void createFieldV() {
 		
 		fieldV.resize(gameSettings::fieldSetting.size.height);
