@@ -31,8 +31,6 @@
     <Filter Include="Файлы заголовков\world\objects">
       <UniqueIdentifier>{4b79b5b3-a008-40e9-a726-3c099a151907}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Файлы заголовков\root">
-      <UniqueIdentifier>{bac4a145-cb20-41de-8646-812dbc05a83c}</UniqueIdentifier>
     <Filter Include="Файлы ресурсов\fieldImges">
       <UniqueIdentifier>{bdee81b0-bbb4-444a-be0b-f0e8c621b23a}</UniqueIdentifier>
     </Filter>
@@ -124,17 +122,17 @@
     <ClInclude Include="searchNearestObject.h">
       <Filter>Файлы заголовков\additional</Filter>
     </ClInclude>
-    <ClInclude Include="fieldClass.h">
-      <Filter>Файлы заголовков\world</Filter>
-    </ClInclude>
-    <ClInclude Include="imageClass.h">
-      <Filter>Файлы заголовков\root</Filter>
+    <ClInclude Include="settings.h">
+      <Filter>Файлы заголовков\additional</Filter>
     </ClInclude>
     <ClInclude Include="baseGameClass.h">
-      <Filter>Файлы заголовков\root</Filter>
+      <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="settings.h">
-      <Filter>Файлы заголовков\root</Filter>
+    <ClInclude Include="fieldClass.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="imageClass.h">
+      <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
