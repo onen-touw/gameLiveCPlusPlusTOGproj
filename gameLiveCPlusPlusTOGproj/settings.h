@@ -79,7 +79,7 @@ struct task
 struct humanSettings
 {
 	short int hp = 10;
-	short int stamina = 160;
+	short int stamina = 90; // TODO: связать время дня и кол-во стамины
 	short int satiety = 6;
 };
 
