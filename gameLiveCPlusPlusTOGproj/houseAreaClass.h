@@ -136,7 +136,55 @@ public:
 		}
 		if (taskType == taskType::buildingFarm)
 		{
-			
+			for (int i = 0; i < 4; i++)
+			{
+				position farmPosition;
+				if (i == 1)
+				{
+					farmPosition = { short int(this->house.getPosition().i - 2), this->house.getPosition().j };
+					distanceToWorkPlace = 2;
+				}
+				else if (i == 2)
+				{
+					farmPosition = { this->house.getPosition().i, short int(this->house.getPosition().j + 3) };
+					distanceToWorkPlace = 3;
+				}
+				else if (i == 3)
+				{
+					farmPosition = { short int(this->house.getPosition().i + 1), short int(this->house.getPosition().j - 2) };
+					distanceToWorkPlace = 3;
+				}
+				else
+				{
+					farmPosition = { short int(this->house.getPosition().i + 3), short int(this->house.getPosition().j + 1) };
+					distanceToWorkPlace = 4;
+				}
+				if (this->houseFarms[i] == false)
+				{
+					if (distance(this->house.getPosition(), this->treesInArea[0].getPosition()) > 6)
+					{
+						if (distance(this->house.getPosition(), this->rocksInArea[0].getPosition()) > 6)
+						{
+							for (int j = 0; j < this->bushesInArea.size(); i++)
+							{
+								if (distance(this->bushesInArea[j].getPosition(), farmPosition) < 2)
+								{
+									this->bushesInArea.erase(this->bushesInArea.begin() + j, this->bushesInArea.begin() + j + 1);
+								}
+							}
+							task = { farmPosition, gameSettings::farmSetting.workTime };
+							tasksQueue.addTask(task);
+							task = { this->house.getPosition(), 0 };
+							tasksQueue.addTask(task);
+							staminaÑounter -= (distanceToWorkPlace * 2 + gameSettings::farmSetting.workTime );
+							this->houseFarms[i] = true;
+							farmClass farm = farmClass(farmPosition.i, farmPosition.j);
+							this->farms.push_back(farm);
+							break;
+						}
+					}
+				}
+			}
 		}
 	}
 };
