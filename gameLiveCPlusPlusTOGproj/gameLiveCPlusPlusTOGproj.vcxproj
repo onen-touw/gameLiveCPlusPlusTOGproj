@@ -168,8 +168,23 @@
     <ClInclude Include="treeClass.h" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="images\fieldImages\bushWithBerry.png" />
+    <Image Include="images\fieldImages\bushWithBerryHouseArea.png" />
+    <Image Include="images\fieldImages\bushWithBerryVisibleArea.png" />
+    <Image Include="images\fieldImages\bushWithoutBerryHouseArea.png" />
     <Image Include="images\fieldImages\emptyCell.png" />
-    <Image Include="images\fieldImages\houseAreaCell.png" />
+    <Image Include="images\fieldImages\emptyCellHouseArea.png" />
+    <Image Include="images\fieldImages\emptyCellVisibleArea.png" />
+    <Image Include="images\fieldImages\farmImg.png" />
+    <Image Include="images\fieldImages\houseHomeAreaImg.png" />
+    <Image Include="images\fieldImages\personCellHouseArea.png" />
+    <Image Include="images\fieldImages\personCellVisibleArea.png" />
+    <Image Include="images\fieldImages\rockCell.png" />
+    <Image Include="images\fieldImages\rockCellHouseArea.png" />
+    <Image Include="images\fieldImages\rockCellVisibleArea.png" />
+    <Image Include="images\fieldImages\treeCell.png" />
+    <Image Include="images\fieldImages\treeCellHouseArea.png" />
+    <Image Include="images\fieldImages\treeCellVisibleArea.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

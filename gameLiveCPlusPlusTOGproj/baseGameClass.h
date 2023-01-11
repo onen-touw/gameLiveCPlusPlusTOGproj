@@ -26,7 +26,8 @@ public:
 		this->winSize.height =
 			int((GetSystemMetrics(SM_CYSCREEN) - gameSettings::winObjSize.winTopBorder
 				- gameSettings::winObjSize.menuHeader) / gameSettings::winObjSize.cellSize)
-			* gameSettings::winObjSize.cellSize;
+			* gameSettings::winObjSize.cellSize + gameSettings::winObjSize.winTopBorder
+			+ gameSettings::winObjSize.menuHeader;
 
 		/// рассчет кол-ва €чеек на экране
 		gameSettings::fieldSetting.minCountCellInWin.height = 

@@ -34,6 +34,9 @@
     <Filter Include="Файлы заголовков\root">
       <UniqueIdentifier>{bac4a145-cb20-41de-8646-812dbc05a83c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Файлы ресурсов\fieldImges">
+      <UniqueIdentifier>{bdee81b0-bbb4-444a-be0b-f0e8c621b23a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -136,11 +139,56 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="images\fieldImages\emptyCell.png">
-      <Filter>Файлы ресурсов</Filter>
+    <Image Include="images\fieldImages\bushWithBerry.png">
+      <Filter>Файлы ресурсов\fieldImges</Filter>
     </Image>
-    <Image Include="images\fieldImages\houseAreaCell.png">
-      <Filter>Файлы ресурсов</Filter>
+    <Image Include="images\fieldImages\bushWithBerryHouseArea.png">
+      <Filter>Файлы ресурсов\fieldImges</Filter>
+    </Image>
+    <Image Include="images\fieldImages\bushWithBerryVisibleArea.png">
+      <Filter>Файлы ресурсов\fieldImges</Filter>
+    </Image>
+    <Image Include="images\fieldImages\bushWithoutBerryHouseArea.png">
+      <Filter>Файлы ресурсов\fieldImges</Filter>
+    </Image>
+    <Image Include="images\fieldImages\emptyCell.png">
+      <Filter>Файлы ресурсов\fieldImges</Filter>
+    </Image>
+    <Image Include="images\fieldImages\emptyCellHouseArea.png">
+      <Filter>Файлы ресурсов\fieldImges</Filter>
+    </Image>
+    <Image Include="images\fieldImages\emptyCellVisibleArea.png">
+      <Filter>Файлы ресурсов\fieldImges</Filter>
+    </Image>
+    <Image Include="images\fieldImages\farmImg.png">
+      <Filter>Файлы ресурсов\fieldImges</Filter>
+    </Image>
+    <Image Include="images\fieldImages\houseHomeAreaImg.png">
+      <Filter>Файлы ресурсов\fieldImges</Filter>
+    </Image>
+    <Image Include="images\fieldImages\personCellHouseArea.png">
+      <Filter>Файлы ресурсов\fieldImges</Filter>
+    </Image>
+    <Image Include="images\fieldImages\personCellVisibleArea.png">
+      <Filter>Файлы ресурсов\fieldImges</Filter>
+    </Image>
+    <Image Include="images\fieldImages\rockCell.png">
+      <Filter>Файлы ресурсов\fieldImges</Filter>
+    </Image>
+    <Image Include="images\fieldImages\rockCellHouseArea.png">
+      <Filter>Файлы ресурсов\fieldImges</Filter>
+    </Image>
+    <Image Include="images\fieldImages\rockCellVisibleArea.png">
+      <Filter>Файлы ресурсов\fieldImges</Filter>
+    </Image>
+    <Image Include="images\fieldImages\treeCell.png">
+      <Filter>Файлы ресурсов\fieldImges</Filter>
+    </Image>
+    <Image Include="images\fieldImages\treeCellHouseArea.png">
+      <Filter>Файлы ресурсов\fieldImges</Filter>
+    </Image>
+    <Image Include="images\fieldImages\treeCellVisibleArea.png">
+      <Filter>Файлы ресурсов\fieldImges</Filter>
     </Image>
   </ItemGroup>
 </Project>
