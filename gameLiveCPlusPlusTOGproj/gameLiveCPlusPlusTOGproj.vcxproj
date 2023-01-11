@@ -170,9 +170,7 @@
     <Image Include="images\fieldImages\bushWithBerry.png" />
     <Image Include="images\fieldImages\bushWithBerryHouseArea.png" />
     <Image Include="images\fieldImages\bushWithBerryVisibleArea.png" />
-    <Image Include="images\fieldImages\bushWithoutBerry.png" />
     <Image Include="images\fieldImages\bushWithoutBerryHouseArea.png" />
-    <Image Include="images\fieldImages\bushWithoutBerryVisibleArea.png" />
     <Image Include="images\fieldImages\emptyCell.png" />
     <Image Include="images\fieldImages\emptyCellHouseArea.png" />
     <Image Include="images\fieldImages\emptyCellVisibleArea.png" />

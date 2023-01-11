@@ -10,7 +10,28 @@
 enum imagesNames
 {
 	emptyCell =0,
-	houseAreaCell,
+	emptyCellHouseArea,
+	emptyCellVisibleArea,
+
+	bushWithBerryCell,
+	bushWithBerryCellHouseArea,
+	bushWithBerryCellVisibleArea,
+
+	bushWithoutBerryCellHouseArea,
+
+	rockCell,
+	rockCellHouseArea,
+	rockCellVisibleArea,
+
+	treeCell,
+	treeCellHouseArea,
+	treeCellVisibleArea,
+
+	personCellHouseArea,
+	personCellVisibleArea,
+
+	houseImg,
+	farmImg,
 
 	imagesTOTAL
 };
@@ -19,6 +40,8 @@ struct imagePath
 	std::string path;
 	short int position;
 };
+
+
 
 enum directions
 {
@@ -91,6 +114,7 @@ struct winObjSizes
 
 struct cell
 {
+	position pixelPosition = { 0,0 };
 	position position = { 0, 0 };		/// position of cell in field vector
 	short int objectType = 0;			/// which object is stored in this cell. (defined by enum)
 	short int exploration = 0;			/// for coloring home zones, search zones (defined by enum)
@@ -101,8 +125,29 @@ struct cell
 struct fieldSettings
 {
 	///tempSizes for tests (100x100); normalSizes (500,500);
-	sizes size = { 500, 500 };			///cells x cells
+	sizes size = { 100, 100 };			///cells x cells
 	sizes minCountCellInWin = { 0, 0 };	/// minimalCounts cells which we can see in gameWindow
+	short int densityOfTree = size.height * size.width / 10;
+	short int densityOfRock = size.height * size.width / 10;
+	short int densityOfBush = size.height * size.width / 10;
+
+	enum objectEnum
+	{
+		bushWithBerry,
+		bushWithoutBerry,
+		rock,
+		tree,
+		farm,
+		house,
+		partOfHouse
+	};
+	enum explorationEnum
+	{
+		emptyArea,
+		visibleArea,
+		houseArea
+	};
+	
 };
 
 namespace gameSettings {
@@ -114,5 +159,6 @@ namespace gameSettings {
 
 	extern SDL_Window* win;						///object win
 	extern SDL_Surface* surface;				///object surface
-	extern std::vector<imagePath>imageVector;
+	extern std::vector<imagePath>imagePathVector;
+	extern std::vector<SDL_Surface*> imageVector;
 }

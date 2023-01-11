@@ -136,13 +136,7 @@
     <Image Include="images\fieldImages\bushWithBerryVisibleArea.png">
       <Filter>Файлы ресурсов\fieldImges</Filter>
     </Image>
-    <Image Include="images\fieldImages\bushWithoutBerry.png">
-      <Filter>Файлы ресурсов\fieldImges</Filter>
-    </Image>
     <Image Include="images\fieldImages\bushWithoutBerryHouseArea.png">
-      <Filter>Файлы ресурсов\fieldImges</Filter>
-    </Image>
-    <Image Include="images\fieldImages\bushWithoutBerryVisibleArea.png">
       <Filter>Файлы ресурсов\fieldImges</Filter>
     </Image>
     <Image Include="images\fieldImages\emptyCell.png">
