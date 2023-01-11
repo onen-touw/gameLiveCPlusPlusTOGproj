@@ -61,7 +61,8 @@ enum taskType
 	getWood = 1,
 	getStone,
 	buildingFarm,
-	buildingHouse
+	buildingHouse,
+	getSomething
 };
 
 struct position
@@ -98,6 +99,7 @@ struct farmSettings
 {
 	sizes size = { 3, 3 };
 	short int income = 10;
+	short int workTime = 30;
 };
 
 struct builderSettings

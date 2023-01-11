@@ -17,7 +17,7 @@ public:
 
 	position getPosition()
 	{
-		return housePosition;
+		return this->housePosition;
 	}
 
 	void blit(){}
