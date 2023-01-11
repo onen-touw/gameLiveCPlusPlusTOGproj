@@ -7,20 +7,38 @@ class baseGameClass
 {
 private:
 
-	short int winWidth = 0;
-	short int winHeight = 0;
 	position winPosition;
+	sizes winSize;
 
 public:
 	baseGameClass() {
-		this->winWidth = GetSystemMetrics(SM_CXSCREEN);
-		this->winHeight = GetSystemMetrics(SM_CXSCREEN);
-		this->winPosition = { 0, 31 }; /// 31-высота плашки окна виндовс -- как получить ее размер???
+		
+		this->calculateWinParametrs();
+		this->winPosition = { 0, gameSettings::winObjSize.winTopBorder }; /// 31-высота плашки окна виндовс -- как получить ее размер???
 	}
-	~baseGameClass()
-	{
+	~baseGameClass(){}
 
+	void calculateWinParametrs() {
+
+		this->winSize.width = int(GetSystemMetrics(SM_CXSCREEN) / gameSettings::winObjSize.cellSize)
+			* gameSettings::winObjSize.cellSize;
+
+		this->winSize.height =
+			int((GetSystemMetrics(SM_CYSCREEN) - gameSettings::winObjSize.winTopBorder
+				- gameSettings::winObjSize.menuHeader) / gameSettings::winObjSize.cellSize)
+			* gameSettings::winObjSize.cellSize;
+
+		/// рассчет кол-ва ячеек на экране
+		gameSettings::fieldSetting.minCountCellInWin.height = 
+			int((GetSystemMetrics(SM_CYSCREEN) - gameSettings::winObjSize.winTopBorder
+			- gameSettings::winObjSize.menuHeader) / gameSettings::winObjSize.cellSize);
+
+		gameSettings::fieldSetting.minCountCellInWin.width = 
+			int(GetSystemMetrics(SM_CXSCREEN) / gameSettings::winObjSize.cellSize);
 	}
+
+	sizes getWinSizes() { return this->winSize; }
+	
 
 	bool initModuls() {
 		bool success = true;
@@ -40,7 +58,7 @@ public:
 		}
 
 		gameSettings::win = SDL_CreateWindow("GameLive", this->winPosition.i, this->winPosition.j,
-			 this->winWidth, this->winHeight, SDL_WINDOW_SHOWN);
+			 this->winSize.width, this->winSize.height, SDL_WINDOW_SHOWN);
 
 		if (gameSettings::win == nullptr) {
 			std::cout << "Can't create window: " << SDL_GetError() << std::endl;
