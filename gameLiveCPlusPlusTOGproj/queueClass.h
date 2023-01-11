@@ -21,7 +21,7 @@ public:
 	{
 		for (int i = 0; i < this->size; i++)
 		{
-			std::cout << arrayQueue[i] << " ";
+			std::cout << this->arrayQueue[i] << " ";
 		}
 		std::cout << std::endl;
 	}
