@@ -38,7 +38,8 @@ enum taskType
 	getWood = 1,
 	getStone,
 	buildingFarm,
-	buildingHouse
+	buildingHouse,
+	getSomething
 };
 
 struct position
