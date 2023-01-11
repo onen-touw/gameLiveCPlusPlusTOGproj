@@ -23,6 +23,8 @@ private:
 	std::vector<bushClass> bushesInArea;
 	std::vector<humanClass*> humans;
 	std::vector<farmClass> farms;
+	bool houseFarms[4] = { false, false, false, false };
+	bool houseHouses[4] = { false, false, false, false };
 	houseClass house = houseClass(0, 0);
 public:
 	houseAreaClass(short int i, short int j, int* pole)
@@ -132,7 +134,10 @@ public:
 			tasksQueue.addTask(task);
 			stamina—ounter -= distanceFromWorkPlaceToHouse;
 		}
-
+		if (taskType == taskType::buildingFarm)
+		{
+			
+		}
 	}
 };
 
