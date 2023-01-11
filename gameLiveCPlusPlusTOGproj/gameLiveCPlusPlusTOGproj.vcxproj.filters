@@ -72,6 +72,15 @@
     <ClCompile Include="houseAreaClass.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
+    <ClCompile Include="baseGameClass.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="fieldClass.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="imageClass.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="objectClass.h">
@@ -113,5 +122,22 @@
     <ClInclude Include="settings.h">
       <Filter>Файлы заголовков\additional</Filter>
     </ClInclude>
+    <ClInclude Include="baseGameClass.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="fieldClass.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="imageClass.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="images\fieldImages\emptyCell.png">
+      <Filter>Файлы ресурсов</Filter>
+    </Image>
+    <Image Include="images\fieldImages\houseAreaCell.png">
+      <Filter>Файлы ресурсов</Filter>
+    </Image>
   </ItemGroup>
 </Project>

@@ -1,9 +1,33 @@
 #pragma once
 
+#include<SDL.h>
+#include<SDL_image.h>
+
 #include <iostream>
 #include <vector>
 #include <string>
  
+enum imagesNames
+{
+	emptyCell =0,
+	houseAreaCell,
+
+	imagesTOTAL
+};
+struct imagePath
+{
+	std::string path;
+	short int position;
+};
+
+enum directions
+{
+	up,
+	right,
+	left,
+	down
+};
+
 enum material
 {
 	wood = 1,
@@ -58,8 +82,37 @@ struct builderSettings
 	short int inventorySize = 4;
 };
 
+struct winObjSizes
+{
+	short int menuHeader = 70;			///px
+	short int cellSize = 30;			///px
+	const short int winTopBorder = 31;	///px
+};
+
+struct cell
+{
+	position position = { 0, 0 };		/// position of cell in field vector
+	short int objectType = 0;			/// which object is stored in this cell. (defined by enum)
+	short int exploration = 0;			/// for coloring home zones, search zones (defined by enum)
+	bool hasHuman = false;				/// is the person in the cell? (true = yes )
+	bool hasSmth = false;				/// whether the cell has any object. (true = yes )
+};
+
+struct fieldSettings
+{
+	///tempSizes for tests (100x100); normalSizes (500,500);
+	sizes size = { 500, 500 };			///cells x cells
+	sizes minCountCellInWin = { 0, 0 };	/// minimalCounts cells which we can see in gameWindow
+};
+
 namespace gameSettings {
-	extern humanSettings humanSetting;
-	extern farmSettings farmSetting;
-	extern builderSettings builderSetting;
+	extern humanSettings humanSetting;			///settings for human
+	extern farmSettings farmSetting;			///settings for farms - obj
+	extern builderSettings builderSetting;		///settings for builder - human
+	extern winObjSizes winObjSize;				///settings for static objects such as menuHeader, menuBtns and other
+	extern fieldSettings fieldSetting;			///settings for field
+
+	extern SDL_Window* win;						///object win
+	extern SDL_Surface* surface;				///object surface
+	extern std::vector<imagePath>imageVector;
 }
