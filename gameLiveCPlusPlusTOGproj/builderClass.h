@@ -29,7 +29,7 @@ public:
                     break;
                 }
             }
-        }
+        } 
     }
     short int getResourcesCount()
     {
