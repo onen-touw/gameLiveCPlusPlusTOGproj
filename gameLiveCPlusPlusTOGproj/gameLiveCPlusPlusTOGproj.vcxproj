@@ -71,8 +71,8 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>C:\VC_addons\SDL2_image-2.6.2\include;C:\VC_addons\SDL2-2.24.0\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\VC_addons\SDL2_image-2.6.2\lib\x64;C:\VC_addons\SDL2-2.24.0\lib\x64;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\VC_addons\SDL2-2.24.0\include;C:\VC_addons\SDL2_image-2.6.2\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\VC_addons\SDL2-2.24.0\lib\x64;C:\VC_addons\SDL2_image-2.6.2\lib\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -132,13 +132,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="baseGameClass.cpp" />
     <ClCompile Include="builderClass.cpp" />
     <ClCompile Include="bushClass.cpp" />
     <ClCompile Include="farmClass.cpp" />
     <ClCompile Include="farmerClass.cpp" />
+    <ClCompile Include="fieldClass.cpp" />
     <ClCompile Include="houseAreaClass.cpp" />
     <ClCompile Include="houseClass.cpp" />
     <ClCompile Include="humanClass.cpp" />
+    <ClCompile Include="imageClass.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="objectClass.cpp" />
     <ClCompile Include="queueClass.cpp" />
@@ -147,18 +150,25 @@
     <ClCompile Include="treeClass.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="baseGameClass.h" />
     <ClInclude Include="builderClass.h" />
     <ClInclude Include="bushClass.h" />
     <ClInclude Include="farmClass.h" />
     <ClInclude Include="farmerClass.h" />
+    <ClInclude Include="fieldClass.h" />
     <ClInclude Include="houseAreaClass.h" />
     <ClInclude Include="houseClass.h" />
+    <ClInclude Include="imageClass.h" />
     <ClInclude Include="objectClass.h" />
     <ClInclude Include="queueClass.h" />
     <ClInclude Include="rockClass.h" />
     <ClInclude Include="settings.h" />
     <ClInclude Include="humanClass.h" />
     <ClInclude Include="treeClass.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="images\fieldImages\emptyCell.png" />
+    <Image Include="images\fieldImages\houseAreaCell.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
