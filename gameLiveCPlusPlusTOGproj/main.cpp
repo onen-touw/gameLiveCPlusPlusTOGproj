@@ -39,6 +39,11 @@ int main(int argc, char* argv[]) {
 		std::cout << "ready\n";
 		SDL_Event event;
 		bool game = true;
+		bool firstHouse = false;
+		bool h = false;
+		int cursor_X = 0, cursor_Y = 0;
+
+
 		while (game)
 		{
 			while (SDL_PollEvent(&event))
@@ -64,6 +69,31 @@ int main(int argc, char* argv[]) {
 					fieldTest.transmitField(directions::down);
 				}
 
+				if (!firstHouse)
+				{
+					if (event.type == SDL_MOUSEMOTION)
+					{
+						fieldTest.blitField();
+						cursor_X = event.motion.x; cursor_Y = event.motion.y;
+						if (cursor_Y > gameSettings::winObjSize.menuHeader)
+						{
+							h = fieldTest.chosePositionForHouse({ (short int)cursor_X, (short int)cursor_Y });
+							SDL_UpdateWindowSurface(gameSettings::win);
+						}
+					}
+					if (event.button.button == SDL_BUTTON_LEFT && event.type == SDL_MOUSEBUTTONUP && h)
+					{
+						std::cout << "ok\n";
+						//SDL_GetMouseState(&cursor_X, &cursor_Y);
+						fieldTest.setHouse({ (short)cursor_X,(short)cursor_Y });
+						
+						fieldTest.blitField();
+						SDL_UpdateWindowSurface(gameSettings::win);
+						firstHouse = true;
+					}
+
+
+				}
 				/*SDL_Rect mt = { 50,50,100,100 };
 			
 				SDL_BlitScaled(gameSettings::imageVector[imagesNames::emptyCell], NULL, gameSettings::surface, &mt);

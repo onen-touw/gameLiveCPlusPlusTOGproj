@@ -19,23 +19,17 @@ public:
 	~baseGameClass(){}
 
 	void calculateWinParametrs() {
+		gameSettings::fieldSetting.minCountCellInWin.height = int((GetSystemMetrics(SM_CYSCREEN) - 100 - 31 - gameSettings::winObjSize.menuHeader) / gameSettings::winObjSize.cellSize);
+		gameSettings::fieldSetting.minCountCellInWin.width = int(GetSystemMetrics(SM_CXSCREEN) / gameSettings::winObjSize.cellSize);
+		
+		this->winSize.width = gameSettings::fieldSetting.minCountCellInWin.width * gameSettings::winObjSize.cellSize;
 
-		this->winSize.width = int(GetSystemMetrics(SM_CXSCREEN) / gameSettings::winObjSize.cellSize)
-			* gameSettings::winObjSize.cellSize;
+		this->winSize.height = gameSettings::fieldSetting.minCountCellInWin.height * gameSettings::winObjSize.cellSize + gameSettings::winObjSize.menuHeader;
 
-		this->winSize.height =
-			int((GetSystemMetrics(SM_CYSCREEN) - gameSettings::winObjSize.winTopBorder
-				- gameSettings::winObjSize.menuHeader) / gameSettings::winObjSize.cellSize)
-			* gameSettings::winObjSize.cellSize + gameSettings::winObjSize.winTopBorder
-			+ gameSettings::winObjSize.menuHeader;
-
-		/// рассчет кол-ва €чеек на экране
-		gameSettings::fieldSetting.minCountCellInWin.height = 
-			int((GetSystemMetrics(SM_CYSCREEN) - gameSettings::winObjSize.winTopBorder
-			- gameSettings::winObjSize.menuHeader) / gameSettings::winObjSize.cellSize);
-
-		gameSettings::fieldSetting.minCountCellInWin.width = 
-			int(GetSystemMetrics(SM_CXSCREEN) / gameSettings::winObjSize.cellSize);
+		std::cout << gameSettings::fieldSetting.minCountCellInWin.height << "x" <<
+			gameSettings::fieldSetting.minCountCellInWin.width << "\n" <<
+			this->winSize.height << "x" <<
+			this->winSize.width << "\n";
 	}
 
 	sizes getWinSizes() { return this->winSize; }

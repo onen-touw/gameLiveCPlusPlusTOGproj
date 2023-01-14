@@ -81,6 +81,179 @@ public:
 		
 	}
 
+	void setHouse(position pos) {
+		/// pos(px, px) -> pos(i,j)
+		std::cout << pos.i << "-" << pos.j << " px\n";
+
+		pos = this->findCellByCoord(pos);
+		std::cout << pos.i << "-" << pos.j << " hTeoretic\n";
+		fieldV[pos.i][pos.j].hasSmth = true;
+
+		fieldV[pos.i][pos.j].exploration = gameSettings::fieldSetting.explorationEnum::houseArea;
+		fieldV[pos.i+1][pos.j].exploration = gameSettings::fieldSetting.explorationEnum::houseArea;
+		fieldV[pos.i][pos.j+1].exploration = gameSettings::fieldSetting.explorationEnum::houseArea;
+		fieldV[pos.i+1][pos.j+1].exploration = gameSettings::fieldSetting.explorationEnum::houseArea;
+
+		fieldV[pos.i][pos.j].objectType = gameSettings::fieldSetting.objectEnum::house;
+		fieldV[pos.i+1][pos.j].objectType = gameSettings::fieldSetting.objectEnum::partOfHouse;
+		fieldV[pos.i][pos.j+1].objectType = gameSettings::fieldSetting.objectEnum::partOfHouse;
+		fieldV[pos.i+1][pos.j+1].objectType = gameSettings::fieldSetting.objectEnum::partOfHouse;
+
+		this->setAreas(pos);
+	}
+
+	void setAreas(position pos) {
+		position searchStartPos = { 0,0 };
+		position searchEndtPos = { 0,0 };
+		position houseAreaStartPos = { 0,0 };
+		position houseAreaEndPos = { 0,0 };
+		
+		if (pos.i - 20 >=0)
+		{
+			searchStartPos.i = pos.i - 20;
+			if (pos.i - 9 > 0)
+			{
+				houseAreaStartPos.i = pos.i - 9;
+			}
+			else
+			{
+				houseAreaStartPos.i = 0;
+			}
+		}
+		else
+		{
+			searchStartPos.i = 0;
+		}
+
+		if (pos.j - 20 >= 0)
+		{
+			searchStartPos.j = pos.j - 20;
+			if (pos.j - 9 > 0)
+			{
+				houseAreaStartPos.j = pos.j - 9;
+			}
+			else
+			{
+				houseAreaStartPos.j= 0;
+			}
+		}
+		else
+		{
+			searchStartPos.j = 0;
+		}
+
+		if (pos.i + 21 < fieldV.size())
+		{
+			searchEndtPos.i = pos.i + 21;
+			if (pos.i + 11 <= fieldV.size())
+			{
+				houseAreaEndPos.i = pos.i + 11;
+			}
+			else
+			{
+				houseAreaEndPos.i = fieldV[0].size()-1;
+			}
+		}
+		else
+		{
+			searchEndtPos.i = fieldV[0].size()-1;
+		}
+		if (pos.j + 21 < fieldV.size())
+		{
+			searchEndtPos.j = pos.j + 21;
+			if (pos.j + 11 <= fieldV[0].size())
+			{
+				houseAreaEndPos.j = pos.j + 11;
+			}
+			else
+			{
+				houseAreaEndPos.j = fieldV[0].size()-1;
+			}
+		}
+		else
+		{
+			searchEndtPos.j = fieldV[0].size()-1;
+		}
+
+
+		for (int i = searchStartPos.i; i <= searchEndtPos.i; i++)
+		{
+			for (int j = searchStartPos.j; j <= searchEndtPos.j; j++)
+			{
+				if (i >= houseAreaStartPos.i && j>= houseAreaStartPos.j &&
+					i< houseAreaEndPos.i && j < houseAreaEndPos.j)
+				{
+					this->fieldV[i][j].exploration = gameSettings::fieldSetting.explorationEnum::houseArea ;
+					//std::cout << this->fieldV[i][j].exploration =  << "H ";
+				}
+				else
+				{
+					this->fieldV[i][j].exploration = gameSettings::fieldSetting.explorationEnum::visibleArea;
+					//std::cout << <<"S ";
+				}
+			}
+			std::cout << "\n";
+		}
+
+	}
+
+	///return position {i, j}
+	position findCellByCoord(position mousePos) {
+			for (int i = this->fieldShift.i; i <= this->fieldShift.i + gameSettings::fieldSetting.minCountCellInWin.height; i++)
+			{
+				for (int j = this->fieldShift.j; j <= this->fieldShift.j + gameSettings::fieldSetting.minCountCellInWin.width; j++)
+				{
+					if (
+						mousePos.i >= fieldV[i][j].pixelPosition.i && mousePos.i <= fieldV[i][j].pixelPosition.i + gameSettings::winObjSize.cellSize
+						&& mousePos.j >= fieldV[i][j].pixelPosition.j && mousePos.j <= fieldV[i][j].pixelPosition.j + gameSettings::winObjSize.cellSize
+						)
+					{
+						return fieldV[i][j].position; ///return position {i, j}
+					}
+				}
+			}
+	}
+
+	void blitChoseZone(int img, position pos) {
+		SDL_Rect mr = { fieldV[pos.i][pos.j].pixelPosition.i, fieldV[pos.i][pos.j].pixelPosition.j,
+					 gameSettings::winObjSize.cellSize * 2, gameSettings::winObjSize.cellSize * 2
+		};
+		SDL_BlitScaled(gameSettings::imageVector[img], NULL, gameSettings::surface, &mr);
+	}
+
+	void blitBigObjects(int img, position pos, int size) {
+		SDL_Rect mr = { fieldV[pos.i][pos.j].pixelPosition.i, fieldV[pos.i][pos.j].pixelPosition.j,
+					 gameSettings::winObjSize.cellSize * size, gameSettings::winObjSize.cellSize * size
+		};
+		SDL_BlitScaled(gameSettings::imageVector[img], NULL, gameSettings::surface, &mr);
+	}
+
+	bool chosePositionForHouse(position mousePos) {
+		position temp = this->findCellByCoord(mousePos);
+		if (!fieldV[temp.i][temp.j].hasSmth)
+		{
+			if (!fieldV[temp.i + 1][temp.j].hasSmth && !fieldV[temp.i][temp.j+1].hasSmth && !fieldV[temp.i+1][temp.j+1].hasSmth)
+			{
+				this->blitChoseZone(imagesNames::emptyCellHouseArea, temp);
+				return true;
+			}
+			else
+			{
+				this->blitChoseZone(imagesNames::emptyCellVisibleArea, temp);
+				return false;
+			}
+		}
+		else
+		{
+			this->blitChoseZone(imagesNames::emptyCellVisibleArea, temp);
+			return false;
+		}
+	}
+
+
+
+
+
 	void transmitField(int direction) {
 		bool changeFieldPosition = false;
 		switch (direction)
@@ -125,7 +298,8 @@ public:
 			//this->blit();
 
 			std::cout << fieldShift.i << "x" << fieldShift.j << "<<startPoint\n";
-			std::cout << fieldShift.i + gameSettings::fieldSetting.minCountCellInWin.height << "x" << fieldShift.j + gameSettings::fieldSetting.minCountCellInWin.width << "<<endPoint\n\n";
+			std::cout << fieldShift.i + gameSettings::fieldSetting.minCountCellInWin.height 
+				<< "x" << fieldShift.j + gameSettings::fieldSetting.minCountCellInWin.width << "<<endPoint\n\n";
 
 			this->blitField();
 			SDL_UpdateWindowSurface(gameSettings::win);
@@ -143,7 +317,7 @@ public:
 	}
 
 	void blitField() {
-		short int x = 0, y = 0;
+		short int x = 0, y = gameSettings::winObjSize.menuHeader;
 
 		for (int i = this->fieldShift.i ; i <= this->fieldShift.i + gameSettings::fieldSetting.minCountCellInWin.height; i++)
 		{
@@ -185,6 +359,7 @@ public:
 
 						//std::cout << "0 ";
 					}
+
 					break;
 
 				case gameSettings::fieldSetting.explorationEnum::visibleArea:
@@ -196,9 +371,12 @@ public:
 								{
 								case gameSettings::fieldSetting.objectEnum::rock:
 									///blit rock with persone
+
 									break;
 								case gameSettings::fieldSetting.objectEnum::tree:
 									///blit tree with persone
+									//this->blit(imagesNames::treeCellVisibleArea, i, j);
+
 									break;
 								default:
 									break;
@@ -210,18 +388,18 @@ public:
 							{
 							case gameSettings::fieldSetting.objectEnum::bushWithBerry:
 								///blit bush
+								this->blit(imagesNames::bushWithBerryCellVisibleArea, i, j);
+
 								break;
 							case gameSettings::fieldSetting.objectEnum::rock:
 								///blit rock
+								this->blit(imagesNames::rockCellVisibleArea, i, j);
+
 								break;
 							case gameSettings::fieldSetting.objectEnum::tree:
 								///blit tree
-								break;
-							case gameSettings::fieldSetting.objectEnum::farm:
-								///blit farm
-								break;
-							case gameSettings::fieldSetting.objectEnum::house:
-								///blit house
+								this->blit(imagesNames::treeCellVisibleArea, i, j);
+
 								break;
 							default:
 								break;
@@ -237,6 +415,7 @@ public:
 						}
 						else
 						{
+							this->blit(imagesNames::emptyCellVisibleArea, i, j);
 							///blit empty cell
 						}
 					}
@@ -268,29 +447,47 @@ public:
 						}
 						else
 						{
-							switch (fieldV[i][j].objectType)
+							if (fieldV[i][j].objectType != gameSettings::fieldSetting.objectEnum::partOfHouse)
 							{
-							case gameSettings::fieldSetting.objectEnum::bushWithBerry:
-								///blit bush
-								break;
+
+
+								switch (fieldV[i][j].objectType)
+								{
+								case gameSettings::fieldSetting.objectEnum::bushWithBerry:
+									///blit bush
+									this->blit(imagesNames::bushWithBerryCellHouseArea, i, j);
+
+									break;
 								case gameSettings::fieldSetting.objectEnum::bushWithoutBerry:
-								///blit bush without berry
-								break;
-							case gameSettings::fieldSetting.objectEnum::rock:
-								///blit rock
-								break;
-							case gameSettings::fieldSetting.objectEnum::tree:
-								///blit tree
-								break;
-							case gameSettings::fieldSetting.objectEnum::farm:
-								///blit farm
-								break;
-							case gameSettings::fieldSetting.objectEnum::house:
-								///blit house
-								break;
-							default:
-								break;
+									///blit bush without berry
+									break;
+								case gameSettings::fieldSetting.objectEnum::rock:
+									///blit rock
+									this->blit(imagesNames::rockCellHouseArea, i, j);
+
+									break;
+								case gameSettings::fieldSetting.objectEnum::tree:
+									///blit tree
+									this->blit(imagesNames::treeCellHouseArea, i, j);
+
+									break;
+								case gameSettings::fieldSetting.objectEnum::farm:
+									this->blitBigObjects(imagesNames::farmImg, { (short)i, (short)j }, 3);
+
+									///blit farm
+									break;
+								case gameSettings::fieldSetting.objectEnum::house:
+									///blit house
+									this->blitBigObjects(imagesNames::houseImg, { (short)i, (short)j }, 2);
+									std::cout << i << "-" << j << " <House\n";
+
+
+									break;
+								default:
+									break;
+								}
 							}
+							else std::cout << i << " " << j << "\n";
 						}
 					}
 					else
@@ -301,7 +498,11 @@ public:
 						}
 						else
 						{
-							///blit empty cell
+							if (fieldV[i][j].objectType != gameSettings::fieldSetting.objectEnum::partOfHouse)
+							{
+								this->blit(imagesNames::emptyCellHouseArea, i, j);
+								///blit empty cell}
+							}
 						}
 					}
 					break;
