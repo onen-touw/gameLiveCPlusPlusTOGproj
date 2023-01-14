@@ -7,7 +7,7 @@ private:
     short int* inventory;
     short int resourcesCount;
 public:
-    builderClass(short int i, short int j):humanClass(i, j)
+    builderClass(position pos):humanClass(pos)
     {
         this->inventory = new short int[gameSettings::builderSetting.inventorySize] { 0, 0, 0, 0 };
         this->resourcesCount = 0;
