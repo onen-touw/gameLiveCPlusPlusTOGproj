@@ -18,9 +18,9 @@
 class houseAreaClass
 {
 private:
-	std::vector<treeClass&> treesInArea;
-	std::vector<rockClass&> rocksInArea;
-	std::vector<bushClass&> bushesInArea;
+	std::vector<treeClass> treesInArea;
+	std::vector<rockClass> rocksInArea;
+	std::vector<bushClass> bushesInArea;
 	std::vector<humanClass*> humans;
 	std::vector<farmClass> farms;
 	std::vector<houseClass> nextHouses; // соседние дома
@@ -28,7 +28,7 @@ private:
 	bool houseHouses[4] = { false, false, false, false };
 	houseClass house = houseClass(0, 0);
 public:
-	houseAreaClass(short int i, short int j, std::vector<treeClass&> trees, std::vector<rockClass&> rocks, std::vector<bushClass&> bushes)
+	houseAreaClass(short int i, short int j, std::vector<treeClass>& trees, std::vector<rockClass>& rocks, std::vector<bushClass>& bushes)
 	{
 		this->house = houseClass(i, j);
 		for (int a = 0; a < trees.size(); a++)
@@ -119,7 +119,7 @@ public:
 		staminaСounter -= distanceFromWorkPlaceToHouse;
 	}
 
-	void createBuilderQueue(short int taskType, short int humanNumber)
+	void createBuilderQueue(short int taskType, short int humanNumber, std::vector<treeClass>& trees)
 	{
 		short int staminaСounter = gameSettings::humanSetting.stamina;
 		queueClass tasksQueue;
@@ -133,7 +133,7 @@ public:
 		if (taskType == taskType::getWood)
 		{
 			short int numberOfExtrractedTree = 0; //номер добываемого дерева
-			while(this->treesInArea[numberOfExtrractedTree].getTempResources() != 0)
+			while (this->treesInArea[numberOfExtrractedTree].getTempResources() != 0)
 			{
 				this->treesInArea.erase(this->treesInArea.begin() + numberOfExtrractedTree);
 			}
