@@ -87,6 +87,9 @@
     <ClCompile Include="imageClass.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
+    <ClCompile Include="settlmentActionsClass.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="objectClass.h">
@@ -136,6 +139,9 @@
     </ClInclude>
     <ClInclude Include="settings.h">
       <Filter>Файлы заголовков\root</Filter>
+    </ClInclude>
+    <ClInclude Include="settlmentActionsClass.h">
+      <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

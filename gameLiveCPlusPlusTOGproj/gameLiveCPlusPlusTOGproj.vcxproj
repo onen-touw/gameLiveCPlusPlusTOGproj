@@ -147,6 +147,7 @@
     <ClCompile Include="queueClass.cpp" />
     <ClCompile Include="rockClass.cpp" />
     <ClCompile Include="settings.cpp" />
+    <ClCompile Include="settlmentActionsClass.cpp" />
     <ClCompile Include="treeClass.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -165,6 +166,7 @@
     <ClInclude Include="rockClass.h" />
     <ClInclude Include="settings.h" />
     <ClInclude Include="humanClass.h" />
+    <ClInclude Include="settlmentActionsClass.h" />
     <ClInclude Include="treeClass.h" />
   </ItemGroup>
   <ItemGroup>

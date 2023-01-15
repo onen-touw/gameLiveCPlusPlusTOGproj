@@ -45,8 +45,8 @@ int main(int argc, char* argv[]) {
 
 		///test setHouse by Coords + test setPerson BY coords
 		/*fieldTest.setHouse({ 15,15 }, "");
-		fieldTest.personTemp(5, 5);
-		fieldTest.personTemp(7, 7);*/
+		fieldTest.setPersonCoors(5, 5, "t");
+		fieldTest.setPersonCoors(7, 7, "t");*/
 
 
 		while (game)
@@ -99,13 +99,7 @@ int main(int argc, char* argv[]) {
 
 
 				}
-				/*SDL_Rect mt = { 50,50,100,100 };
-			
-				SDL_BlitScaled(gameSettings::imageVector[imagesNames::emptyCell], NULL, gameSettings::surface, &mt);
-				SDL_UpdateWindowSurface(gameSettings::win);*/
-			/*	fieldTest.blit(imagesNames::bushWithoutBerryCellHouseArea, 0, 0);
-
-				SDL_UpdateWindowSurface(gameSettings::win);*/
+				
 				SDL_Delay(1000 / 60);
 			}
 		}

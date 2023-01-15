@@ -26,10 +26,10 @@ public:
 				this->fieldV[i][j].position= {i,j};
 			}
 		}
-		std::cout << fieldV.size() << "\n";
+		/*std::cout << fieldV.size() << "\n";
 		std::cout << fieldV[0].size() << "\n";
 		std::cout << gameSettings::fieldSetting.minCountCellInWin.height << "\n";
-		std::cout << gameSettings::fieldSetting.minCountCellInWin.width << "\n";
+		std::cout << gameSettings::fieldSetting.minCountCellInWin.width << "\n";*/
 
 	}
 
@@ -83,7 +83,7 @@ public:
 
 	///return position {i, j}
 	position findCellByCoord(position mousePos) {
-		if (mousePos.i > gameSettings::winObjSize.menuHeader)
+		if (mousePos.j > gameSettings::winObjSize.menuHeader)
 		{
 			for (int i = this->fieldShift.i; i <= this->fieldShift.i + gameSettings::fieldSetting.minCountCellInWin.height; i++)
 			{
@@ -106,12 +106,10 @@ public:
 		if (metric == "px")
 		{
 			/// pos(px, px) -> pos(i,j)
-			std::cout << pos.i << "-" << pos.j << " px\n";
-
 			pos = this->findCellByCoord(pos);
 		}
 
-		std::cout << pos.i << "-" << pos.j << " hTeoretic\n";
+		//std::cout << pos.i << "-" << pos.j << " hTeoretic\n";
 		fieldV[pos.i][pos.j].hasSmth = true;
 
 		fieldV[pos.i][pos.j].exploration = gameSettings::fieldSetting.explorationEnum::houseArea;
@@ -229,7 +227,7 @@ public:
 					}
 				}
 			}
-			std::cout << "\n";
+			//std::cout << "\n";
 		}
 
 	}
@@ -252,12 +250,20 @@ public:
 
 	bool chosePositionForHouse(position mousePos) {
 		position temp = this->findCellByCoord(mousePos);
-		if (!fieldV[temp.i][temp.j].hasSmth)
+		if (temp.i > -1 && temp.j > -1)
 		{
-			if (!fieldV[temp.i + 1][temp.j].hasSmth && !fieldV[temp.i][temp.j+1].hasSmth && !fieldV[temp.i+1][temp.j+1].hasSmth)
+			if (!fieldV[temp.i][temp.j].hasSmth)
 			{
-				this->blitChoseZone(imagesNames::emptyCellHouseArea, temp);
-				return true;
+				if (!fieldV[temp.i + 1][temp.j].hasSmth && !fieldV[temp.i][temp.j + 1].hasSmth && !fieldV[temp.i + 1][temp.j + 1].hasSmth)
+				{
+					this->blitChoseZone(imagesNames::emptyCellHouseArea, temp);
+					return true;
+				}
+				else
+				{
+					this->blitChoseZone(imagesNames::emptyCellVisibleArea, temp);
+					return false;
+				}
 			}
 			else
 			{
@@ -267,7 +273,6 @@ public:
 		}
 		else
 		{
-			this->blitChoseZone(imagesNames::emptyCellVisibleArea, temp);
 			return false;
 		}
 	}
@@ -316,13 +321,6 @@ public:
 
 		if (changeFieldPosition)
 		{
-			system("cls");
-			//this->blit();
-
-			std::cout << fieldShift.i << "x" << fieldShift.j << "<<startPoint\n";
-			std::cout << fieldShift.i + gameSettings::fieldSetting.minCountCellInWin.height 
-				<< "x" << fieldShift.j + gameSettings::fieldSetting.minCountCellInWin.width << "<<endPoint\n\n";
-
 			this->blitField();
 			SDL_UpdateWindowSurface(gameSettings::win);
 		}
@@ -490,7 +488,7 @@ public:
 								case gameSettings::fieldSetting.objectEnum::house:
 									///blit house
 									this->blitBigObjects(imagesNames::houseImg, { (short)i, (short)j }, 2);
-									std::cout << i << "-" << j << " <House\n";
+									//std::cout << i << "-" << j << " <House\n";
 									break;
 								default:
 									break;
