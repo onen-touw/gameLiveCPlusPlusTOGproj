@@ -6,6 +6,7 @@ namespace gameSettings {
 	builderSettings builderSetting;
 	winObjSizes winObjSize;
 	fieldSettings fieldSetting;
+	houseSettings houseSetting;
 
 	SDL_Window* win = nullptr;
 	SDL_Surface* surface = nullptr;

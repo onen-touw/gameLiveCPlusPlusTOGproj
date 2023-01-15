@@ -16,6 +16,10 @@ public:
 		this->income = gameSettings::farmSetting.income;
 	}
 	~farmClass() { }
+	position getPosition()
+	{
+		return this->farmPosition;
+	}
 	void blit() {}
 };
 

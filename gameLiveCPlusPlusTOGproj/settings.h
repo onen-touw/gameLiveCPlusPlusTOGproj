@@ -93,6 +93,7 @@ struct sizes
 struct houseSettings
 {
 	sizes size = { 2, 2 };
+	short int workTime = 30;
 };
 
 struct farmSettings
@@ -155,6 +156,7 @@ struct fieldSettings
 namespace gameSettings {
 	extern humanSettings humanSetting;			///settings for human
 	extern farmSettings farmSetting;			///settings for farms - obj
+	extern houseSettings houseSetting;
 	extern builderSettings builderSetting;		///settings for builder - human
 	extern winObjSizes winObjSize;				///settings for static objects such as menuHeader, menuBtns and other
 	extern fieldSettings fieldSetting;			///settings for field

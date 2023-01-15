@@ -8,6 +8,7 @@ protected:
 	position objectPosition;
 	short int resources = 0;
 	short int tempResources = 0;
+
 public:
 	objectClass(short int i, short int j)
 	{
