@@ -22,7 +22,7 @@ int main(int argc, char* argv[]) {
 	///TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST 
 	fieldClass fieldTest;
 
-	
+
 
 	//fieldTest.blit(imagesNames::bushWithoutBerryCellHouseArea, 0, 0);
 
@@ -42,6 +42,11 @@ int main(int argc, char* argv[]) {
 		bool firstHouse = false;
 		bool h = false;
 		int cursor_X = 0, cursor_Y = 0;
+
+		///test setHouse by Coords + test setPerson BY coords
+		/*fieldTest.setHouse({ 15,15 }, "");
+		fieldTest.personTemp(5, 5);
+		fieldTest.personTemp(7, 7);*/
 
 
 		while (game)
@@ -85,7 +90,7 @@ int main(int argc, char* argv[]) {
 					{
 						std::cout << "ok\n";
 						//SDL_GetMouseState(&cursor_X, &cursor_Y);
-						fieldTest.setHouse({ (short)cursor_X,(short)cursor_Y });
+						fieldTest.setHouse({ (short)cursor_X,(short)cursor_Y }, "px");
 						
 						fieldTest.blitField();
 						SDL_UpdateWindowSurface(gameSettings::win);
