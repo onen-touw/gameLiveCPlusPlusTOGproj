@@ -4,6 +4,10 @@ class rockClass :
     public objectClass
 {
 public:
+    rockClass(position pos) :objectClass(pos)
+    {
+        resources = gameSettings::objectSetting.rockResources;
+    }
     void blit() {}
 };
 

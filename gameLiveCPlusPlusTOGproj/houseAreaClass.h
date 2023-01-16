@@ -1,5 +1,7 @@
 #pragma once
 
+#include<algorithm>
+
 #include"settings.h"
 
 #include"builderClass.h"
@@ -21,59 +23,107 @@ private:
 	std::vector<treeClass> treesInArea;
 	std::vector<rockClass> rocksInArea;
 	std::vector<bushClass> bushesInArea;
+	std::vector<objectClass> objects;
 	std::vector<humanClass*> humans;
 	std::vector<farmClass> farms;
 	std::vector<houseClass> nextHouses; // соседние дома
 	bool houseFarms[4] = { false, false, false, false };
 	bool houseHouses[4] = { false, false, false, false };
 	houseClass house = houseClass(0, 0);
+	short int foodInArea = 0;
+	short int stoneInArea = 0;
+	short int woodInArea = 0;
 public:
-	houseAreaClass(short int i, short int j, std::vector<treeClass>& trees, std::vector<rockClass>& rocks, std::vector<bushClass>& bushes)
+	houseAreaClass(position pos, std::vector<std::vector<cell>> field )
 	{
-		this->house = houseClass(i, j);
-		for (int a = 0; a < trees.size(); a++)
-		{
-			if (trees[a].getPosition().i > i - 20 && trees[a].getPosition().i < i + 21)
-			{
-				if (trees[a].getPosition().j > j - 20 && trees[a].getPosition().j < j + 21)
-				{
-					this->treesInArea.push_back(trees[a]);
-				}
-			}
-		}
-		for (int a = 0; a < rocks.size(); a++)
-		{
-			if (rocks[a].getPosition().i > i - 20 && rocks[a].getPosition().i < i + 21)
-			{
-				if (rocks[a].getPosition().j > j - 20 && rocks[a].getPosition().j < j + 21)
-				{
-					this->rocksInArea.push_back(rocks[a]);
-				}
-			}
-		}
-		for (int a = 0; a < bushes.size(); a++)
-		{
-			if (bushes[a].getPosition().i > i - 9 && bushes[a].getPosition().i < i + 10)
-			{
-				if (bushes[a].getPosition().j > j - 9 && bushes[a].getPosition().j < j + 10)
-				{
-					this->bushesInArea.push_back(bushes[a]);
-				}
-			}
-		}
+		this->house = houseClass(pos.i, pos.j);
+		findObjects(field);
+		//sort(treesInArea.begin(), treesInArea.end(), [](auto& a, auto& b) {return distance(a.getPosition(), house.getPosition()) < distance(b.getPosition(), house.getPosition())});
+		//sort(rocksInArea.begin(), rocksInArea.end(), [](auto& a, auto& b) {return distance(a.getPosition(), house.getPosition()) < distance(b.getPosition(), house.getPosition())});
+		//sort(bushesInArea.begin(), bushesInArea.end(), [](auto& a, auto& b) {return distance(a.getPosition(), house.getPosition()) < distance(b.getPosition(), house.getPosition())});
 		this->humans.push_back(new farmerClass(house.getPosition()));
-		createFarmerQueue();
+		createFarmerQueue(0);
 	}
 	~houseAreaClass() { }
+
+	void findObjects(std::vector<std::vector<cell>> field)
+	{
+		for (int i = 0; i < field.size(); i++)
+		{
+			for (int j = 0; j < field[i].size(); j++)
+			{
+				if (field[i][j].objectType == gameSettings::fieldSetting.objectEnum::tree)
+				{
+					treeClass tree = treeClass(field[i][j].position);
+					this->treesInArea.push_back(tree);
+				}
+				else if (field[i][j].objectType == gameSettings::fieldSetting.objectEnum::rock)
+				{
+					rockClass rock = rockClass(field[i][j].position);
+					this->rocksInArea.push_back(rock);
+				}
+				else if (field[i][j].objectType == gameSettings::fieldSetting.objectEnum::bushWithBerry)
+				{
+					bushClass bush = bushClass(field[i][j].position);
+					this->bushesInArea.push_back(bush);
+				}
+			}
+		}
+	}
+
+	std::vector<humanClass*> getHumans()
+	{
+		return this->humans;
+	}
+
+	short int getWood()
+	{
+		return this->woodInArea;
+	}
+
+	void claimWood()
+	{
+		this->woodInArea = 0;
+	}
+
+	short int getStone()
+	{
+		return this->stoneInArea;
+	}
+
+	void claimStone()
+	{
+		this->stoneInArea = 0;
+	}
+
+	short int getFreeFood()
+	{
+		return this->foodInArea - this->humans.size() * gameSettings::humanSetting.deilyRation;
+	}
+
+	void claimFood(int sentFood)
+	{
+		this->foodInArea -= sentFood;
+	}
+
+	void sendFood(int sendFood)
+	{
+		this->foodInArea += sendFood;
+	}
+
+	short int getFarmsCount()
+	{
+		return this->farms.size();
+	}
 
 	short int distance(position point1, position point2)
 	{
 		return abs(point1.i - point2.i) + abs(point1.j - point2.j);
 	}
 
-	void createFarmerQueue()
+	void createFarmerQueue(short int humanNumber)
 	{
-		short int staminaСounter = gameSettings::humanSetting.stamina;
+		short int staminaСounter = humans[0]->getStamina();
 		short int distanceToWorkPlace; // расстояние до рабочего места
 		short int distanceFromWorkPlaceToHouse; // расстояние от рабочего места до дома
 		short int workTime; //время которое нужно затратить на работу
@@ -119,7 +169,7 @@ public:
 		staminaСounter -= distanceFromWorkPlaceToHouse;
 	}
 
-	void createBuilderQueue(short int taskType, short int humanNumber, std::vector<treeClass>& trees)
+	void createBuilderQueue(short int taskType, short int humanNumber)
 	{
 		short int staminaСounter = gameSettings::humanSetting.stamina;
 		queueClass tasksQueue;

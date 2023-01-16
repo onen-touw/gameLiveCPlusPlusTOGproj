@@ -6,6 +6,10 @@ class treeClass :
 private:
     
 public:
+    treeClass(position pos):objectClass(pos)
+    {
+        resources = gameSettings::objectSetting.treeResources;
+    }
     void blit() { }
 };
 
