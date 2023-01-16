@@ -26,6 +26,12 @@ public:
 	{
 		return stamina;
 	}
+
+	position getPosition()
+	{
+		return this->humanPosition;
+	}
+
 	bool humanTransmit()
 	{
 		task task = this->tasksQueue.getFirst();

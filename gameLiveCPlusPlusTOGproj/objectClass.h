@@ -10,10 +10,10 @@ protected:
 	short int tempResources = 0;
 
 public:
-	objectClass(short int i, short int j)
+	objectClass(position pos)
 	{
-		this->objectPosition.i = i;
-		this->objectPosition.j = j;
+		this->objectPosition.i = pos.i;
+		this->objectPosition.j = pos.j;
 	}
 	~objectClass() { }
 

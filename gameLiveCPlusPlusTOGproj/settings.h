@@ -6,7 +6,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
- 
+
 enum imagesNames
 {
 	emptyCell =0,
@@ -80,8 +80,9 @@ struct task
 struct humanSettings
 {
 	short int hp = 10;
-	short int stamina = 90; // TODO: связать время дня и кол-во стамины
+	short int stamina = 90; 
 	short int satiety = 6;
+	short int deilyRation = 2;
 };
 
 struct sizes
@@ -103,9 +104,26 @@ struct farmSettings
 	short int workTime = 30;
 };
 
+struct objectSettings
+{
+	short int treeResources = 4;
+	short int rockResources = 4;
+	short int bushResources = 4;
+};
+
 struct builderSettings
 {
 	short int inventorySize = 4;
+};
+
+struct settlmentSettings
+{
+	short int secondsInOneLoop = 60;
+	short int loopsInOneDay = 90;
+	short int foodForBirth = 300;
+	short int stoneForBildingHouse = 10;
+	short int woodForBildingHouse = 10;
+	short int woodForBildingFarm = 10;
 };
 
 struct winObjSizes
@@ -168,6 +186,8 @@ namespace gameSettings {
 	extern builderSettings builderSetting;		///settings for builder - human
 	extern winObjSizes winObjSize;				///settings for static objects such as menuHeader, menuBtns and other
 	extern fieldSettings fieldSetting;			///settings for field
+	extern objectSettings objectSetting;
+	extern settlmentSettings settlmentSetting;
 
 	extern SDL_Window* win;						///object win
 	extern SDL_Surface* surface;				///object surface
