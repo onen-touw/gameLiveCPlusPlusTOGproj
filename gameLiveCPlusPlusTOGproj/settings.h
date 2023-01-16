@@ -153,6 +153,14 @@ struct fieldSettings
 	
 };
 
+struct houseAreasPoints
+{
+	position searchStartPos = { 0,0 };
+	position searchEndtPos = { 0,0 };
+	position houseAreaStartPos = { 0,0 };
+	position houseAreaEndPos = { 0,0 };
+};
+
 namespace gameSettings {
 	extern humanSettings humanSetting;			///settings for human
 	extern farmSettings farmSetting;			///settings for farms - obj

@@ -2,6 +2,19 @@
 
 #include"settings.h"
 
+/// class fieldClass ф-ции
+/// createFieldV - создание массива h на w
+/// getAreasPointsPosition - возвращает позиции начальных и конечных точек зон дома
+/// generationObjects - распределение ресурсов по полю
+/// findCellByCoord возвращает ячейку поля если она выбрана мышью
+/// setHouse - установка дома; принимает координаты в px ("px") или {i, j}
+/// setAreas - установка зон дома 
+/// blitChoseZone - отрисовка выбираемой зоны курсором при размещение первого дома ( исп в chosePositionForHouse)
+/// blitBigObjects - для отрисовки объектов 2х2 ячеек и более
+/// chosePositionForHouse - проверка подходит ли место для устанвки дома
+/// transmitField - перемещение поля по заданному направлению
+/// blit - отрисовка изображения 1х1 ячеек (используется в blitField)
+/// blitField - отрисовка поля которое помещается в экран
 class fieldClass
 {
 private:
@@ -11,8 +24,8 @@ private:
 
 public:
 
+
 	void createFieldV() {
-		
 		fieldV.resize(gameSettings::fieldSetting.size.height);
 		for (int i = 0; i < this->fieldV.size(); i++)
 		{
@@ -26,11 +39,80 @@ public:
 				this->fieldV[i][j].position= {i,j};
 			}
 		}
-		/*std::cout << fieldV.size() << "\n";
-		std::cout << fieldV[0].size() << "\n";
-		std::cout << gameSettings::fieldSetting.minCountCellInWin.height << "\n";
-		std::cout << gameSettings::fieldSetting.minCountCellInWin.width << "\n";*/
+	}
 
+	houseAreasPoints getAreasPointsPosition(position pos) {
+		 houseAreasPoints hap;
+		if (pos.i - 20 >= 0)
+		{
+			hap.searchStartPos.i = pos.i - 20;
+		}
+		else
+		{
+			hap.searchStartPos.i = 0;
+		}
+		if (pos.i - 9 > 0)
+		{
+			hap.houseAreaStartPos.i = pos.i - 9;
+		}
+		else
+		{
+			hap.houseAreaStartPos.i = 0;
+		}
+
+		if (pos.j - 20 >= 0)
+		{
+			hap.searchStartPos.j = pos.j - 20;
+
+		}
+		else
+		{
+			hap.searchStartPos.j = 0;
+		}
+		if (pos.j - 9 > 0)
+		{
+			hap.houseAreaStartPos.j = pos.j - 9;
+		}
+		else
+		{
+			hap.houseAreaStartPos.j = 0;
+		}
+
+		if (pos.i + 21 < fieldV.size())
+		{
+			hap.searchEndtPos.i = pos.i + 21;
+		}
+		else
+		{
+			hap.searchEndtPos.i = fieldV[0].size() - 1;
+		}
+
+		if (pos.i + 10 <= fieldV.size())
+		{
+			hap.houseAreaEndPos.i = pos.i + 10;
+		}
+		else
+		{
+			hap.houseAreaEndPos.i = fieldV[0].size() - 1;
+		}
+
+		if (pos.j + 21 < fieldV[0].size())
+		{
+			hap.searchEndtPos.j = pos.j + 21;
+		}
+		else
+		{
+			hap.searchEndtPos.j = fieldV[0].size() - 1;
+		}
+		if (pos.j + 10 <= fieldV[0].size())
+		{
+			hap.houseAreaEndPos.j = pos.j + 10;
+		}
+		else
+		{
+			hap.houseAreaEndPos.j = fieldV[0].size() - 1;
+		}
+		return hap;
 	}
 
 	void generationObjects() {
@@ -102,6 +184,7 @@ public:
 		else return { -1, -1 };
 	}
 
+
 	void setHouse(position pos, std::string metric) {
 		if (metric == "px")
 		{
@@ -136,86 +219,18 @@ public:
 		{
 			fieldV[i][j].hasHuman = true;
 		} 
+
 	}
 
 	void setAreas(position pos) {
-		position searchStartPos = { 0,0 };
-		position searchEndtPos = { 0,0 };
-		position houseAreaStartPos = { 0,0 };
-		position houseAreaEndPos = { 0,0 };
-		
-		if (pos.i - 20 >=0)
-		{
-			searchStartPos.i = pos.i - 20;
-		}
-		else
-		{
-			searchStartPos.i = 0;
-		}
-		if (pos.i - 9 > 0)
-		{
-			houseAreaStartPos.i = pos.i - 9;
-		}
-		else
-		{
-			houseAreaStartPos.i = 0;
-		}
-		if (pos.j - 20 >= 0)
-		{
-			searchStartPos.j = pos.j - 20;
-			
-		}
-		else
-		{
-			searchStartPos.j = 0;
-		}
-		if (pos.j - 9 > 0)
-		{
-			houseAreaStartPos.j = pos.j - 9;
-		}
-		else
-		{
-			houseAreaStartPos.j = 0;
-		}
-		if (pos.i + 21 < fieldV.size())
-		{
-			searchEndtPos.i = pos.i + 21;
-		}
-		else
-		{
-			searchEndtPos.i = fieldV[0].size()-1;
-		}
-		if (pos.i + 10 <= fieldV.size())
-		{
-			houseAreaEndPos.i = pos.i + 10;
-		}
-		else
-		{
-			houseAreaEndPos.i = fieldV[0].size() - 1;
-		}
-		if (pos.j + 21 < fieldV.size())
-		{
-			searchEndtPos.j = pos.j + 21;
-		}
-		else
-		{
-			searchEndtPos.j = fieldV[0].size()-1;
-		}
-		if (pos.j + 10 <= fieldV[0].size())
-		{
-			houseAreaEndPos.j = pos.j + 10;
-		}
-		else
-		{
-			houseAreaEndPos.j = fieldV[0].size() - 1;
-		}
+		houseAreasPoints hap = this->getAreasPointsPosition(pos);
 
-		for (int i = searchStartPos.i; i <= searchEndtPos.i; i++)
+		for (int i = hap.searchStartPos.i; i <= hap.searchEndtPos.i; i++)
 		{
-			for (int j = searchStartPos.j; j <= searchEndtPos.j; j++)
+			for (int j = hap.searchStartPos.j; j <= hap.searchEndtPos.j; j++)
 			{
-				if (i >= houseAreaStartPos.i && j >= houseAreaStartPos.j &&
-					i<= houseAreaEndPos.i && j <=houseAreaEndPos.j)
+				if (i >= hap.houseAreaStartPos.i && j >= hap.houseAreaStartPos.j &&
+					i<= hap.houseAreaEndPos.i && j <= hap.houseAreaEndPos.j)
 				{
 					this->fieldV[i][j].exploration = gameSettings::fieldSetting.explorationEnum::houseArea ;
 				}
@@ -227,7 +242,6 @@ public:
 					}
 				}
 			}
-			//std::cout << "\n";
 		}
 
 	}
