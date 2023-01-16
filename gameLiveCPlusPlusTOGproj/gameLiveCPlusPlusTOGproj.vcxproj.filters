@@ -143,6 +143,9 @@
     <ClInclude Include="settlmentActionsClass.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
+    <ClInclude Include="binarySort.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="images\fieldImages\bushWithBerry.png">

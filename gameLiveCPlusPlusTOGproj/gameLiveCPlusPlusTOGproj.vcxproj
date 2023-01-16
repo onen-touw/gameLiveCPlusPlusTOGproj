@@ -156,6 +156,7 @@
     <ClInclude Include="bushClass.h" />
     <ClInclude Include="farmClass.h" />
     <ClInclude Include="farmerClass.h" />
+    <ClInclude Include="binarySort.h" />
     <ClInclude Include="searchNearestObject.h" />
     <ClInclude Include="fieldClass.h" />
     <ClInclude Include="houseAreaClass.h" />
