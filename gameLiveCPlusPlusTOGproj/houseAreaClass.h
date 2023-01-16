@@ -1,6 +1,6 @@
 #pragma once
 
-#include<algorithm>
+#include"binarySort.h"
 
 #include"settings.h"
 
@@ -33,39 +33,62 @@ private:
 	short int foodInArea = 0;
 	short int stoneInArea = 0;
 	short int woodInArea = 0;
+	queueClass farmerTasksQueue;
 public:
-	houseAreaClass(position pos, std::vector<std::vector<cell>> field )
+	houseAreaClass(position pos, std::vector<std::vector<cell>> field, houseAreasPoints hap)
 	{
 		this->house = houseClass(pos.i, pos.j);
-		findObjects(field);
-		//sort(treesInArea.begin(), treesInArea.end(), [](auto& a, auto& b) {return distance(a.getPosition(), house.getPosition()) < distance(b.getPosition(), house.getPosition())});
-		//sort(rocksInArea.begin(), rocksInArea.end(), [](auto& a, auto& b) {return distance(a.getPosition(), house.getPosition()) < distance(b.getPosition(), house.getPosition())});
-		//sort(bushesInArea.begin(), bushesInArea.end(), [](auto& a, auto& b) {return distance(a.getPosition(), house.getPosition()) < distance(b.getPosition(), house.getPosition())});
+		std::cout << "hui11" << std::endl;
+		findObjects(field, hap);
+		std::cout << "hui12" << std::endl;
+		quickSort(treesInArea, 0, treesInArea.size() - 1, house.getPosition());
+		quickSort(rocksInArea, 0, rocksInArea.size() - 1, house.getPosition());
+		quickSort(bushesInArea, 0, bushesInArea.size() - 1, house.getPosition());
+		for (int i = 0; i < bushesInArea.size(); i++)
+		{
+			std::cout << "bush " << i << " " << bushesInArea[i].getPosition().i << " " << bushesInArea[i].getPosition().j << std::endl;
+			std::cout << "distance " << distance(bushesInArea[i].getPosition(), house.getPosition()) << std::endl;
+		}
+		std::cout << "hui13" << std::endl;
 		this->humans.push_back(new farmerClass(house.getPosition()));
+		//this->humans.push_back(new builderClass(house.getPosition()));
 		createFarmerQueue(0);
 	}
 	~houseAreaClass() { }
 
-	void findObjects(std::vector<std::vector<cell>> field)
+	void findObjects(std::vector<std::vector<cell>> field, houseAreasPoints hap)
 	{
-		for (int i = 0; i < field.size(); i++)
+		for (int i = hap.searchStartPos.i; i <= hap.searchEndtPos.i; i++)
 		{
-			for (int j = 0; j < field[i].size(); j++)
+			for (int j = hap.searchStartPos.j; j <= hap.searchEndtPos.j; j++)
 			{
-				if (field[i][j].objectType == gameSettings::fieldSetting.objectEnum::tree)
+				if (field[i][j].hasSmth)
 				{
-					treeClass tree = treeClass(field[i][j].position);
-					this->treesInArea.push_back(tree);
+					if (field[i][j].objectType == gameSettings::fieldSetting.objectEnum::tree)
+					{
+						treeClass tree = treeClass(field[i][j].position);
+						//std::cout << field[i][j].position.i << " " << field[i][j].position.j << std::endl;
+						this->treesInArea.push_back(tree);
+					}
+					else if (field[i][j].objectType == gameSettings::fieldSetting.objectEnum::rock)
+					{
+						rockClass rock = rockClass(field[i][j].position);
+						this->rocksInArea.push_back(rock);
+					}
 				}
-				else if (field[i][j].objectType == gameSettings::fieldSetting.objectEnum::rock)
+			}
+		}
+		for (int i = hap.houseAreaStartPos.i; i <= hap.houseAreaEndPos.i; i++)
+		{
+			for (int j = hap.houseAreaStartPos.j; j <= hap.houseAreaEndPos.j; j++)
+			{
+				if (field[i][j].hasSmth)
 				{
-					rockClass rock = rockClass(field[i][j].position);
-					this->rocksInArea.push_back(rock);
-				}
-				else if (field[i][j].objectType == gameSettings::fieldSetting.objectEnum::bushWithBerry)
-				{
-					bushClass bush = bushClass(field[i][j].position);
-					this->bushesInArea.push_back(bush);
+					if (field[i][j].objectType == gameSettings::fieldSetting.objectEnum::bushWithBerry)
+					{
+						bushClass bush = bushClass(field[i][j].position);
+						this->bushesInArea.push_back(bush);
+					}
 				}
 			}
 		}
@@ -103,7 +126,7 @@ public:
 
 	void claimFood(int sentFood)
 	{
-		this->foodInArea -= sentFood;
+		this->foodInArea;
 	}
 
 	void sendFood(int sendFood)
@@ -121,9 +144,16 @@ public:
 		return abs(point1.i - point2.i) + abs(point1.j - point2.j);
 	}
 
+	void setFarmerQueue()
+	{
+		this->humans[0]->setQueue(this->farmerTasksQueue);
+	}
+
 	void createFarmerQueue(short int humanNumber)
 	{
+		
 		short int staminaÑounter = humans[0]->getStamina();
+		std::cout << "farmer hui0" << std::endl;
 		short int distanceToWorkPlace; // ðàññòîÿíèå äî ðàáî÷åãî ìåñòà
 		short int distanceFromWorkPlaceToHouse; // ðàññòîÿíèå îò ðàáî÷åãî ìåñòà äî äîìà
 		short int workTime; //âðåìÿ êîòîðîå íóæíî çàòðàòèòü íà ðàáîòó
@@ -133,40 +163,59 @@ public:
 		task task;
 		for (int i = 0; i < this->farms.size(); i++)
 		{
+			std::cout << "hui" << std::endl;
+			std::cout << "hui" << std::endl;
+			std::cout << "hui" << std::endl;
+			std::cout << "hui" << std::endl;
+			std::cout << "hui" << std::endl;
+			std::cout << "hui" << std::endl;
+			std::cout << "hui" << std::endl;
 			distanceToWorkPlace = distance(currentPosition, this->farms[i].getPosition());
 			workTime = gameSettings::farmSetting.income;
 			task = { this->farms[i].getPosition(), gameSettings::farmSetting.income };
 			tasksQueue.addTask(task);
+			this->foodInArea += gameSettings::farmSetting.income;
 			currentPosition = this->farms[i].getPosition();
 			staminaÑounter -= (distanceToWorkPlace + workTime);
 			distanceFromWorkPlaceToHouse = distance(currentPosition, this->farms[i].getPosition());
 		}
 		short int numberOfExtrractedBush = 0;
-		while (this->bushesInArea[numberOfExtrractedBush].getTempResources() != 0)
+		while (this->bushesInArea[numberOfExtrractedBush].getTempResources() == 0)
 		{
 			numberOfExtrractedBush++;
 		}
 		distanceToWorkPlace = distance(currentPosition, this->bushesInArea[numberOfExtrractedBush].getPosition());
-		workTime = 1;
+		workTime = 4;
 		distanceFromWorkPlaceToHouse = distance(this->bushesInArea[numberOfExtrractedBush].getPosition(), this->house.getPosition());
 		taskExpenses = distanceToWorkPlace + distanceFromWorkPlaceToHouse + workTime;
 		while (staminaÑounter >= taskExpenses)
 		{
 			task = { this->bushesInArea[numberOfExtrractedBush].getPosition(), workTime };
 			tasksQueue.addTask(task);
+			std::cout << "farmer " << task.position.i << " " << task.position.j << std::endl;
+			this->foodInArea += gameSettings::objectSetting.bushResources;
 			staminaÑounter -= (distanceToWorkPlace+workTime);
 			this->bushesInArea[numberOfExtrractedBush].setTempResources(0);
 			currentPosition = this->bushesInArea[numberOfExtrractedBush].getPosition();
+			for (int i = 0; i < bushesInArea.size(); i++)
+			{
+				std::cout << "bush " << i << " " << bushesInArea[i].getPosition().i << " " << bushesInArea[i].getPosition().j << std::endl;
+				std::cout << "distance " << bushesInArea[i].getTempResources() << std::endl;
+			}
 			short int numberOfNearestBush = searchNearestObject(this->bushesInArea, numberOfExtrractedBush);
 			numberOfExtrractedBush = numberOfNearestBush;
+			std::cout << "farmer hui" << std::endl;
 			distanceToWorkPlace = distance(currentPosition, this->bushesInArea[numberOfExtrractedBush].getPosition());
-			workTime = 1;
+			std::cout << "farmer hui2" << std::endl;
+			workTime = 4;
 			distanceFromWorkPlaceToHouse = distance(this->bushesInArea[numberOfExtrractedBush].getPosition(), this->house.getPosition());
 			taskExpenses = distanceToWorkPlace + distanceFromWorkPlaceToHouse + workTime;
 		}
 		task = { this->house.getPosition(), 0 };
 		tasksQueue.addTask(task);
 		staminaÑounter -= distanceFromWorkPlaceToHouse;
+		this->farmerTasksQueue = tasksQueue;
+		this->humans[humanNumber]->setQueue(tasksQueue);
 	}
 
 	void createBuilderQueue(short int taskType, short int humanNumber)
@@ -198,6 +247,7 @@ public:
 					//äîáàâëåíèå çàäà÷è áåæàòü ê áëèæàéøåé ñêàëå è äîáûâàòü å¸
 					task = { this->treesInArea[numberOfExtrractedTree].getPosition(), workTime };
 					tasksQueue.addTask(task);
+					this->woodInArea += workTime;
 					quantityOfFreeSlots -= workTime;
 					staminaÑounter -= distanceToWorkPlace;
 					this->treesInArea[numberOfExtrractedTree].setTempResources(this->treesInArea[numberOfExtrractedTree].getTempResources() - workTime);
@@ -249,6 +299,7 @@ public:
 					//äîáàâëåíèå çàäà÷è áåæàòü ê áëèæàéøåé ñêàëå è äîáûâàòü å¸
 					task = { this->rocksInArea[numberOfExtrractedRock].getPosition(), workTime };
 					tasksQueue.addTask(task);
+					this->stoneInArea += workTime;
 					quantityOfFreeSlots -= workTime;
 					staminaÑounter -= distanceToWorkPlace;
 					this->rocksInArea[numberOfExtrractedRock].setTempResources(this->rocksInArea[numberOfExtrractedRock].getTempResources() - workTime);
@@ -407,6 +458,7 @@ public:
 					if (material == material::stone)
 					{
 						task = { this->rocksInArea[numberOfExtrractedObject].getPosition(), workTime };
+						this->stoneInArea += workTime;
 						this->rocksInArea[numberOfExtrractedObject].setTempResources(this->rocksInArea[numberOfExtrractedObject].getTempResources() - workTime);
 						if (this->rocksInArea[numberOfExtrractedObject].getTempResources() == 0)
 						{
@@ -416,6 +468,7 @@ public:
 					else
 					{
 						task = { this->treesInArea[numberOfExtrractedObject].getPosition(), workTime };
+						this->woodInArea += workTime;
 						this->treesInArea[numberOfExtrractedObject].setTempResources(this->treesInArea[numberOfExtrractedObject].getTempResources() - workTime);
 						if (this->treesInArea[numberOfExtrractedObject].getTempResources() == 0)
 						{
@@ -491,6 +544,7 @@ public:
 			tasksQueue.addTask(task);
 			staminaÑounter -= distanceFromWorkPlaceToHouse;
 		}
+		this->humans[humanNumber]->setQueue(tasksQueue);
 	}
 };
 

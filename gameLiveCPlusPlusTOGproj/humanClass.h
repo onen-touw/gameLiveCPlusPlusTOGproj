@@ -26,6 +26,11 @@ public:
 	{
 		return stamina;
 	}
+	
+	void setQueue(queueClass queue)
+	{
+		this->tasksQueue = queue;
+	}
 
 	position getPosition()
 	{
@@ -34,41 +39,45 @@ public:
 
 	bool humanTransmit()
 	{
-		task task = this->tasksQueue.getFirst();
-		short int deltaX = abs(task.position.j - this->humanPosition.j);
-		short int deltaY = abs(task.position.i - this->humanPosition.i);
-		if (deltaX != 0 || deltaY != 0)
+		if (tasksQueue.getSize() > 0)
 		{
-			if (deltaX > deltaY)
+			task task = this->tasksQueue.getFirst();
+			//std::cout << task.position.i << " " << task.position.j << std::endl;
+			short int deltaX = abs(task.position.j - this->humanPosition.j);
+			short int deltaY = abs(task.position.i - this->humanPosition.i);
+			if (deltaX != 0 || deltaY != 0)
 			{
-				if (task.position.j > this->humanPosition.j)
+				if (deltaX > deltaY)
 				{
-					this->humanPosition.j++;
+					if (task.position.j > this->humanPosition.j)
+					{
+						this->humanPosition.j++;
+					}
+					else
+					{
+						this->humanPosition.j--;
+					}
+				}
+				else if (task.position.i > this->humanPosition.i)
+				{
+					this->humanPosition.i++;
 				}
 				else
 				{
-					this->humanPosition.j--;
+					this->humanPosition.i--;
 				}
 			}
-			else if (task.position.i > this->humanPosition.i)
-			{
-				this->humanPosition.i++;
-			}
 			else
 			{
-				this->humanPosition.i--;
-			}
-		}
-		else
-		{
-			if (task.workTime == 0)
-			{
-				this->tasksQueue.getTask();
-				return true;
-			}
-			else
-			{
-				this->tasksQueue.reduceTime();
+				if (task.workTime == 0)
+				{
+					this->tasksQueue.getTask();
+					return true;
+				}
+				else
+				{
+					this->tasksQueue.reduceTime();
+				}
 			}
 		}
 		return false;

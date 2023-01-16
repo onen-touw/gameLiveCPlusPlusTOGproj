@@ -77,12 +77,14 @@ public:
 				}
 			}
 		}
+		std::cout << food << std::endl;
 		// постановка задач для развития поселения на этот день
 		for (int i = 0; i < this->houseAreas.size(); i++)
 		{
 			std::vector<humanClass*> humans = this->houseAreas[i].getHumans();
 			std::vector<builderClass> builders;
 			farmerClass farmer = *((farmerClass*)humans[0]);
+			this->houseAreas[i].setFarmerQueue();
 			humans.erase(humans.begin());
 			for (int j = 0; j < humans.size(); j++)
 			{
@@ -145,8 +147,19 @@ public:
 		{
 			for (int j = 0; j < this->houseAreas[i].getHumans().size(); j++)
 			{
-				this->houseAreas[i].getHumans()[j]->humanTransmit();
-				position pos = this->houseAreas[i].getHumans()[j]->getPosition();
+				position posBefor = this->houseAreas[i].getHumans()[j]->getPosition();
+				position posAfter;
+				field.setPersonCoors(posBefor, "r");
+				if (this->houseAreas[i].getHumans()[j]->humanTransmit())
+				{
+					posAfter = this->houseAreas[i].getHumans()[j]->getPosition();
+					
+				}
+				else
+				{
+					posAfter = this->houseAreas[i].getHumans()[j]->getPosition();
+					field.setPersonCoors(posAfter, "t");
+				}
 			}
 		}
 	}
@@ -166,7 +179,7 @@ public:
 
 			while (this->game)
 			{
-				while (SDL_PollEvent(&event))
+				while (SDL_PollEvent(&event) || this->game)
 				{
 					if (event.type == SDL_QUIT)//отслеживание закрытия окна через кнопку "Крест"
 					{
@@ -204,6 +217,11 @@ public:
 						if (event.button.button == SDL_BUTTON_LEFT && event.type == SDL_MOUSEBUTTONUP && goodForHouse)
 						{
 							field.setHouse({ (short)cursor_X,(short)cursor_Y }, "px");
+							position pos = field.findCellByCoord({ (short)cursor_X,(short)cursor_Y });
+							std::cout << "hui" << std::endl;
+							houseAreaClass houseArea = houseAreaClass(pos, field.getFieldV(), field.getAreasPointsPosition(pos));
+							std::cout << "hui2" << std::endl;
+							this->houseAreas.push_back(houseArea);
 							field.blitField();
 							SDL_UpdateWindowSurface(gameSettings::win);
 
@@ -221,18 +239,21 @@ public:
 							if (++gLoop == gameSettings::settlmentSetting.loopsInOneDay)
 							{
 								//обновления в начале дня
-
+								oneDayActions();
+								//std::cout << gLoop << std::endl;
 								gLoop = 0;
 							}
 							else
 							{
 								//игровой цикл каждого тика
-
+								oneTikActions();
+								//std::cout << gSecond << std::endl;
+								field.blitField();
+								SDL_UpdateWindowSurface(gameSettings::win);
 							}
 							gSecond = 0;
 						}
 					}
-
 
 
 					SDL_Delay(1000 / 60);
