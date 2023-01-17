@@ -47,5 +47,5 @@ namespace gameSettings {
 		{"./images/fieldImages/treeWithPersonHouse.png", imagesNames::treeWithPersonHouse,},
 		{"./images/fieldImages/treeWithPersonArea.png", imagesNames::treeWithPersonArea,},
 	};
-	std::vector<SDL_Surface*> imageVector;
+	//std::vector<SDL_Surface*> imageVector;
 }

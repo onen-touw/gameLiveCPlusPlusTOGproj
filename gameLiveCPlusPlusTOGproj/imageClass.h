@@ -2,13 +2,14 @@
 #include"settings.h"
 class imageClass
 {
+protected:
+
+	std::vector<SDL_Surface*> imageVector;
+
+
 private:
-
-
-
-
-	void createImageVector() {
-		gameSettings::imageVector.resize(gameSettings::imagePathVector.size());
+	void createImageVector(int size) {
+		imageVector.resize(size);
 	}
 
 	void load(std::string path, unsigned enumName) {
@@ -23,7 +24,7 @@ private:
 			std::cout << "Can't convert: " << SDL_GetError() << std::endl;
 			return;
 		}
-		gameSettings::imageVector[enumName] = flower;
+		imageVector[enumName] = flower;
 		return;
 	}
 
@@ -33,17 +34,18 @@ public:
 
 	~imageClass()
 	{
-		gameSettings::imageVector.clear();
+		imageVector.clear();
 	}
 
 	SDL_Surface* getImage(unsigned enumName) {
-		return gameSettings::imageVector[enumName];
+		return imageVector[enumName];
 	}
 
-	void loadImages() {
-		this->createImageVector();
+	void loadImages(std::vector<imagePath>vPaths) {
+
+		this->createImageVector(vPaths.size());
 		
-		for (int i = 0; i < gameSettings::imageVector.size(); i++)
+		for (int i = 0; i < this->imageVector.size(); i++)
 		{
 			std::cout << gameSettings::imagePathVector[i].path << "<< loading #" << i << "\n";
 			this->load(gameSettings::imagePathVector[i].path, gameSettings::imagePathVector[i].position);
@@ -51,9 +53,9 @@ public:
 	}
 
 	void logOut() {
-		for (int i = 0; i < gameSettings::imageVector.size(); i++)
+		for (int i = 0; i < imageVector.size(); i++)
 		{
-			if (gameSettings::imageVector[i] != nullptr)
+			if (imageVector[i] != nullptr)
 			{
 				std::cout << "picture uploaded:: #" << i << "\n";
 			}

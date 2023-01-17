@@ -229,5 +229,6 @@ namespace gameSettings {
 	extern SDL_Window* win;						///object win
 	extern SDL_Surface* surface;				///object surface
 	extern std::vector<imagePath>imagePathVector;
-	extern std::vector<SDL_Surface*> imageVector;
+
+	//extern std::vector<SDL_Surface*> imageVector;
 }

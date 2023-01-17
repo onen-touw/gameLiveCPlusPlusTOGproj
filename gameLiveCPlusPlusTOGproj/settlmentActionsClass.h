@@ -35,8 +35,8 @@ public:
 	settlmentActionsClass()
 	{
 		//header.blitHeader();
-		images.loadImages();
-		images.logOut();
+		//images.loadImages();
+		//images.logOut();
 
 		field.createFieldV();
 		field.generationObjects();
