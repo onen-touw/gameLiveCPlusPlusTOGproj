@@ -19,9 +19,5 @@ short int searchNearestObject(std::vector<Data> objectsInArea, short int objectN
 			}
 		}
 	}
-	if (numberOfNearestObject == -1)
-	{
-		std::cout << "farmer hui567890" << std::endl;
-	}
 	return numberOfNearestObject;
 }

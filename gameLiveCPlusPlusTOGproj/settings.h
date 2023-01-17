@@ -118,12 +118,12 @@ struct builderSettings
 
 struct settlmentSettings
 {
-	short int secondsInOneLoop = 10;
+	short int secondsInOneLoop = 5;
 	short int loopsInOneDay = 90;
-	short int foodForBirth = 300;
-	short int stoneForBildingHouse = 10;
-	short int woodForBildingHouse = 10;
-	short int woodForBildingFarm = 10;
+	short int foodForBirth = 100;
+	short int stoneForBildingHouse = 100;
+	short int woodForBildingHouse = 100;
+	short int woodForBildingFarm = 50;
 };
 
 struct winObjSizes

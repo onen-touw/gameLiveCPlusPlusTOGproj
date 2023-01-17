@@ -77,18 +77,18 @@ public:
 				}
 			}
 		}
-		std::cout << food << std::endl;
+		std::cout << "food: " << food << std::endl;
+		std::cout << "wood: " << wood << std::endl;
+		std::cout << "stone: " << stone << std::endl;
 		// постановка задач для развития поселения на этот день
+
 		for (int i = 0; i < this->houseAreas.size(); i++)
 		{
-			std::vector<humanClass*> humans = this->houseAreas[i].getHumans();
-			std::vector<builderClass> builders;
-			farmerClass farmer = *((farmerClass*)humans[0]);
 			this->houseAreas[i].setFarmerQueue();
-			humans.erase(humans.begin());
-			for (int j = 0; j < humans.size(); j++)
+			if (houseAreas[i].getHumans().size() < 3 && this->food >= ((this->peopleCount + 1) * gameSettings::humanSetting.deilyRation) * 3 + gameSettings::settlmentSetting.foodForBirth)
 			{
-				builders.push_back(*((builderClass*)humans[i]));
+				houseAreas[i].spawnBuilder();
+				food -= gameSettings::settlmentSetting.foodForBirth;
 			}
 			for (int j = 1; j < this->houseAreas[i].getHumans().size(); j++)
 			{
@@ -153,7 +153,7 @@ public:
 				if (this->houseAreas[i].getHumans()[j]->humanTransmit())
 				{
 					posAfter = this->houseAreas[i].getHumans()[j]->getPosition();
-					
+					field.setPersonCoors(posAfter, "t");
 				}
 				else
 				{
@@ -218,9 +218,7 @@ public:
 						{
 							field.setHouse({ (short)cursor_X,(short)cursor_Y }, "px");
 							position pos = field.findCellByCoord({ (short)cursor_X,(short)cursor_Y });
-							std::cout << "hui" << std::endl;
 							houseAreaClass houseArea = houseAreaClass(pos, field.getFieldV(), field.getAreasPointsPosition(pos));
-							std::cout << "hui2" << std::endl;
 							this->houseAreas.push_back(houseArea);
 							field.blitField();
 							SDL_UpdateWindowSurface(gameSettings::win);

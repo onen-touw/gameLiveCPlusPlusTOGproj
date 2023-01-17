@@ -51,10 +51,16 @@ public:
 		}
 		std::cout << "hui13" << std::endl;
 		this->humans.push_back(new farmerClass(house.getPosition()));
-		//this->humans.push_back(new builderClass(house.getPosition()));
 		createFarmerQueue(0);
 	}
 	~houseAreaClass() { }
+
+	void spawnBuilder()
+	{
+		this->humans.push_back(new builderClass(house.getPosition()));
+	}
+
+	//******************************************************* эти функции работают коректно (проверено)
 
 	void findObjects(std::vector<std::vector<cell>> field, houseAreasPoints hap)
 	{
@@ -97,6 +103,11 @@ public:
 	std::vector<humanClass*> getHumans()
 	{
 		return this->humans;
+	}
+
+	std::vector<treeClass> getTrees()
+	{
+		return this->treesInArea;
 	}
 
 	short int getWood()
@@ -149,7 +160,9 @@ public:
 		this->humans[0]->setQueue(this->farmerTasksQueue);
 	}
 
-	void createFarmerQueue(short int humanNumber)
+	//**********************************************************
+
+	void createFarmerQueue(short int humanNumber) // без ферм работает (проверено)
 	{
 		
 		short int staminaСounter = humans[0]->getStamina();
@@ -163,13 +176,6 @@ public:
 		task task;
 		for (int i = 0; i < this->farms.size(); i++)
 		{
-			std::cout << "hui" << std::endl;
-			std::cout << "hui" << std::endl;
-			std::cout << "hui" << std::endl;
-			std::cout << "hui" << std::endl;
-			std::cout << "hui" << std::endl;
-			std::cout << "hui" << std::endl;
-			std::cout << "hui" << std::endl;
 			distanceToWorkPlace = distance(currentPosition, this->farms[i].getPosition());
 			workTime = gameSettings::farmSetting.income;
 			task = { this->farms[i].getPosition(), gameSettings::farmSetting.income };
@@ -197,12 +203,11 @@ public:
 			staminaСounter -= (distanceToWorkPlace+workTime);
 			this->bushesInArea[numberOfExtrractedBush].setTempResources(0);
 			currentPosition = this->bushesInArea[numberOfExtrractedBush].getPosition();
-			for (int i = 0; i < bushesInArea.size(); i++)
-			{
-				std::cout << "bush " << i << " " << bushesInArea[i].getPosition().i << " " << bushesInArea[i].getPosition().j << std::endl;
-				std::cout << "distance " << bushesInArea[i].getTempResources() << std::endl;
-			}
 			short int numberOfNearestBush = searchNearestObject(this->bushesInArea, numberOfExtrractedBush);
+			if (numberOfNearestBush == -1)
+			{
+				break;
+			}
 			numberOfExtrractedBush = numberOfNearestBush;
 			std::cout << "farmer hui" << std::endl;
 			distanceToWorkPlace = distance(currentPosition, this->bushesInArea[numberOfExtrractedBush].getPosition());
@@ -229,109 +234,153 @@ public:
 		short int distanceFromWorkPlaceToHouse; // расстояние от рабочего места до дома
 		short int workTime; //время которое нужно затратить на работу
 		short int taskExpenses; // кол-во энергии необходимое для того чтобы добежать добыть хотябы один ресурс и вернуться домой
-		if (taskType == taskType::getWood)
+		short int staminaWork;
+		if (taskType == taskType::getWood) //работает (проверено)
 		{
-			short int numberOfExtrractedTree = 0; //номер добываемого дерева
-			while (this->treesInArea[numberOfExtrractedTree].getTempResources() != 0)
+			while (staminaСounter > 0)
 			{
-				this->treesInArea.erase(this->treesInArea.begin() + numberOfExtrractedTree);
-			}
-			distanceToWorkPlace = distance(this->house.getPosition(), this->treesInArea[0].getPosition());
-			distanceFromWorkPlaceToHouse = distanceToWorkPlace;
-			workTime = (short int)std::fmin(staminaСounter - distanceToWorkPlace - distanceFromWorkPlaceToHouse, std::fmin(quantityOfFreeSlots, this->treesInArea[numberOfExtrractedTree].getTempResources()));
-			taskExpenses = distanceToWorkPlace + distanceFromWorkPlaceToHouse + workTime;
-			while (quantityOfFreeSlots > 0)
-			{
-				if (staminaСounter >= taskExpenses)
+				short int numberOfExtrractedTree = 0; //номер добываемого дерева
+				quantityOfFreeSlots = gameSettings::builderSetting.inventorySize - ((builderClass*)this->humans[humanNumber])->getResourcesCount();
+				while (this->treesInArea[numberOfExtrractedTree].getTempResources() == 0)
 				{
-					//добавление задачи бежать к ближайшей скале и добывать её
-					task = { this->treesInArea[numberOfExtrractedTree].getPosition(), workTime };
-					tasksQueue.addTask(task);
-					this->woodInArea += workTime;
-					quantityOfFreeSlots -= workTime;
-					staminaСounter -= distanceToWorkPlace;
-					this->treesInArea[numberOfExtrractedTree].setTempResources(this->treesInArea[numberOfExtrractedTree].getTempResources() - workTime);
-					if (this->treesInArea[numberOfExtrractedTree].getTempResources() == 0)
+					if (this->treesInArea.size() == 0)
+					{
+						return;
+					}
+					else
 					{
 						this->treesInArea.erase(this->treesInArea.begin() + numberOfExtrractedTree);
 					}
-					staminaСounter -= workTime;
-					if (quantityOfFreeSlots > 0)
-					{
-						short int numberOfNearestTree = searchNearestObject(this->treesInArea, numberOfExtrractedTree); // номер камня, ближайшего к добытому камню
-						while (this->treesInArea[numberOfNearestTree].getTempResources() != 0)
-						{
-							this->treesInArea.erase(this->treesInArea.begin() + numberOfNearestTree);
-							numberOfNearestTree = searchNearestObject(this->treesInArea, numberOfExtrractedTree);
-						}
-						distanceToWorkPlace = distance(this->treesInArea[numberOfExtrractedTree].getPosition(), this->treesInArea[numberOfNearestTree].getPosition());
-						numberOfExtrractedTree = numberOfNearestTree;
-						distanceFromWorkPlaceToHouse = distance(this->house.getPosition(), this->treesInArea[numberOfNearestTree].getPosition());
-						workTime = (short int)std::fmin(staminaСounter - distanceToWorkPlace - distanceFromWorkPlaceToHouse, std::fmin(quantityOfFreeSlots, this->treesInArea[numberOfNearestTree].getTempResources()));
-						taskExpenses = distanceToWorkPlace + distanceFromWorkPlaceToHouse + workTime;
-					}
 				}
-				else
+				distanceToWorkPlace = distance(this->house.getPosition(), this->treesInArea[numberOfExtrractedTree].getPosition());
+				distanceFromWorkPlaceToHouse = distanceToWorkPlace;
+				staminaWork = staminaСounter - distanceToWorkPlace - distanceFromWorkPlaceToHouse;
+				if (staminaWork < 0)
+				{
+					staminaWork = 0;
+				}
+				workTime = (short int)std::fmin(staminaWork, std::fmin(quantityOfFreeSlots, this->treesInArea[numberOfExtrractedTree].getTempResources()));
+				taskExpenses = distanceToWorkPlace + distanceFromWorkPlaceToHouse + workTime;
+				if (staminaСounter < taskExpenses)
 				{
 					break;
 				}
+				while (quantityOfFreeSlots > 0)
+				{
+					if (staminaСounter >= taskExpenses)
+					{
+						//добавление задачи бежать к ближайшей скале и добывать её
+						task = { this->treesInArea[numberOfExtrractedTree].getPosition(), workTime };
+						tasksQueue.addTask(task);
+						this->woodInArea += workTime;
+						std::cout << "wood+" << workTime << std::endl;
+						quantityOfFreeSlots -= workTime;
+						staminaСounter -= distanceToWorkPlace;
+						this->treesInArea[numberOfExtrractedTree].setTempResources(this->treesInArea[numberOfExtrractedTree].getTempResources() - workTime);
+						staminaСounter -= workTime;
+						if (quantityOfFreeSlots > 0)
+						{
+							short int numberOfNearestTree = searchNearestObject(this->treesInArea, numberOfExtrractedTree); // номер камня, ближайшего к добытому камню
+							if (numberOfNearestTree == -1)
+							{
+								break;
+							}
+							distanceToWorkPlace = distance(this->treesInArea[numberOfExtrractedTree].getPosition(), this->treesInArea[numberOfNearestTree].getPosition());
+							numberOfExtrractedTree = numberOfNearestTree;
+							distanceFromWorkPlaceToHouse = distance(this->house.getPosition(), this->treesInArea[numberOfNearestTree].getPosition());
+							staminaWork = staminaСounter - distanceToWorkPlace - distanceFromWorkPlaceToHouse;
+							if (staminaWork < 0)
+							{
+								staminaWork = 0;
+							}
+							workTime = (short int)std::fmin(staminaWork, std::fmin(quantityOfFreeSlots, this->treesInArea[numberOfNearestTree].getTempResources()));
+							taskExpenses = distanceToWorkPlace + distanceFromWorkPlaceToHouse + workTime;
+						}
+					}
+					else
+					{
+						break;
+					}
+				}
+				//добавление задачи идти домой
+				task = { this->house.getPosition(), 0 };
+				tasksQueue.addTask(task);
+				staminaСounter -= distanceFromWorkPlaceToHouse;
 			}
-			//добавление задачи идти домой
-			task = { this->house.getPosition(), 0 };
-			tasksQueue.addTask(task);
-			staminaСounter -= distanceFromWorkPlaceToHouse;
 		}
-		else if (taskType == taskType::getStone)
+		else if (taskType == taskType::getStone) //раьотает (проверено)
 		{
-			short int numberOfExtrractedRock = 0; //номер добываемой скалыы
-			while (this->rocksInArea[numberOfExtrractedRock].getTempResources() != 0)
+			while (staminaСounter > 0)
 			{
-				this->rocksInArea.erase(this->rocksInArea.begin());
-			}
-			distanceToWorkPlace = distance(this->house.getPosition(), this->rocksInArea[numberOfExtrractedRock].getPosition());
-			distanceFromWorkPlaceToHouse = distanceToWorkPlace;
-			workTime = (short int)std::fmin(staminaСounter - distanceToWorkPlace - distanceFromWorkPlaceToHouse, std::fmin(quantityOfFreeSlots, this->rocksInArea[numberOfExtrractedRock].getTempResources()));
-			taskExpenses = distanceToWorkPlace + distanceFromWorkPlaceToHouse + workTime;
-			while (quantityOfFreeSlots > 0)
-			{
-				if (staminaСounter >= taskExpenses)
+				short int numberOfExtrractedRock = 0; //номер добываемой скалыы
+				quantityOfFreeSlots = gameSettings::builderSetting.inventorySize - ((builderClass*)this->humans[humanNumber])->getResourcesCount();
+				while (this->rocksInArea[numberOfExtrractedRock].getTempResources() == 0)
 				{
-					//добавление задачи бежать к ближайшей скале и добывать её
-					task = { this->rocksInArea[numberOfExtrractedRock].getPosition(), workTime };
-					tasksQueue.addTask(task);
-					this->stoneInArea += workTime;
-					quantityOfFreeSlots -= workTime;
-					staminaСounter -= distanceToWorkPlace;
-					this->rocksInArea[numberOfExtrractedRock].setTempResources(this->rocksInArea[numberOfExtrractedRock].getTempResources() - workTime);
-					if (this->rocksInArea[numberOfExtrractedRock].getTempResources() == 0)
+					if (this->rocksInArea.size() == 0)
 					{
-						this->rocksInArea.erase(this->rocksInArea.begin() + numberOfExtrractedRock);
+						return;
 					}
-					staminaСounter -= workTime;
-					if (quantityOfFreeSlots > 0)
+					else
 					{
-						short int numberOfNearestRock = searchNearestObject(this->rocksInArea, numberOfExtrractedRock); // номер камня, ближайшего к добытому камню
-						while (this->rocksInArea[numberOfNearestRock].getTempResources() != 0)
-						{
-							this->rocksInArea.erase(this->rocksInArea.begin() + numberOfNearestRock);
-							numberOfNearestRock = searchNearestObject(this->rocksInArea, numberOfExtrractedRock);
-						}
-						distanceToWorkPlace = distance(this->rocksInArea[numberOfExtrractedRock].getPosition(), this->rocksInArea[numberOfNearestRock].getPosition());
-						numberOfExtrractedRock = numberOfNearestRock;
-						distanceFromWorkPlaceToHouse = distance(this->house.getPosition(), this->rocksInArea[numberOfNearestRock].getPosition());
-						workTime = (short int)std::fmin(staminaСounter - distanceToWorkPlace - distanceFromWorkPlaceToHouse, std::fmin(quantityOfFreeSlots, this->rocksInArea[numberOfNearestRock].getTempResources()));
-						taskExpenses = distanceToWorkPlace + distanceFromWorkPlaceToHouse + workTime;
+						this->rocksInArea.erase(this->rocksInArea.begin());
 					}
 				}
-				else
+				distanceToWorkPlace = distance(this->house.getPosition(), this->rocksInArea[numberOfExtrractedRock].getPosition());
+				distanceFromWorkPlaceToHouse = distanceToWorkPlace;
+				staminaWork = staminaСounter - distanceToWorkPlace - distanceFromWorkPlaceToHouse;
+				if (staminaWork < 0)
+				{
+					staminaWork = 0;
+				}
+				workTime = (short int)std::fmin(staminaWork, std::fmin(quantityOfFreeSlots, this->rocksInArea[numberOfExtrractedRock].getTempResources()));
+				taskExpenses = distanceToWorkPlace + distanceFromWorkPlaceToHouse + workTime;
+				if (staminaСounter < taskExpenses)
 				{
 					break;
 				}
+				while (quantityOfFreeSlots > 0)
+				{
+					if (staminaСounter >= taskExpenses)
+					{
+						//добавление задачи бежать к ближайшей скале и добывать её
+						task = { this->rocksInArea[numberOfExtrractedRock].getPosition(), workTime };
+						tasksQueue.addTask(task);
+						this->stoneInArea += workTime;
+						std::cout << "stone+" << workTime << std::endl;
+						quantityOfFreeSlots -= workTime;
+						staminaСounter -= distanceToWorkPlace;
+						this->rocksInArea[numberOfExtrractedRock].setTempResources(this->rocksInArea[numberOfExtrractedRock].getTempResources() - workTime);
+						staminaСounter -= workTime;
+
+						if (quantityOfFreeSlots > 0)
+						{
+							short int numberOfNearestRock = searchNearestObject(this->rocksInArea, numberOfExtrractedRock); // номер камня, ближайшего к добытому камню
+							if (numberOfNearestRock == -1)
+							{
+								break;
+							}
+							distanceToWorkPlace = distance(this->rocksInArea[numberOfExtrractedRock].getPosition(), this->rocksInArea[numberOfNearestRock].getPosition());
+							numberOfExtrractedRock = numberOfNearestRock;
+							distanceFromWorkPlaceToHouse = distance(this->house.getPosition(), this->rocksInArea[numberOfNearestRock].getPosition());
+							staminaWork = staminaСounter - distanceToWorkPlace - distanceFromWorkPlaceToHouse;
+							if (staminaWork < 0)
+							{
+								staminaWork = 0;
+							}
+							workTime = (short int)std::fmin(staminaWork, std::fmin(quantityOfFreeSlots, this->rocksInArea[numberOfNearestRock].getTempResources()));
+							taskExpenses = distanceToWorkPlace + distanceFromWorkPlaceToHouse + workTime;
+						}
+					}
+					else
+					{
+						break;
+					}
+				}
+				//добавление задачи идти домой
+				task = { this->house.getPosition(), 0 };
+				tasksQueue.addTask(task);
+				staminaСounter -= distanceFromWorkPlaceToHouse;
 			}
-			//добавление задачи идти домой
-			task = { this->house.getPosition(), 0 };
-			tasksQueue.addTask(task);
-			staminaСounter -= distanceFromWorkPlaceToHouse;
 		}
 		else if (taskType == taskType::buildingFarm)
 		{
@@ -422,129 +471,193 @@ public:
 				}
 			}
 		}
-		else if (taskType == taskType::getSomething)
+		else if (taskType == taskType::getSomething) //работает (проверено)
 		{
-			short int numberOfExtrractedObject = 0; //номер добываемой скалыы
-			while (this->treesInArea[0].getTempResources() != 0)
+			bool rockFlag = false;
+			bool treeFlag = false;
+			while (staminaСounter > 0)
 			{
-				this->treesInArea.erase(this->treesInArea.begin());
-			}
-			while (this->rocksInArea[0].getTempResources() != 0)
-			{
-				this->rocksInArea.erase(this->rocksInArea.begin());
-			}
-			short int material;
-			if (distance(this->house.getPosition(), this->rocksInArea[numberOfExtrractedObject].getPosition()) < distance(this->house.getPosition(), this->treesInArea[numberOfExtrractedObject].getPosition()))
-			{
-				distanceToWorkPlace = distance(this->house.getPosition(), this->rocksInArea[numberOfExtrractedObject].getPosition());
-				distanceFromWorkPlaceToHouse = distanceToWorkPlace;
-				workTime = (short int)std::fmin(staminaСounter - distanceToWorkPlace - distanceFromWorkPlaceToHouse, std::fmin(quantityOfFreeSlots, this->rocksInArea[0].getTempResources()));
-				taskExpenses = distanceToWorkPlace + distanceFromWorkPlaceToHouse + workTime;
-				material = material::stone;
-			}
-			else
-			{
-				distanceToWorkPlace = distance(this->house.getPosition(), this->treesInArea[numberOfExtrractedObject].getPosition());
-				distanceFromWorkPlaceToHouse = distanceToWorkPlace;
-				workTime = (short int)std::fmin(staminaСounter - distanceToWorkPlace - distanceFromWorkPlaceToHouse, std::fmin(quantityOfFreeSlots, this->treesInArea[0].getTempResources()));
-				taskExpenses = distanceToWorkPlace + distanceFromWorkPlaceToHouse + workTime;
-				material = material::wood;
-			}
-			while (quantityOfFreeSlots > 0)
-			{
-				if (staminaСounter >= taskExpenses)
+				short int numberOfExtrractedObject = 0; //номер добываемой скалыы
+				quantityOfFreeSlots = gameSettings::builderSetting.inventorySize - ((builderClass*)this->humans[humanNumber])->getResourcesCount();
+				if (this->treesInArea.size() > 0)
 				{
-					//добавление задачи бежать к ближайшей скале и добывать её
-					if (material == material::stone)
+					while (this->treesInArea[0].getTempResources() == 0)
 					{
-						task = { this->rocksInArea[numberOfExtrractedObject].getPosition(), workTime };
-						this->stoneInArea += workTime;
-						this->rocksInArea[numberOfExtrractedObject].setTempResources(this->rocksInArea[numberOfExtrractedObject].getTempResources() - workTime);
-						if (this->rocksInArea[numberOfExtrractedObject].getTempResources() == 0)
+						this->treesInArea.erase(this->treesInArea.begin());
+						if (this->treesInArea.size() == 0)
 						{
-							this->rocksInArea.erase(this->rocksInArea.begin() + numberOfExtrractedObject);
+							treeFlag = true;
+							break;
+						}
+					}
+				}
+				if (this->rocksInArea.size() > 0)
+				{
+					while (this->rocksInArea[0].getTempResources() == 0)
+					{
+						this->rocksInArea.erase(this->rocksInArea.begin());
+						if (this->rocksInArea.size() == 0)
+						{
+							rockFlag = true;
+							break;
+						}
+					}
+				}
+				if (rockFlag == true || treeFlag == true)
+				{
+					return;
+				}
+				short int material;
+				if (distance(this->house.getPosition(), this->rocksInArea[numberOfExtrractedObject].getPosition()) < distance(this->house.getPosition(), this->treesInArea[numberOfExtrractedObject].getPosition()))
+				{
+					distanceToWorkPlace = distance(this->house.getPosition(), this->rocksInArea[numberOfExtrractedObject].getPosition());
+					distanceFromWorkPlaceToHouse = distanceToWorkPlace;
+					staminaWork = staminaСounter - distanceToWorkPlace - distanceFromWorkPlaceToHouse;
+					if (staminaWork < 0)
+					{
+						staminaWork = 0;
+					}
+					workTime = (short int)std::fmin(staminaWork, std::fmin(quantityOfFreeSlots, this->rocksInArea[0].getTempResources()));
+					taskExpenses = distanceToWorkPlace + distanceFromWorkPlaceToHouse + workTime;
+					material = material::stone;
+				}
+				else
+				{
+					distanceToWorkPlace = distance(this->house.getPosition(), this->treesInArea[numberOfExtrractedObject].getPosition());
+					distanceFromWorkPlaceToHouse = distanceToWorkPlace;
+					staminaWork = staminaСounter - distanceToWorkPlace - distanceFromWorkPlaceToHouse;
+					if (staminaWork < 0)
+					{
+						staminaWork = 0;
+					}
+					workTime = (short int)std::fmin(staminaWork, std::fmin(quantityOfFreeSlots, this->treesInArea[0].getTempResources()));
+					taskExpenses = distanceToWorkPlace + distanceFromWorkPlaceToHouse + workTime;
+					material = material::wood;
+				}
+				if (staminaСounter < taskExpenses)
+				{
+					break;
+				}
+				while (quantityOfFreeSlots > 0)
+				{
+					if (staminaСounter >= taskExpenses)
+					{
+						//добавление задачи бежать к ближайшей скале и добывать её
+						if (material == material::stone)
+						{
+							task = { this->rocksInArea[numberOfExtrractedObject].getPosition(), workTime };
+							this->stoneInArea += workTime;
+							std::cout << "stone+" << workTime << std::endl;
+							this->rocksInArea[numberOfExtrractedObject].setTempResources(this->rocksInArea[numberOfExtrractedObject].getTempResources() - workTime);
+						}
+						else
+						{
+							task = { this->treesInArea[numberOfExtrractedObject].getPosition(), workTime };
+							this->woodInArea += workTime;
+							std::cout << "wood+" << workTime << std::endl;
+							this->treesInArea[numberOfExtrractedObject].setTempResources(this->treesInArea[numberOfExtrractedObject].getTempResources() - workTime);
+						}
+						tasksQueue.addTask(task);
+						quantityOfFreeSlots -= workTime;
+						staminaСounter -= (distanceToWorkPlace + workTime);
+						if (quantityOfFreeSlots > 0)
+						{
+							short int numberOfNearestRock = searchNearestObject(this->rocksInArea, numberOfExtrractedObject); // номер камня, ближайшего к добытому объекту
+							short int numberOfNearestTree = searchNearestObject(this->treesInArea, numberOfExtrractedObject); // номер дерева, ближайшего к добытому объекту
+							short int distanceToRockPlace = 0;
+							short int distanceToTreePlace = 0;
+							if (numberOfNearestRock == -1 && numberOfNearestTree == -1)
+							{
+								break;
+							}
+							else if (numberOfNearestTree == -1)
+							{
+								distanceToTreePlace = gameSettings::humanSetting.stamina + 1;
+							}
+							else if (numberOfNearestRock == -1)
+							{
+								distanceToRockPlace = gameSettings::humanSetting.stamina + 1;
+							}
+							else
+							{
+								if (material == material::stone)
+								{
+									distanceToRockPlace = distance(this->rocksInArea[numberOfExtrractedObject].getPosition(), this->rocksInArea[numberOfNearestRock].getPosition());
+									distanceToTreePlace = distance(this->rocksInArea[numberOfExtrractedObject].getPosition(), this->treesInArea[numberOfNearestTree].getPosition());
+								}
+								else
+								{
+									distanceToRockPlace = distance(this->treesInArea[numberOfExtrractedObject].getPosition(), this->rocksInArea[numberOfNearestRock].getPosition());
+									distanceToTreePlace = distance(this->treesInArea[numberOfExtrractedObject].getPosition(), this->treesInArea[numberOfNearestTree].getPosition());
+								}
+							}
+							if (material == material::stone)
+							{
+								if (distanceToRockPlace < distanceToTreePlace)
+								{
+									distanceToWorkPlace = distance(this->rocksInArea[numberOfExtrractedObject].getPosition(), this->rocksInArea[numberOfNearestRock].getPosition());
+									material = material::stone;
+								}
+								else
+								{
+									distanceToWorkPlace = distance(this->rocksInArea[numberOfExtrractedObject].getPosition(), this->treesInArea[numberOfNearestTree].getPosition());
+									material = material::wood;
+								}
+							}
+							else
+							{
+								if (distanceToRockPlace < distanceToTreePlace)
+								{
+									distanceToWorkPlace = distance(this->treesInArea[numberOfExtrractedObject].getPosition(), this->rocksInArea[numberOfNearestRock].getPosition());
+									material = material::stone;
+								}
+								else
+								{
+									distanceToWorkPlace = distance(this->treesInArea[numberOfExtrractedObject].getPosition(), this->treesInArea[numberOfNearestTree].getPosition());
+									material = material::wood;
+								}
+							}
+							if (material == material::stone)
+							{
+								numberOfExtrractedObject = numberOfNearestRock;
+								std::cout << "numberOfNearestRock: " << numberOfNearestRock << std::endl;
+								distanceFromWorkPlaceToHouse = distance(this->house.getPosition(), this->rocksInArea[numberOfNearestRock].getPosition());
+								staminaWork = staminaСounter - distanceToWorkPlace - distanceFromWorkPlaceToHouse;
+								if (staminaWork < 0)
+								{
+									staminaWork = 0;
+								}
+								workTime = (short int)std::fmin(staminaWork, std::fmin(quantityOfFreeSlots, this->rocksInArea[numberOfNearestRock].getTempResources()));
+								taskExpenses = distanceToWorkPlace + distanceFromWorkPlaceToHouse + workTime;
+							}
+							else
+							{
+								numberOfExtrractedObject = numberOfNearestTree;
+								std::cout << "numberOfNearestTree: " << numberOfNearestTree << std::endl;
+								distanceFromWorkPlaceToHouse = distance(this->house.getPosition(), this->treesInArea[numberOfNearestTree].getPosition());
+								staminaWork = staminaСounter - distanceToWorkPlace - distanceFromWorkPlaceToHouse;
+								if (staminaWork < 0)
+								{
+									staminaWork = 0;
+								}
+								workTime = (short int)std::fmin(staminaWork, std::fmin(quantityOfFreeSlots, this->treesInArea[numberOfNearestTree].getTempResources()));
+								taskExpenses = distanceToWorkPlace + distanceFromWorkPlaceToHouse + workTime;
+							}
 						}
 					}
 					else
 					{
-						task = { this->treesInArea[numberOfExtrractedObject].getPosition(), workTime };
-						this->woodInArea += workTime;
-						this->treesInArea[numberOfExtrractedObject].setTempResources(this->treesInArea[numberOfExtrractedObject].getTempResources() - workTime);
-						if (this->treesInArea[numberOfExtrractedObject].getTempResources() == 0)
-						{
-							this->treesInArea.erase(this->treesInArea.begin() + numberOfExtrractedObject);
-						}
-					}
-					tasksQueue.addTask(task);
-					quantityOfFreeSlots -= workTime;
-					staminaСounter -= (distanceToWorkPlace + workTime);
-					if (quantityOfFreeSlots > 0)
-					{
-						short int numberOfNearestRock = searchNearestObject(this->rocksInArea, numberOfExtrractedObject); // номер камня, ближайшего к добытому объекту
-						while (this->rocksInArea[numberOfNearestRock].getTempResources() != 0)
-						{
-							this->rocksInArea.erase(this->rocksInArea.begin() + numberOfNearestRock);
-							numberOfNearestRock = searchNearestObject(this->rocksInArea, numberOfExtrractedObject);
-						}
-						short int numberOfNearestTree = searchNearestObject(this->treesInArea, numberOfExtrractedObject); // номер дерева, ближайшего к добытому объекту
-						while (this->treesInArea[numberOfNearestTree].getTempResources() != 0)
-						{
-							this->treesInArea.erase(this->treesInArea.begin() + numberOfNearestTree);
-							numberOfNearestTree = searchNearestObject(this->treesInArea, numberOfExtrractedObject);
-						}
-						if (material == material::stone)
-						{
-							if (distance(this->rocksInArea[numberOfExtrractedObject].getPosition(), this->rocksInArea[numberOfNearestRock].getPosition()) < distance(this->rocksInArea[numberOfExtrractedObject].getPosition(), this->treesInArea[numberOfNearestTree].getPosition()))
-							{
-								distanceToWorkPlace = distance(this->rocksInArea[numberOfExtrractedObject].getPosition(), this->rocksInArea[numberOfNearestRock].getPosition());
-								material = material::stone;
-							}
-							else
-							{
-								distanceToWorkPlace = distance(this->rocksInArea[numberOfExtrractedObject].getPosition(), this->treesInArea[numberOfNearestTree].getPosition());
-								material = material::wood;
-							}
-						}
-						else
-						{
-							if (distance(this->treesInArea[numberOfExtrractedObject].getPosition(), this->rocksInArea[numberOfNearestRock].getPosition()) < distance(this->treesInArea[numberOfExtrractedObject].getPosition(), this->treesInArea[numberOfNearestTree].getPosition()))
-							{
-								distanceToWorkPlace = distance(this->treesInArea[numberOfExtrractedObject].getPosition(), this->rocksInArea[numberOfNearestRock].getPosition());
-								material = material::stone;
-							}
-							else
-							{
-								distanceToWorkPlace = distance(this->treesInArea[numberOfExtrractedObject].getPosition(), this->treesInArea[numberOfNearestTree].getPosition());
-								material = material::wood;
-							}
-						}
-						if (material == material::stone)
-						{
-							numberOfExtrractedObject = numberOfNearestRock;
-							distanceFromWorkPlaceToHouse = distance(this->house.getPosition(), this->rocksInArea[numberOfNearestRock].getPosition());
-							workTime = (short int)std::fmin(staminaСounter - distanceToWorkPlace - distanceFromWorkPlaceToHouse, std::fmin(quantityOfFreeSlots, this->rocksInArea[numberOfNearestRock].getTempResources()));
-							taskExpenses = distanceToWorkPlace + distanceFromWorkPlaceToHouse + workTime;
-						}
-						else
-						{
-							numberOfExtrractedObject = numberOfNearestTree;
-							distanceFromWorkPlaceToHouse = distance(this->house.getPosition(), this->treesInArea[numberOfNearestTree].getPosition());
-							workTime = (short int)std::fmin(staminaСounter - distanceToWorkPlace - distanceFromWorkPlaceToHouse, std::fmin(quantityOfFreeSlots, this->treesInArea[numberOfNearestTree].getTempResources()));
-							taskExpenses = distanceToWorkPlace + distanceFromWorkPlaceToHouse + workTime;
-						}
+						break;
 					}
 				}
-				else
-				{
-					break;
-				}
+				//добавление задачи идти домой
+				task = { this->house.getPosition(), 0 };
+				tasksQueue.addTask(task);
+				staminaСounter -= distanceFromWorkPlaceToHouse;
 			}
-			//добавление задачи идти домой
-			task = { this->house.getPosition(), 0 };
-			tasksQueue.addTask(task);
-			staminaСounter -= distanceFromWorkPlaceToHouse;
 		}
 		this->humans[humanNumber]->setQueue(tasksQueue);
+		std::cout << "end create queue" << std::endl;
 	}
 };
 
