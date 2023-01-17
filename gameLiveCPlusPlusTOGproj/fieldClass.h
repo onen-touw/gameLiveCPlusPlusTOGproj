@@ -30,7 +30,7 @@ private:
 
 public:
 	fieldClass() {
-		this->loadImages(gameSettings::imagePathVector);
+		this->loadImages(gameSettings::gameImagesPathVector);
 		this->logOut();
 
 	}

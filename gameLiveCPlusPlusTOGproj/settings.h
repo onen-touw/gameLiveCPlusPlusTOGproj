@@ -187,29 +187,34 @@ struct houseAreasPoints
 
 struct headerSettings
 {
-	short numberHeight = 0;
-	short numberWidth = 0;
+	
 
-
-	enum menuImgs
+	enum headerImgs
 	{
 		bg,
 		numbers,
+		stone,
+		wood, 
+		food, 
+		people,
+
+
 		btnQiut,
 		btnRestart,
 		btnFAQ,
 		btnSpeedUp,
 		btnSpeedDown,
 
+
 		menuImgsTOTAL
 	};
 
 	enum counters
 	{
-		wood,
+		/*wood,
 		stone,
 		food,
-		people,
+		people,*/
 		///days
 	};
 };
@@ -228,7 +233,8 @@ namespace gameSettings {
 
 	extern SDL_Window* win;						///object win
 	extern SDL_Surface* surface;				///object surface
-	extern std::vector<imagePath>imagePathVector;
+	extern std::vector<imagePath>gameImagesPathVector;
+	extern std::vector<imagePath>headerImagesPathVector;
 
 	//extern std::vector<SDL_Surface*> imageVector;
 }

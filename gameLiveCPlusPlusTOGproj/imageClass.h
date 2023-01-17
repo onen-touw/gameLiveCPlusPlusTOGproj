@@ -47,8 +47,8 @@ public:
 		
 		for (int i = 0; i < this->imageVector.size(); i++)
 		{
-			std::cout << gameSettings::imagePathVector[i].path << "<< loading #" << i << "\n";
-			this->load(gameSettings::imagePathVector[i].path, gameSettings::imagePathVector[i].position);
+			std::cout << vPaths[i].path << "<< loading #" << i << "\n";
+			this->load(vPaths[i].path, vPaths[i].position);
 		}
 	}
 

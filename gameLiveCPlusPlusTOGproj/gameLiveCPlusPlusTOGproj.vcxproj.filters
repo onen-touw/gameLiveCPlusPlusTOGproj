@@ -208,5 +208,11 @@
     <Image Include="images\fieldImages\treeCellVisibleArea.png">
       <Filter>Файлы ресурсов\fieldImges</Filter>
     </Image>
+    <Image Include="images\headerImgs\bgTemp.png">
+      <Filter>Файлы ресурсов\headerImgs</Filter>
+    </Image>
+    <Image Include="images\headerImgs\numbers.png">
+      <Filter>Файлы ресурсов\headerImgs</Filter>
+    </Image>
   </ItemGroup>
 </Project>
