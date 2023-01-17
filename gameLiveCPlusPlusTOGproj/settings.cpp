@@ -36,6 +36,14 @@ namespace gameSettings {
 
 		{"./images/fieldImages/farmImg.png", imagesNames::farmImg },
 		{"./images/fieldImages/houseHomeAreaImg.png", imagesNames::houseImg},
+
+		{"./images/fieldImages/bushWithPerson.png", imagesNames::bushWithPerson},
+
+		{"./images/fieldImages/rockWithPersonHouse.png", imagesNames::rockWithPersonHouse},
+		{"./images/fieldImages/rockWithPersonArea.png", imagesNames::rockWithPersonArea},
+
+		{"./images/fieldImages/treeWithPersonHouse.png", imagesNames::treeWithPersonHouse,},
+		{"./images/fieldImages/treeWithPersonArea.png", imagesNames::treeWithPersonArea,},
 	};
 	std::vector<SDL_Surface*> imageVector;
 }

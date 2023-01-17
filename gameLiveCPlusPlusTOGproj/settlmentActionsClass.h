@@ -153,7 +153,8 @@ public:
 				if (this->houseAreas[i].getHumans()[j]->humanTransmit())
 				{
 					posAfter = this->houseAreas[i].getHumans()[j]->getPosition();
-					field.setPersonCoors(posAfter, "t");
+					field.removeObject(posBefor);
+					/*field.setPersonCoors(posAfter, "t");*/
 				}
 				else
 				{

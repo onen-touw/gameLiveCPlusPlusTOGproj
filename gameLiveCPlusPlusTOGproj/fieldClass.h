@@ -15,6 +15,11 @@
 /// transmitField - перемещение поля по заданному направлению
 /// blit - отрисовка изображения 1х1 ячеек (используется в blitField)
 /// blitField - отрисовка поля которое помещается в экран
+/// removeObject(position pos) удаление по позиции или очистка куста от ягод
+/// updateBushes(position pos) - восстановление ягод у куста 
+
+
+
 class fieldClass
 {
 private:
@@ -251,7 +256,24 @@ public:
 
 	}
 
-	
+	void removeObject(position pos) {
+		if (this->fieldV[pos.i][pos.j].objectType == gameSettings::fieldSetting.objectEnum::rock || 
+			this->fieldV[pos.i][pos.j].objectType == gameSettings::fieldSetting.objectEnum::tree)
+		{
+			this->fieldV[pos.i][pos.j].hasSmth = false;
+
+		}
+		else if(this->fieldV[pos.i][pos.j].objectType == gameSettings::fieldSetting.objectEnum::bushWithBerry)
+		{
+			this->fieldV[pos.i][pos.j].objectType = gameSettings::fieldSetting.objectEnum::bushWithoutBerry;
+		}
+	}
+
+	void updateBushes(position pos) {
+		if (this->fieldV[pos.i][pos.j].objectType == gameSettings::fieldSetting.objectEnum::bushWithoutBerry) {
+			this->fieldV[pos.i][pos.j].objectType = gameSettings::fieldSetting.objectEnum::bushWithBerry;
+		}
+	}
 
 	void blitChoseZone(int img, position pos) {
 		SDL_Rect mr = { fieldV[pos.i][pos.j].pixelPosition.i, fieldV[pos.i][pos.j].pixelPosition.j,
@@ -405,11 +427,12 @@ public:
 								{
 								case gameSettings::fieldSetting.objectEnum::rock:
 									///blit rock with persone
+									this->blit(imagesNames::rockWithPersonArea, i, j);
 
 									break;
 								case gameSettings::fieldSetting.objectEnum::tree:
 									///blit tree with persone
-									//this->blit(imagesNames::treeCellVisibleArea, i, j);
+									this->blit(imagesNames::treeWithPersonArea, i, j);
 
 									break;
 								default:
@@ -449,8 +472,8 @@ public:
 						}
 						else
 						{
-							this->blit(imagesNames::emptyCellVisibleArea, i, j);
 							///blit empty cell
+							this->blit(imagesNames::emptyCellVisibleArea, i, j);
 						}
 					}
 					break;
@@ -467,12 +490,17 @@ public:
 								{
 								case gameSettings::fieldSetting.objectEnum::bushWithBerry:
 									///blit bush with persone
+									this->blit(imagesNames::bushWithPerson, i, j);
+
 									break;;
 								case gameSettings::fieldSetting.objectEnum::rock:
 									///blit rock with persone
+									this->blit(imagesNames::rockWithPersonHouse, i, j);
+
 									break;
 								case gameSettings::fieldSetting.objectEnum::tree:
 									///blit tree with persone
+									this->blit(imagesNames::treeWithPersonHouse, i, j);
 									break;
 								default:
 									break;
@@ -491,6 +519,8 @@ public:
 									break;
 								case gameSettings::fieldSetting.objectEnum::bushWithoutBerry:
 									///blit bush without berry
+									this->blit(imagesNames::bushWithoutBerryCellHouseArea, i, j);
+
 									break;
 								case gameSettings::fieldSetting.objectEnum::rock:
 									///blit rock
