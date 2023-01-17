@@ -125,10 +125,10 @@ struct settlmentSettings
 {
 	short int secondsInOneLoop = 5;
 	short int loopsInOneDay = 90;
-	short int foodForBirth = 100;
-	short int stoneForBildingHouse = 100;
-	short int woodForBildingHouse = 100;
-	short int woodForBildingFarm = 50;
+	short int foodForBirth = 40;
+	short int stoneForBildingHouse = 30;
+	short int woodForBildingHouse = 30;
+	short int woodForBildingFarm = 15;
 };
 
 struct winObjSizes
