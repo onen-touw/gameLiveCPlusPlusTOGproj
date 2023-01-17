@@ -186,41 +186,45 @@ public:
 			distanceFromWorkPlaceToHouse = distance(currentPosition, this->farms[i].getPosition());
 		}
 		short int numberOfExtrractedBush = 0;
-		while (this->bushesInArea[numberOfExtrractedBush].getTempResources() == 0)
+		if (bushesInArea.size() != 0)
 		{
-			numberOfExtrractedBush++;
-		}
-		distanceToWorkPlace = distance(currentPosition, this->bushesInArea[numberOfExtrractedBush].getPosition());
-		workTime = 4;
-		distanceFromWorkPlaceToHouse = distance(this->bushesInArea[numberOfExtrractedBush].getPosition(), this->house.getPosition());
-		taskExpenses = distanceToWorkPlace + distanceFromWorkPlaceToHouse + workTime;
-		while (staminaÑounter >= taskExpenses)
-		{
-			task = { this->bushesInArea[numberOfExtrractedBush].getPosition(), workTime };
-			tasksQueue.addTask(task);
-			std::cout << "farmer " << task.position.i << " " << task.position.j << std::endl;
-			this->foodInArea += gameSettings::objectSetting.bushResources;
-			staminaÑounter -= (distanceToWorkPlace+workTime);
-			this->bushesInArea[numberOfExtrractedBush].setTempResources(0);
-			currentPosition = this->bushesInArea[numberOfExtrractedBush].getPosition();
-			short int numberOfNearestBush = searchNearestObject(this->bushesInArea, numberOfExtrractedBush);
-			if (numberOfNearestBush == -1)
+			while (this->bushesInArea[numberOfExtrractedBush].getTempResources() == 0)
 			{
-				break;
+				numberOfExtrractedBush++;
 			}
-			numberOfExtrractedBush = numberOfNearestBush;
-			std::cout << "farmer hui" << std::endl;
 			distanceToWorkPlace = distance(currentPosition, this->bushesInArea[numberOfExtrractedBush].getPosition());
-			std::cout << "farmer hui2" << std::endl;
 			workTime = 4;
 			distanceFromWorkPlaceToHouse = distance(this->bushesInArea[numberOfExtrractedBush].getPosition(), this->house.getPosition());
 			taskExpenses = distanceToWorkPlace + distanceFromWorkPlaceToHouse + workTime;
+			while (staminaÑounter >= taskExpenses)
+			{
+				task = { this->bushesInArea[numberOfExtrractedBush].getPosition(), workTime };
+				tasksQueue.addTask(task);
+				std::cout << "farmer " << task.position.i << " " << task.position.j << std::endl;
+				this->foodInArea += gameSettings::objectSetting.bushResources;
+				staminaÑounter -= (distanceToWorkPlace + workTime);
+				this->bushesInArea[numberOfExtrractedBush].setTempResources(0);
+				currentPosition = this->bushesInArea[numberOfExtrractedBush].getPosition();
+				short int numberOfNearestBush = searchNearestObject(this->bushesInArea, numberOfExtrractedBush);
+				if (numberOfNearestBush == -1)
+				{
+					break;
+				}
+				numberOfExtrractedBush = numberOfNearestBush;
+				std::cout << "farmer hui" << std::endl;
+				distanceToWorkPlace = distance(currentPosition, this->bushesInArea[numberOfExtrractedBush].getPosition());
+				std::cout << "farmer hui2" << std::endl;
+				workTime = 4;
+				distanceFromWorkPlaceToHouse = distance(this->bushesInArea[numberOfExtrractedBush].getPosition(), this->house.getPosition());
+				taskExpenses = distanceToWorkPlace + distanceFromWorkPlaceToHouse + workTime;
+			}
+			task = { this->house.getPosition(), 0 };
+			tasksQueue.addTask(task);
+			staminaÑounter -= distanceFromWorkPlaceToHouse;
+			this->farmerTasksQueue = tasksQueue;
+
+			this->humans[humanNumber]->setQueue(tasksQueue);
 		}
-		task = { this->house.getPosition(), 0 };
-		tasksQueue.addTask(task);
-		staminaÑounter -= distanceFromWorkPlaceToHouse;
-		this->farmerTasksQueue = tasksQueue;
-		this->humans[humanNumber]->setQueue(tasksQueue);
 	}
 
 	void createBuilderQueue(short int taskType, short int humanNumber)
