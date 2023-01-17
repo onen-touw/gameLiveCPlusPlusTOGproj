@@ -9,6 +9,7 @@ public:
     treeClass(position pos):objectClass(pos)
     {
         resources = gameSettings::objectSetting.treeResources;
+        tempResources = gameSettings::objectSetting.treeResources;
     }
     void blit() { }
 };

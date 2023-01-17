@@ -1,27 +1,23 @@
 #pragma once
 
-#include <vector>
+#include"settings.h"
 
-
-/// std::vector<t>& V
-/// int low - 0
-/// int high V.size() -1
-/// 
-/// + V[].fun()
 template < class t>
-void quickSort(std::vector<t>& V, int low, int high)
+void quickSort(std::vector<t>& V, int low, int high, position pos)
 {
     int i = low;
     int j = high;
-    int pivot = V[(i + j) / 2];
-    int temp;
+    t pivot = V[(i + j) / 2];
+    t temp = V[0];
 
     while (i <= j)
     {
-        while (V[i] < pivot)
+        while ((abs(V[i].getPosition().i - pos.i) + abs(V[i].getPosition().j - pos.j)) < (abs(pivot.getPosition().i - pos.i) + abs(pivot.getPosition().j - pos.j))) {
             i++;
-        while (V[j] > pivot)
+        }
+        while ((abs(V[j].getPosition().i - pos.i) + abs(V[j].getPosition().j - pos.j)) > (abs(pivot.getPosition().i - pos.i) + abs(pivot.getPosition().j - pos.j))) {
             j--;
+        }
         if (i <= j)
         {
             temp = V[i];
@@ -32,7 +28,7 @@ void quickSort(std::vector<t>& V, int low, int high)
         }
     }
     if (j > low)
-        quickSort(V, low, j);
+        quickSort(V, low, j, pos);
     if (i < high)
-        quickSort(V, i, high);
+        quickSort(V, i, high, pos);
 }

@@ -41,6 +41,11 @@ public:
 		}
 	}
 
+	std::vector<std::vector<cell>> getFieldV()
+	{
+		return this->fieldV;
+	}
+
 	houseAreasPoints getAreasPointsPosition(position pos) {
 		 houseAreasPoints hap;
 		if (pos.i - 20 >= 0)
@@ -210,14 +215,14 @@ public:
 
 	///r - remove from this point
 	///t - add to new position
-	void setPersonCoors(int i, int j, std::string type) {
+	void setPersonCoors(position pos, std::string type) {
 		if (type == "r")
 		{
-			fieldV[i][j].hasHuman = false;
+			fieldV[pos.i][pos.j].hasHuman = false;
 		}
 		else if (type == "t")
 		{
-			fieldV[i][j].hasHuman = true;
+			fieldV[pos.i][pos.j].hasHuman = true;
 		} 
 
 	}

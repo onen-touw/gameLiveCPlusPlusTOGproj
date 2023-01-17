@@ -8,6 +8,9 @@ private:
 	std::vector<task> arrayQueue;
 	int size = 0;
 public:
+	~queueClass()
+	{
+	}
 	int getSize()
 	{
 		return this->size;
@@ -21,12 +24,10 @@ public:
 	{
 		return this->size != 0;
 	}
-	task getTask()
+	void getTask()
 	{
-		task a = this->arrayQueue[0];
-		this->arrayQueue.erase(this->arrayQueue.begin(), this->arrayQueue.begin() + 1);
+		this->arrayQueue.erase(this->arrayQueue.begin());
 		this->size--;
-		return a;
 	}
 	task getFirst()
 	{

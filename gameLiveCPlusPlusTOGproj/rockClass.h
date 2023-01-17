@@ -7,6 +7,7 @@ public:
     rockClass(position pos) :objectClass(pos)
     {
         resources = gameSettings::objectSetting.rockResources;
+        tempResources = gameSettings::objectSetting.rockResources;
     }
     void blit() {}
 };

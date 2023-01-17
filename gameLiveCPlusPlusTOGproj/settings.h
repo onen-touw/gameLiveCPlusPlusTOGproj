@@ -118,12 +118,12 @@ struct builderSettings
 
 struct settlmentSettings
 {
-	short int secondsInOneLoop = 60;
+	short int secondsInOneLoop = 5;
 	short int loopsInOneDay = 90;
-	short int foodForBirth = 300;
-	short int stoneForBildingHouse = 10;
-	short int woodForBildingHouse = 10;
-	short int woodForBildingFarm = 10;
+	short int foodForBirth = 100;
+	short int stoneForBildingHouse = 100;
+	short int woodForBildingHouse = 100;
+	short int woodForBildingFarm = 50;
 };
 
 struct winObjSizes
@@ -148,9 +148,9 @@ struct fieldSettings
 	///tempSizes for tests (100x100); normalSizes (500,500);
 	sizes size = { 100, 100 };			///cells x cells
 	sizes minCountCellInWin = { 0, 0 };	/// minimalCounts cells which we can see in gameWindow
-	short int densityOfTree = size.height * size.width / 10;
-	short int densityOfRock = size.height * size.width / 10;
-	short int densityOfBush = size.height * size.width / 10;
+	short int densityOfTree = size.height * size.width / 30;
+	short int densityOfRock = size.height * size.width / 30;
+	short int densityOfBush = size.height * size.width / 100;
 
 	enum objectEnum
 	{

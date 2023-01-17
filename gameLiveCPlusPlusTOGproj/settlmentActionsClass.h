@@ -77,16 +77,18 @@ public:
 				}
 			}
 		}
+		std::cout << "food: " << food << std::endl;
+		std::cout << "wood: " << wood << std::endl;
+		std::cout << "stone: " << stone << std::endl;
 		// постановка задач для развития поселения на этот день
+
 		for (int i = 0; i < this->houseAreas.size(); i++)
 		{
-			std::vector<humanClass*> humans = this->houseAreas[i].getHumans();
-			std::vector<builderClass> builders;
-			farmerClass farmer = *((farmerClass*)humans[0]);
-			humans.erase(humans.begin());
-			for (int j = 0; j < humans.size(); j++)
+			this->houseAreas[i].setFarmerQueue();
+			if (houseAreas[i].getHumans().size() < 3 && this->food >= ((this->peopleCount + 1) * gameSettings::humanSetting.deilyRation) * 3 + gameSettings::settlmentSetting.foodForBirth)
 			{
-				builders.push_back(*((builderClass*)humans[i]));
+				houseAreas[i].spawnBuilder();
+				food -= gameSettings::settlmentSetting.foodForBirth;
 			}
 			for (int j = 1; j < this->houseAreas[i].getHumans().size(); j++)
 			{
@@ -145,8 +147,19 @@ public:
 		{
 			for (int j = 0; j < this->houseAreas[i].getHumans().size(); j++)
 			{
-				this->houseAreas[i].getHumans()[j]->humanTransmit();
-				position pos = this->houseAreas[i].getHumans()[j]->getPosition();
+				position posBefor = this->houseAreas[i].getHumans()[j]->getPosition();
+				position posAfter;
+				field.setPersonCoors(posBefor, "r");
+				if (this->houseAreas[i].getHumans()[j]->humanTransmit())
+				{
+					posAfter = this->houseAreas[i].getHumans()[j]->getPosition();
+					field.setPersonCoors(posAfter, "t");
+				}
+				else
+				{
+					posAfter = this->houseAreas[i].getHumans()[j]->getPosition();
+					field.setPersonCoors(posAfter, "t");
+				}
 			}
 		}
 	}
@@ -166,7 +179,7 @@ public:
 
 			while (this->game)
 			{
-				while (SDL_PollEvent(&event))
+				while (SDL_PollEvent(&event) || this->game)
 				{
 					if (event.type == SDL_QUIT)//отслеживание закрытия окна через кнопку "Крест"
 					{
@@ -204,6 +217,9 @@ public:
 						if (event.button.button == SDL_BUTTON_LEFT && event.type == SDL_MOUSEBUTTONUP && goodForHouse)
 						{
 							field.setHouse({ (short)cursor_X,(short)cursor_Y }, "px");
+							position pos = field.findCellByCoord({ (short)cursor_X,(short)cursor_Y });
+							houseAreaClass houseArea = houseAreaClass(pos, field.getFieldV(), field.getAreasPointsPosition(pos));
+							this->houseAreas.push_back(houseArea);
 							field.blitField();
 							SDL_UpdateWindowSurface(gameSettings::win);
 
@@ -221,18 +237,21 @@ public:
 							if (++gLoop == gameSettings::settlmentSetting.loopsInOneDay)
 							{
 								//обновления в начале дня
-
+								oneDayActions();
+								//std::cout << gLoop << std::endl;
 								gLoop = 0;
 							}
 							else
 							{
 								//игровой цикл каждого тика
-
+								oneTikActions();
+								//std::cout << gSecond << std::endl;
+								field.blitField();
+								SDL_UpdateWindowSurface(gameSettings::win);
 							}
 							gSecond = 0;
 						}
 					}
-
 
 
 					SDL_Delay(1000 / 60);

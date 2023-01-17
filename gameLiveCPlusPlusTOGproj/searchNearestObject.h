@@ -7,13 +7,16 @@ short int searchNearestObject(std::vector<Data> objectsInArea, short int objectN
 {
 	short int numberOfNearestObject = -1;
 	short int minimalDistance = gameSettings::humanSetting.stamina + 1;
-	for (int i = objectNumber+1; i < objectsInArea.size(); i++)
+	for (int i = 0; i < objectsInArea.size(); i++)
 	{
-		short int distance = abs((objectsInArea[objectNumber].getPosition()).i - (objectsInArea[i].getPosition()).i) + abs((objectsInArea[objectNumber].getPosition()).j - (objectsInArea[i].getPosition()).j);
-		if (distance < minimalDistance)
+		if (objectsInArea[i].getTempResources() != 0 && i != objectNumber)
 		{
-			minimalDistance = distance;
-			numberOfNearestObject = i;
+			short int distance = abs((objectsInArea[objectNumber].getPosition()).i - (objectsInArea[i].getPosition()).i) + abs((objectsInArea[objectNumber].getPosition()).j - (objectsInArea[i].getPosition()).j);
+			if (distance < minimalDistance)
+			{
+				minimalDistance = distance;
+				numberOfNearestObject = i;
+			}
 		}
 	}
 	return numberOfNearestObject;

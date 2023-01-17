@@ -7,6 +7,7 @@ public:
     bushClass(position pos) :objectClass(pos)
     {
         resources = gameSettings::objectSetting.bushResources;
+        tempResources = gameSettings::objectSetting.bushResources;
     }
     void blit() {}
 };
