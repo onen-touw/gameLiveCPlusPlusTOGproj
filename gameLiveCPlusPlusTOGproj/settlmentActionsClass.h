@@ -2,8 +2,8 @@
 
 #include"baseGameClass.h"
 #include "fieldClass.h"
-#include"imageClass.h"
 #include"houseAreaClass.h"
+#include"headerClass.h"
 
 class settlmentActionsClass
 {
@@ -11,6 +11,8 @@ private:
 	baseGameClass baseGame;
 	imageClass images;
 	fieldClass field;
+	headerClass header;
+
 	std::vector<houseAreaClass> houseAreas;
 
 
@@ -31,21 +33,15 @@ public:
 
 	settlmentActionsClass()
 	{
-		images.loadImages();
-		images.logOut();
-
 		field.createFieldV();
 		field.generationObjects();
 
-
 		std::cout << "ready\n";
-		///bliting
-		field.blitField();
-		SDL_UpdateWindowSurface(gameSettings::win);
 	}
 	~settlmentActionsClass()
 	{
-
+		gameSettings::gameImagesPathVector.clear();
+		gameSettings::headerImagesPathVector.clear();
 	}
 
 	void oneDayActions()
@@ -103,7 +99,7 @@ public:
 							this->food -= gameSettings::settlmentSetting.foodForBirth;
 							this->wood -= gameSettings::settlmentSetting.woodForBildingHouse;
 							this->stone -= gameSettings::settlmentSetting.stoneForBildingHouse;*/
-							//тестовая версия
+							///тестовая версия
 							std::cout << "we can build house" << std::endl;
 							this->houseAreas[i].createBuilderQueue(taskType::getSomething, j);
 						}
@@ -124,7 +120,7 @@ public:
 						//главная версия
 						/*this->houseAreas[i].createBuilderQueue(taskType::buildingFarm, j);
 						this->wood -= gameSettings::settlmentSetting.woodForBildingFarm;*/
-						//тестовая версия
+						///тестовая версия
 						std::cout << "we can build farm" << std::endl;
 						this->houseAreas[i].createBuilderQueue(taskType::getSomething, j);
 					}
@@ -171,11 +167,16 @@ public:
 		{
 			SDL_Event event;
 
+			///bliting
+			header.blitHeader();
 
-			///test setHouse by Coords + test setPerson BY coords
-			/*field.setHouse({ 15,15 }, "");
-			field.setPersonCoors(5, 5, "t");
-			field.setPersonCoors(7, 7, "t");*/
+			field.blitField();
+
+			SDL_UpdateWindowSurface(gameSettings::win);
+
+			///test setHouse by Coords
+			/*field.setHouse({ 15,15 }, "");*/
+		
 
 
 			while (this->game)
@@ -205,6 +206,7 @@ public:
 
 					if (!firstHouse)
 					{
+
 						if (event.type == SDL_MOUSEMOTION)
 						{
 							this->field.blitField();

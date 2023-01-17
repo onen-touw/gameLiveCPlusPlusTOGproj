@@ -9,10 +9,11 @@ namespace gameSettings {
 	houseSettings houseSetting;
 	objectSettings objectSetting;
 	settlmentSettings settlmentSetting;
+	headerSettings headerSetting;
 
 	SDL_Window* win = nullptr;
 	SDL_Surface* surface = nullptr;
-	std::vector<imagePath>imagePathVector = {
+	std::vector<imagePath>gameImagesPathVector = {
 		{"./images/fieldImages/emptyCell.png", imagesNames::emptyCell},
 		{"./images/fieldImages/emptyCellHouseArea.png", imagesNames::emptyCellHouseArea },
 		{"./images/fieldImages/emptyCellVisibleArea.png", imagesNames::emptyCellVisibleArea },
@@ -38,6 +39,7 @@ namespace gameSettings {
 		{"./images/fieldImages/houseHomeAreaImg.png", imagesNames::houseImg},
 
 		{"./images/fieldImages/bushWithPerson.png", imagesNames::bushWithPerson},
+		{"./images/fieldImages/bushWithoutBerryPerson.png", imagesNames::bushWithoutBerryPerson},
 
 		{"./images/fieldImages/rockWithPersonHouse.png", imagesNames::rockWithPersonHouse},
 		{"./images/fieldImages/rockWithPersonArea.png", imagesNames::rockWithPersonArea},
@@ -45,5 +47,16 @@ namespace gameSettings {
 		{"./images/fieldImages/treeWithPersonHouse.png", imagesNames::treeWithPersonHouse,},
 		{"./images/fieldImages/treeWithPersonArea.png", imagesNames::treeWithPersonArea,},
 	};
-	std::vector<SDL_Surface*> imageVector;
+
+	std::vector<imagePath>headerImagesPathVector = {
+		{"./images/headerImgs/bgTemp.png", headerSetting.headerImgs::bg},
+		{"./images/headerImgs/numbers.png", headerSetting.headerImgs::numbers},
+
+		{"./images/headerImgs/wood.png", headerSetting.headerImgs::wood},
+		{"./images/headerImgs/food.png", headerSetting.headerImgs::food},
+		{"./images/headerImgs/stone.png", headerSetting.headerImgs::stone},
+		{"./images/headerImgs/people.png", headerSetting.headerImgs::people},
+	};
+
+	//std::vector<SDL_Surface*> imageVector;
 }
