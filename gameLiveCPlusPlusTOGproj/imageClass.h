@@ -3,7 +3,9 @@
 class imageClass
 {
 private:
-	//std::vector<SDL_Surface*>images;
+
+
+
 
 	void createImageVector() {
 		gameSettings::imageVector.resize(gameSettings::imagePathVector.size());
@@ -37,6 +39,7 @@ public:
 	SDL_Surface* getImage(unsigned enumName) {
 		return gameSettings::imageVector[enumName];
 	}
+
 	void loadImages() {
 		this->createImageVector();
 		
@@ -56,8 +59,6 @@ public:
 			}
 		}
 	}
-
-	
 
 };
 

@@ -37,6 +37,9 @@
     <Filter Include="Файлы ресурсов\fieldImges">
       <UniqueIdentifier>{bdee81b0-bbb4-444a-be0b-f0e8c621b23a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Файлы ресурсов\headerImgs">
+      <UniqueIdentifier>{a3c9d432-f12d-4aff-955c-c0a3c824a091}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -88,6 +91,9 @@
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="settlmentActionsClass.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="headerClass.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>
@@ -144,6 +150,9 @@
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="binarySort.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="headerClass.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>

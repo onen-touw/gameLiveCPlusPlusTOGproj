@@ -9,6 +9,7 @@ namespace gameSettings {
 	houseSettings houseSetting;
 	objectSettings objectSetting;
 	settlmentSettings settlmentSetting;
+	headerSettings headerSetting;
 
 	SDL_Window* win = nullptr;
 	SDL_Surface* surface = nullptr;
@@ -38,6 +39,7 @@ namespace gameSettings {
 		{"./images/fieldImages/houseHomeAreaImg.png", imagesNames::houseImg},
 
 		{"./images/fieldImages/bushWithPerson.png", imagesNames::bushWithPerson},
+		{"./images/fieldImages/bushWithoutBerryPerson.png", imagesNames::bushWithoutBerryPerson},
 
 		{"./images/fieldImages/rockWithPersonHouse.png", imagesNames::rockWithPersonHouse},
 		{"./images/fieldImages/rockWithPersonArea.png", imagesNames::rockWithPersonArea},

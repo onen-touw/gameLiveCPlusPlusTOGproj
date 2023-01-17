@@ -4,6 +4,7 @@
 #include "fieldClass.h"
 #include"imageClass.h"
 #include"houseAreaClass.h"
+#include"headerClass.h"
 
 class settlmentActionsClass
 {
@@ -11,6 +12,8 @@ private:
 	baseGameClass baseGame;
 	imageClass images;
 	fieldClass field;
+	headerClass header;
+
 	std::vector<houseAreaClass> houseAreas;
 
 
@@ -31,6 +34,7 @@ public:
 
 	settlmentActionsClass()
 	{
+		//header.blitHeader();
 		images.loadImages();
 		images.logOut();
 

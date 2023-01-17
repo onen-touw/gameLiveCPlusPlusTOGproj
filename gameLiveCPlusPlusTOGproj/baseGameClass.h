@@ -70,6 +70,6 @@ public:
 		return success;
 	}
 
-
+	//short getWinWidth() { return this->winSize.width; }
 };
 

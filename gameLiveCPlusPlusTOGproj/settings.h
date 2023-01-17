@@ -18,6 +18,7 @@ enum imagesNames
 	bushWithBerryCellVisibleArea,
 	bushWithPerson,
 
+	bushWithoutBerryPerson,
 	bushWithoutBerryCellHouseArea,
 
 	rockCell,
@@ -184,6 +185,36 @@ struct houseAreasPoints
 	position houseAreaEndPos = { 0,0 };
 };
 
+struct headerSettings
+{
+	short numberHeight = 0;
+	short numberWidth = 0;
+
+
+	enum menuImgs
+	{
+		bg,
+		numbers,
+		btnQiut,
+		btnRestart,
+		btnFAQ,
+		btnSpeedUp,
+		btnSpeedDown,
+
+		menuImgsTOTAL
+	};
+
+	enum counters
+	{
+		wood,
+		stone,
+		food,
+		people,
+		///days
+	};
+};
+
+
 namespace gameSettings {
 	extern humanSettings humanSetting;			///settings for human
 	extern farmSettings farmSetting;			///settings for farms - obj
@@ -193,6 +224,7 @@ namespace gameSettings {
 	extern fieldSettings fieldSetting;			///settings for field
 	extern objectSettings objectSetting;
 	extern settlmentSettings settlmentSetting;
+	extern headerSettings headerSetting;
 
 	extern SDL_Window* win;						///object win
 	extern SDL_Surface* surface;				///object surface

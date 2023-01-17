@@ -491,12 +491,13 @@ public:
 								case gameSettings::fieldSetting.objectEnum::bushWithBerry:
 									///blit bush with persone
 									this->blit(imagesNames::bushWithPerson, i, j);
-
-									break;;
+									break;
+								case  gameSettings::fieldSetting.objectEnum::bushWithoutBerry:
+									this->blit(imagesNames::bushWithoutBerryPerson, i, j);
+									break;
 								case gameSettings::fieldSetting.objectEnum::rock:
 									///blit rock with persone
 									this->blit(imagesNames::rockWithPersonHouse, i, j);
-
 									break;
 								case gameSettings::fieldSetting.objectEnum::tree:
 									///blit tree with persone
