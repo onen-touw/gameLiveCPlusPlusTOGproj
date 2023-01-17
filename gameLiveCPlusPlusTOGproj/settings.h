@@ -16,16 +16,21 @@ enum imagesNames
 	bushWithBerryCell,
 	bushWithBerryCellHouseArea,
 	bushWithBerryCellVisibleArea,
+	bushWithPerson,
 
 	bushWithoutBerryCellHouseArea,
 
 	rockCell,
 	rockCellHouseArea,
 	rockCellVisibleArea,
+	rockWithPersonHouse,
+	rockWithPersonArea,
 
 	treeCell,
 	treeCellHouseArea,
 	treeCellVisibleArea,
+	treeWithPersonHouse,
+	treeWithPersonArea,
 
 	personCellHouseArea,
 	personCellVisibleArea,
