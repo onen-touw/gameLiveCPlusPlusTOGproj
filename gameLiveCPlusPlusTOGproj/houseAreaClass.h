@@ -491,6 +491,10 @@ public:
 						}
 					}
 				}
+				else
+				{
+					treeFlag = true;
+				}
 				if (this->rocksInArea.size() > 0)
 				{
 					while (this->rocksInArea[0].getTempResources() == 0)
@@ -502,6 +506,10 @@ public:
 							break;
 						}
 					}
+				}
+				else
+				{
+					rockFlag = true;
 				}
 				if (rockFlag == true || treeFlag == true)
 				{
