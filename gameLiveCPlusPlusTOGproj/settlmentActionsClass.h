@@ -73,9 +73,7 @@ public:
 				}
 			}
 		}
-		std::cout << "food: " << food << std::endl;
-		std::cout << "wood: " << wood << std::endl;
-		std::cout << "stone: " << stone << std::endl;
+		//header.counter(wood, food, stone, peopleCount);
 		// ïîñòàíîâêà çàäà÷ äëÿ ðàçâèòèÿ ïîñåëåíèÿ íà ýòîò äåíü
 
 		for (int i = 0; i < this->houseAreas.size(); i++)
@@ -85,6 +83,7 @@ public:
 			{
 				houseAreas[i].spawnBuilder();
 				food -= gameSettings::settlmentSetting.foodForBirth;
+				peopleCount++;
 			}
 			for (int j = 1; j < this->houseAreas[i].getHumans().size(); j++)
 			{
@@ -137,6 +136,10 @@ public:
 				}
 			}
 		}
+		std::cout << "food: " << food << std::endl;
+		std::cout << "wood: " << wood << std::endl;
+		std::cout << "stone: " << stone << std::endl;
+		header.counter(wood, food, stone, peopleCount);
 	}
 
 	void oneTikActions()
@@ -158,7 +161,7 @@ public:
 					{
 						this->field.setHouse(posBefor, "");
 						bool houseAreaHouses[4] = { false, false, false, false };
-						if (posBefor.j - 20 >= 0)
+						if (posBefor.j - 20 >= 3)
 						{
 							if (field.getFieldV()[posBefor.i][posBefor.j - 20].objectType == gameSettings::fieldSetting.objectEnum::house)
 							{
@@ -169,7 +172,7 @@ public:
 						{
 							houseAreaHouses[0] = true;
 						}
-						if (posBefor.i - 20 >= 0)
+						if (posBefor.i - 20 >= 3)
 						{
 							if (field.getFieldV()[posBefor.i-20][posBefor.j].objectType == gameSettings::fieldSetting.objectEnum::house)
 							{
@@ -180,7 +183,7 @@ public:
 						{
 							houseAreaHouses[1] = true;
 						}
-						if (posBefor.j + 20 < 100)
+						if (posBefor.j + 20 < 98)
 						{
 							if (field.getFieldV()[posBefor.i][posBefor.j + 20].objectType == gameSettings::fieldSetting.objectEnum::house)
 							{
@@ -191,7 +194,7 @@ public:
 						{
 							houseAreaHouses[2] = true;
 						}
-						if (posBefor.i + 20 < 100)
+						if (posBefor.i + 20 < 98)
 						{
 							if (field.getFieldV()[posBefor.i+20][posBefor.j].objectType == gameSettings::fieldSetting.objectEnum::house)
 							{
@@ -203,6 +206,7 @@ public:
 							houseAreaHouses[3] = true;
 						}
 						houseAreas.push_back(houseAreaClass(posBefor, this->field.getFieldV(), this->field.getAreasPointsPosition(posBefor), houseAreaHouses[0], houseAreaHouses[1], houseAreaHouses[2], houseAreaHouses[3]));
+						peopleCount++;
 					}
 					else if (taskType == taskType::buildingFarm)
 					{
@@ -280,6 +284,8 @@ public:
 							field.setHouse({ (short)cursor_X,(short)cursor_Y }, "px");
 							position pos = field.findCellByCoord({ (short)cursor_X,(short)cursor_Y });
 							houseAreaClass houseArea = houseAreaClass(pos, field.getFieldV(), field.getAreasPointsPosition(pos), false, false, false, false);
+							peopleCount++;
+							header.counter(wood, food, stone, peopleCount);
 							this->houseAreas.push_back(houseArea);
 							field.blitField();
 							SDL_UpdateWindowSurface(gameSettings::win);

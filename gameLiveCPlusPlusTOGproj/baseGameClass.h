@@ -42,14 +42,12 @@ public:
 		{
 			std::cout << "problem::SDL_Init\n" << SDL_GetError << "\n";
 			success = false;
-			return success;
 		}
 
 		int flags = IMG_INIT_PNG;
 		if (!(IMG_Init(flags) & flags)) {
 			std::cout << "Can't init image: " << IMG_GetError() << std::endl;
 			success = false;
-			return success;
 		}
 
 		gameSettings::win = SDL_CreateWindow("GameLive", this->winPosition.i, this->winPosition.j,
@@ -58,14 +56,12 @@ public:
 		if (gameSettings::win == nullptr) {
 			std::cout << "Can't create window: " << SDL_GetError() << std::endl;
 			success = false;
-			return success;
 		}
 		gameSettings::surface = SDL_GetWindowSurface(gameSettings::win);
 		if (gameSettings::surface == nullptr)
 		{
 			std::cout << "problem::surface\n";
 			success = false;
-			return success;
 		}
 		return success;
 	}
