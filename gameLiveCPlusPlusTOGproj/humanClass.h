@@ -37,7 +37,7 @@ public:
 		return this->humanPosition;
 	}
 
-	bool humanTransmit()
+	short int humanTransmit()
 	{
 		if (tasksQueue.getSize() > 0)
 		{
@@ -72,7 +72,26 @@ public:
 				if (task.workTime == 0)
 				{
 					this->tasksQueue.getTask();
-					return true;
+					if (task.type == taskType::getWood)
+					{
+						return taskType::getWood;
+					}
+					else if (task.type == taskType::getStone)
+					{
+						return taskType::getStone;
+					}
+					else if (task.type == taskType::buildingFarm)
+					{
+						return taskType::buildingFarm;
+					}
+					else if (task.type == taskType::buildingHouse)
+					{
+						return taskType::buildingHouse;
+					}
+					else
+					{
+						return 0;
+					}
 				}
 				else
 				{
@@ -80,7 +99,7 @@ public:
 				}
 			}
 		}
-		return false;
+		return 0;
 	}
 };
 

@@ -99,13 +99,15 @@ public:
 						if (this->wood >= gameSettings::settlmentSetting.woodForBildingHouse)
 						{
 							//главная версия
-							/*this->houseAreas[i].createBuilderQueue(taskType::buildingHouse, j);
-							this->food -= gameSettings::settlmentSetting.foodForBirth;
-							this->wood -= gameSettings::settlmentSetting.woodForBildingHouse;
-							this->stone -= gameSettings::settlmentSetting.stoneForBildingHouse;*/
+							if (this->houseAreas[i].createBuilderQueue(taskType::buildingHouse, j))
+							{
+								this->food -= gameSettings::settlmentSetting.foodForBirth;
+								this->wood -= gameSettings::settlmentSetting.woodForBildingHouse;
+								this->stone -= gameSettings::settlmentSetting.stoneForBildingHouse;
+							}
 							//тестовая версия
-							std::cout << "we can build house" << std::endl;
-							this->houseAreas[i].createBuilderQueue(taskType::getSomething, j);
+							/*std::cout << "we can build house" << std::endl;
+							this->houseAreas[i].createBuilderQueue(taskType::getSomething, j);*/
 						}
 						else
 						{
@@ -148,17 +150,73 @@ public:
 			for (int j = 0; j < this->houseAreas[i].getHumans().size(); j++)
 			{
 				position posBefor = this->houseAreas[i].getHumans()[j]->getPosition();
-				position posAfter;
-				field.setPersonCoors(posBefor, "r");
-				if (this->houseAreas[i].getHumans()[j]->humanTransmit())
+				this->field.setPersonCoors(posBefor, "r");
+				short int taskType = this->houseAreas[i].getHumans()[j]->humanTransmit();
+				if (taskType != 0)
 				{
-					posAfter = this->houseAreas[i].getHumans()[j]->getPosition();
-					field.removeObject(posBefor);
+					if (taskType == taskType::getWood || taskType == taskType::getStone || taskType == taskType::getFood)
+					{
+						this->field.removeObject(posBefor);
+					}
+					else if (taskType == taskType::buildingHouse)
+					{
+						this->field.setHouse(posBefor, "");
+						bool houseAreaHouses[4] = { false, false, false, false };
+						if (posBefor.j - 20 >= 0)
+						{
+							if (field.getFieldV()[posBefor.i][posBefor.j - 20].objectType == gameSettings::fieldSetting.objectEnum::house)
+							{
+								houseAreaHouses[0] = true;
+							}
+						}
+						else
+						{
+							houseAreaHouses[0] = true;
+						}
+						if (posBefor.i - 20 >= 0)
+						{
+							if (field.getFieldV()[posBefor.i-20][posBefor.j].objectType == gameSettings::fieldSetting.objectEnum::house)
+							{
+								houseAreaHouses[1] = true;
+							}
+						}
+						else
+						{
+							houseAreaHouses[1] = true;
+						}
+						if (posBefor.j + 20 < 100)
+						{
+							if (field.getFieldV()[posBefor.i][posBefor.j + 20].objectType == gameSettings::fieldSetting.objectEnum::house)
+							{
+								houseAreaHouses[2] = true;
+							}
+						}
+						else
+						{
+							houseAreaHouses[2] = true;
+						}
+						if (posBefor.i + 20 < 100)
+						{
+							if (field.getFieldV()[posBefor.i+20][posBefor.j].objectType == gameSettings::fieldSetting.objectEnum::house)
+							{
+								houseAreaHouses[3] = true;
+							}
+						}
+						else
+						{
+							houseAreaHouses[3] = true;
+						}
+						houseAreas.push_back(houseAreaClass(posBefor, this->field.getFieldV(), this->field.getAreasPointsPosition(posBefor), houseAreaHouses[0], houseAreaHouses[1], houseAreaHouses[2], houseAreaHouses[3]));
+					}
+					else if (taskType == taskType::buildingFarm)
+					{
+
+					}
 					/*field.setPersonCoors(posAfter, "t");*/
 				}
 				else
 				{
-					posAfter = this->houseAreas[i].getHumans()[j]->getPosition();
+					position posAfter = this->houseAreas[i].getHumans()[j]->getPosition();
 					field.setPersonCoors(posAfter, "t");
 				}
 			}
@@ -219,7 +277,7 @@ public:
 						{
 							field.setHouse({ (short)cursor_X,(short)cursor_Y }, "px");
 							position pos = field.findCellByCoord({ (short)cursor_X,(short)cursor_Y });
-							houseAreaClass houseArea = houseAreaClass(pos, field.getFieldV(), field.getAreasPointsPosition(pos));
+							houseAreaClass houseArea = houseAreaClass(pos, field.getFieldV(), field.getAreasPointsPosition(pos), false, false, false, false);
 							this->houseAreas.push_back(houseArea);
 							field.blitField();
 							SDL_UpdateWindowSurface(gameSettings::win);
