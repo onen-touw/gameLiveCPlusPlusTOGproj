@@ -58,8 +58,11 @@ namespace gameSettings {
 		{"./images/headerImgs/people.png", headerSetting.headerImgs::people},
 
 		{"./images/headerImgs/btnsSpriteList.png", headerSetting.headerImgs::btnSpriteList},
-	/*	{"./images/headerImgs/people.png", headerSetting.headerImgs::people},
-		{"./images/headerImgs/people.png", headerSetting.headerImgs::people},*/
+
+		{"./images/headerImgs/playBtn.png", headerSetting.headerImgs::playBtn},
+		{"./images/headerImgs/pauseBtn.png", headerSetting.headerImgs::pauseBtn},
+
+		{"./images/headerImgs/clockX.png", headerSetting.headerImgs::clockX},
 	};
 
 }

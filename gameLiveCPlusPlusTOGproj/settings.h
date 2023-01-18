@@ -127,8 +127,10 @@ struct builderSettings
 
 struct settlmentSettings
 {
-	short int secondsInOneLoop = 5;
-	short int loopsInOneDay = 90;
+	short int secondsInOneLoop = 32;		/// !!!должно быть кратно максимальному ускорению!!!
+	short int loopsInOneDay = 90;		/// = stamina
+	short startTimeRation = 1;			/// !!!степень двойки!!! до 8
+
 	short int foodForBirth = 40;
 	short int stoneForBildingHouse = 30;
 	short int woodForBildingHouse = 30;
@@ -156,7 +158,7 @@ struct fieldSettings
 {
 	///tempSizes for tests (100x100); normalSizes (500,500);
 	sizes size = { 100, 100 };			///cells x cells
-	sizes minCountCellInWin = { 0, 0 };	/// minimalCounts cells which we can see in gameWindow
+	sizes minCountCellInWin = { 0, 0 };	/// minimalCounts cells which we can see in gameWindow (defined in baseGameClass during initialization)
 	short int densityOfTree = size.height * size.width / 10;
 	short int densityOfRock = size.height * size.width / 10;
 	short int densityOfBush = size.height * size.width / 70;
@@ -201,25 +203,25 @@ struct headerSettings
 		food, 
 		people,
 
-
-		/*btnQiut,
-		btnRestart,
-		btnFAQ,*/
 		btnSpriteList,
-		btnSpeedUp,
-		btnSpeedDown,
+		playBtn,
+		pauseBtn,
 
+		clockX,
 
 		menuImgsTOTAL
 	};
 
-	enum counters
+	enum btns
 	{
-		/*wood,
-		stone,
-		food,
-		people,*/
-		///days
+		playPause,
+		multipl2,
+		devide2,
+		restart,
+		faq,
+		quit,
+
+		btnsTOTAL
 	};
 };
 

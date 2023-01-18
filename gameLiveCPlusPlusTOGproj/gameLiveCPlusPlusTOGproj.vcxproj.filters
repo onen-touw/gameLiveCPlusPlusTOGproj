@@ -217,5 +217,14 @@
     <Image Include="images\headerImgs\btnsSpriteList.png">
       <Filter>Файлы ресурсов\headerImgs</Filter>
     </Image>
+    <Image Include="images\headerImgs\pauseBtn.png">
+      <Filter>Файлы ресурсов\headerImgs</Filter>
+    </Image>
+    <Image Include="images\headerImgs\playBtn.png">
+      <Filter>Файлы ресурсов\headerImgs</Filter>
+    </Image>
+    <Image Include="images\headerImgs\clockX.png">
+      <Filter>Файлы ресурсов\headerImgs</Filter>
+    </Image>
   </ItemGroup>
 </Project>
