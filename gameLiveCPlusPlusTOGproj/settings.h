@@ -62,6 +62,7 @@ enum material
 	wood = 1,
 	stone
 };
+
 enum taskType
 {
 	getWood = 1,
@@ -201,9 +202,10 @@ struct headerSettings
 		people,
 
 
-		btnQiut,
+		/*btnQiut,
 		btnRestart,
-		btnFAQ,
+		btnFAQ,*/
+		btnSpriteList,
 		btnSpeedUp,
 		btnSpeedDown,
 

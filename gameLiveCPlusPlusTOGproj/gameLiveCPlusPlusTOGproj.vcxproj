@@ -191,6 +191,7 @@
     <Image Include="images\fieldImages\treeCellHouseArea.png" />
     <Image Include="images\fieldImages\treeCellVisibleArea.png" />
     <Image Include="images\headerImgs\bgTemp.png" />
+    <Image Include="images\headerImgs\btnsSpriteList.png" />
     <Image Include="images\headerImgs\numbers.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

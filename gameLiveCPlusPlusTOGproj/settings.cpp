@@ -56,7 +56,10 @@ namespace gameSettings {
 		{"./images/headerImgs/food.png", headerSetting.headerImgs::food},
 		{"./images/headerImgs/stone.png", headerSetting.headerImgs::stone},
 		{"./images/headerImgs/people.png", headerSetting.headerImgs::people},
+
+		{"./images/headerImgs/btnsSpriteList.png", headerSetting.headerImgs::btnSpriteList},
+	/*	{"./images/headerImgs/people.png", headerSetting.headerImgs::people},
+		{"./images/headerImgs/people.png", headerSetting.headerImgs::people},*/
 	};
 
-	//std::vector<SDL_Surface*> imageVector;
 }

@@ -139,7 +139,7 @@ public:
 		std::cout << "food: " << food << std::endl;
 		std::cout << "wood: " << wood << std::endl;
 		std::cout << "stone: " << stone << std::endl;
-		header.counter(wood, food, stone, peopleCount);
+		this->header.counter(wood, food, stone, peopleCount);
 	}
 
 	void oneTikActions()
@@ -236,16 +236,11 @@ public:
 
 			SDL_UpdateWindowSurface(gameSettings::win);
 
-			///test setHouse by Coords
-			/*field.setHouse({ 15,15 }, "");*/
-		
-
-
 			while (this->game)
 			{
 				while (SDL_PollEvent(&event) || this->game)
 				{
-					if (event.type == SDL_QUIT)//îòñëåæèâàíèå çàêðûòèÿ îêíà ÷åðåç êíîïêó "Êðåñò"
+					if (event.type == SDL_QUIT)
 					{
 						this->game = false;
 					}
@@ -268,7 +263,6 @@ public:
 
 					if (!firstHouse)
 					{
-
 						if (event.type == SDL_MOUSEMOTION)
 						{
 							this->field.blitField();
@@ -279,20 +273,25 @@ public:
 								SDL_UpdateWindowSurface(gameSettings::win);
 							}
 						}
-						if (event.button.button == SDL_BUTTON_LEFT && event.type == SDL_MOUSEBUTTONUP && goodForHouse)
+						if (event.button.button == SDL_BUTTON_LEFT && event.type == SDL_MOUSEBUTTONUP && this->goodForHouse)
 						{
-							field.setHouse({ (short)cursor_X,(short)cursor_Y }, "px");
-							position pos = field.findCellByCoord({ (short)cursor_X,(short)cursor_Y });
-							houseAreaClass houseArea = houseAreaClass(pos, field.getFieldV(), field.getAreasPointsPosition(pos), false, false, false, false);
-							peopleCount++;
-							header.counter(wood, food, stone, peopleCount);
-							this->houseAreas.push_back(houseArea);
-							field.blitField();
-							SDL_UpdateWindowSurface(gameSettings::win);
+							///если курсор за игровой зоной но goodForHouse = true 
+							///проверка на положение курсора в игровой зоне
+							if (cursor_Y > gameSettings::winObjSize.menuHeader)
+							{
+								field.setHouse({ (short)cursor_X,(short)cursor_Y }, "px");
+								position pos = field.findCellByCoord({ (short)cursor_X,(short)cursor_Y });
+								houseAreaClass houseArea = houseAreaClass(pos, field.getFieldV(), field.getAreasPointsPosition(pos), false, false, false, false);
+								peopleCount++;
+								header.counter(wood, food, stone, peopleCount);
+								this->houseAreas.push_back(houseArea);
+								field.blitField();
+								SDL_UpdateWindowSurface(gameSettings::win);
 
-							firstHouse = true;
+								firstHouse = true;
 
-							std::cout << "ok\n";
+								std::cout << "ok\n";
+							}
 						}
 
 
