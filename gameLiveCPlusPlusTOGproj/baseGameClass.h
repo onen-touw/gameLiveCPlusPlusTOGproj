@@ -9,6 +9,7 @@ private:
 
 	position winPosition;
 	sizes winSize;
+	short safePadingTop = 100;
 
 public:
 	baseGameClass() {
@@ -19,7 +20,10 @@ public:
 	~baseGameClass(){}
 
 	void calculateWinParametrs() {
-		gameSettings::fieldSetting.minCountCellInWin.height = int((GetSystemMetrics(SM_CYSCREEN) - 100 - 31 - gameSettings::winObjSize.menuHeader) / gameSettings::winObjSize.cellSize);
+		gameSettings::fieldSetting.minCountCellInWin.height = 
+			int((GetSystemMetrics(SM_CYSCREEN) - this->safePadingTop - gameSettings::winObjSize.winTopBorder - 
+				gameSettings::winObjSize.menuHeader) / gameSettings::winObjSize.cellSize);
+
 		gameSettings::fieldSetting.minCountCellInWin.width = int(GetSystemMetrics(SM_CXSCREEN) / gameSettings::winObjSize.cellSize);
 		
 		this->winSize.width = gameSettings::fieldSetting.minCountCellInWin.width * gameSettings::winObjSize.cellSize;
@@ -65,7 +69,5 @@ public:
 		}
 		return success;
 	}
-
-	//short getWinWidth() { return this->winSize.width; }
 };
 

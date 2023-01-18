@@ -211,7 +211,6 @@ public:
 			pos = this->findCellByCoord(pos);
 		}
 
-		//std::cout << pos.i << "-" << pos.j << " hTeoretic\n";
 		fieldV[pos.i][pos.j].hasSmth = true;
 
 		fieldV[pos.i][pos.j].exploration = gameSettings::fieldSetting.explorationEnum::houseArea;
