@@ -464,7 +464,7 @@ public:
 				}
 				if (this->houseHouses[i] == false)
 				{
-					if (housePosition.i >= 0 && housePosition.i <= 100 && housePosition.j >= 0 && housePosition.j <= 100)
+					if (housePosition.i >= 4 && housePosition.i < 97 && housePosition.j >= 4 && housePosition.j < 97)
 					{
 						task = { housePosition, gameSettings::houseSetting.workTime, taskType };
 						tasksQueue.addTask(task);

@@ -88,6 +88,10 @@ public:
 					{
 						return taskType::buildingHouse;
 					}
+					else if (task.type == taskType::getFood)
+					{
+						return taskType::getFood;
+					}
 					else
 					{
 						return 0;

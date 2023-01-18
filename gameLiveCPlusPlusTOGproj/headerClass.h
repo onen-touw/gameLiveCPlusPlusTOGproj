@@ -27,7 +27,7 @@ public:
 		SDL_Rect mr = { 0,0, gameSettings::fieldSetting.minCountCellInWin.width * gameSettings::winObjSize.cellSize,
 			gameSettings::winObjSize.menuHeader };
 		SDL_BlitScaled(this->imageVector[gameSettings::headerSetting.headerImgs::bg], NULL, gameSettings::surface, &mr);
-		this->counter(1234, 8844, 9898, 154);
+		this->counter(0, 0, 0, 0);
 	}
 
 	/// счетчики 
