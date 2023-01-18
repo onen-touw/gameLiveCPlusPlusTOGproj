@@ -1,6 +1,7 @@
 #pragma once
 
-#include"settings.h"
+//#include"settings.h"
+#include"imageClass.h"
 
 /// class fieldClass ф-ции
 /// createFieldV - создание массива h на w
@@ -20,7 +21,7 @@
 
 
 
-class fieldClass
+class fieldClass : public imageClass
 {
 private:
 
@@ -28,8 +29,16 @@ private:
 	position fieldShift ={0, 0};
 
 public:
+	fieldClass() {
+		this->loadImages(gameSettings::gameImagesPathVector);
+		this->logOut();
 
-
+	}
+	~fieldClass()
+	{
+		this->fieldV.clear();
+		this->imageVector.clear();
+	}
 	void createFieldV() {
 		fieldV.resize(gameSettings::fieldSetting.size.height);
 		for (int i = 0; i < this->fieldV.size(); i++)
@@ -279,14 +288,14 @@ public:
 		SDL_Rect mr = { fieldV[pos.i][pos.j].pixelPosition.i, fieldV[pos.i][pos.j].pixelPosition.j,
 					 gameSettings::winObjSize.cellSize * 2, gameSettings::winObjSize.cellSize * 2
 		};
-		SDL_BlitScaled(gameSettings::imageVector[img], NULL, gameSettings::surface, &mr);
+		SDL_BlitScaled(this->imageVector[img], NULL, gameSettings::surface, &mr);
 	}
 
 	void blitBigObjects(int img, position pos, int size) {
 		SDL_Rect mr = { fieldV[pos.i][pos.j].pixelPosition.i, fieldV[pos.i][pos.j].pixelPosition.j,
 					 gameSettings::winObjSize.cellSize * size, gameSettings::winObjSize.cellSize * size
 		};
-		SDL_BlitScaled(gameSettings::imageVector[img], NULL, gameSettings::surface, &mr);
+		SDL_BlitScaled(this->imageVector[img], NULL, gameSettings::surface, &mr);
 	}
 
 	bool chosePositionForHouse(position mousePos) {
@@ -375,7 +384,7 @@ public:
 
 	void blit(int imageName, int i, int j ) {
 		SDL_Rect mr = {fieldV[i][j].pixelPosition.i, fieldV[i][j].pixelPosition.j, gameSettings::winObjSize.cellSize, gameSettings::winObjSize.cellSize };
-		SDL_BlitScaled(gameSettings::imageVector[imageName], NULL, gameSettings::surface, &mr);
+		SDL_BlitScaled(this->imageVector[imageName], NULL, gameSettings::surface, &mr);
 	}
 
 	void blitField() {
@@ -491,12 +500,13 @@ public:
 								case gameSettings::fieldSetting.objectEnum::bushWithBerry:
 									///blit bush with persone
 									this->blit(imagesNames::bushWithPerson, i, j);
-
-									break;;
+									break;
+								case  gameSettings::fieldSetting.objectEnum::bushWithoutBerry:
+									this->blit(imagesNames::bushWithoutBerryPerson, i, j);
+									break;
 								case gameSettings::fieldSetting.objectEnum::rock:
 									///blit rock with persone
 									this->blit(imagesNames::rockWithPersonHouse, i, j);
-
 									break;
 								case gameSettings::fieldSetting.objectEnum::tree:
 									///blit tree with persone

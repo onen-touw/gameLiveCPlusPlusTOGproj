@@ -2,8 +2,8 @@
 
 #include"baseGameClass.h"
 #include "fieldClass.h"
-#include"imageClass.h"
 #include"houseAreaClass.h"
+#include"headerClass.h"
 
 class settlmentActionsClass
 {
@@ -11,6 +11,8 @@ private:
 	baseGameClass baseGame;
 	imageClass images;
 	fieldClass field;
+	headerClass header;
+
 	std::vector<houseAreaClass> houseAreas;
 
 
@@ -31,26 +33,20 @@ public:
 
 	settlmentActionsClass()
 	{
-		images.loadImages();
-		images.logOut();
-
 		field.createFieldV();
 		field.generationObjects();
 
-
 		std::cout << "ready\n";
-		///bliting
-		field.blitField();
-		SDL_UpdateWindowSurface(gameSettings::win);
 	}
 	~settlmentActionsClass()
 	{
-
+		gameSettings::gameImagesPathVector.clear();
+		gameSettings::headerImagesPathVector.clear();
 	}
 
 	void oneDayActions()
 	{
-		// сбор и объединение ресурсов собранных в течении предыдущего дня
+		// Г±ГЎГ®Г° ГЁ Г®ГЎГєГҐГ¤ГЁГ­ГҐГ­ГЁГҐ Г°ГҐГ±ГіГ°Г±Г®Гў Г±Г®ГЎГ°Г Г­Г­Г»Гµ Гў ГІГҐГ·ГҐГ­ГЁГЁ ГЇГ°ГҐГ¤Г»Г¤ГіГ№ГҐГЈГ® Г¤Г­Гї
 		for (int i = 0; i < this->houseAreas.size(); i++) 
 		{
 			this->wood += this->houseAreas[i].getWood();
@@ -80,7 +76,7 @@ public:
 		std::cout << "food: " << food << std::endl;
 		std::cout << "wood: " << wood << std::endl;
 		std::cout << "stone: " << stone << std::endl;
-		// постановка задач для развития поселения на этот день
+		// ГЇГ®Г±ГІГ Г­Г®ГўГЄГ  Г§Г Г¤Г Г· Г¤Г«Гї Г°Г Г§ГўГЁГІГЁГї ГЇГ®Г±ГҐГ«ГҐГ­ГЁГї Г­Г  ГЅГІГ®ГІ Г¤ГҐГ­Гј
 
 		for (int i = 0; i < this->houseAreas.size(); i++)
 		{
@@ -98,14 +94,14 @@ public:
 					{
 						if (this->wood >= gameSettings::settlmentSetting.woodForBildingHouse)
 						{
-							//главная версия
+							//ГЈГ«Г ГўГ­Г Гї ГўГҐГ°Г±ГЁГї
 							if (this->houseAreas[i].createBuilderQueue(taskType::buildingHouse, j))
 							{
 								this->food -= gameSettings::settlmentSetting.foodForBirth;
 								this->wood -= gameSettings::settlmentSetting.woodForBildingHouse;
 								this->stone -= gameSettings::settlmentSetting.stoneForBildingHouse;
 							}
-							//тестовая версия
+							//ГІГҐГ±ГІГ®ГўГ Гї ГўГҐГ°Г±ГЁГї
 							/*std::cout << "we can build house" << std::endl;
 							this->houseAreas[i].createBuilderQueue(taskType::getSomething, j);*/
 						}
@@ -123,10 +119,10 @@ public:
 				{
 					if (this->wood >= gameSettings::settlmentSetting.woodForBildingFarm)
 					{
-						//главная версия
+						//ГЈГ«Г ГўГ­Г Гї ГўГҐГ°Г±ГЁГї
 						/*this->houseAreas[i].createBuilderQueue(taskType::buildingFarm, j);
 						this->wood -= gameSettings::settlmentSetting.woodForBildingFarm;*/
-						//тестовая версия
+						///ГІГҐГ±ГІГ®ГўГ Гї ГўГҐГ°Г±ГЁГї
 						std::cout << "we can build farm" << std::endl;
 						this->houseAreas[i].createBuilderQueue(taskType::getSomething, j);
 					}
@@ -229,18 +225,23 @@ public:
 		{
 			SDL_Event event;
 
+			///bliting
+			header.blitHeader();
 
-			///test setHouse by Coords + test setPerson BY coords
-			/*field.setHouse({ 15,15 }, "");
-			field.setPersonCoors(5, 5, "t");
-			field.setPersonCoors(7, 7, "t");*/
+			field.blitField();
+
+			SDL_UpdateWindowSurface(gameSettings::win);
+
+			///test setHouse by Coords
+			/*field.setHouse({ 15,15 }, "");*/
+		
 
 
 			while (this->game)
 			{
 				while (SDL_PollEvent(&event) || this->game)
 				{
-					if (event.type == SDL_QUIT)//отслеживание закрытия окна через кнопку "Крест"
+					if (event.type == SDL_QUIT)//Г®ГІГ±Г«ГҐГ¦ГЁГўГ Г­ГЁГҐ Г§Г ГЄГ°Г»ГІГЁГї Г®ГЄГ­Г  Г·ГҐГ°ГҐГ§ ГЄГ­Г®ГЇГЄГі "ГЉГ°ГҐГ±ГІ"
 					{
 						this->game = false;
 					}
@@ -263,6 +264,7 @@ public:
 
 					if (!firstHouse)
 					{
+
 						if (event.type == SDL_MOUSEMOTION)
 						{
 							this->field.blitField();
@@ -295,14 +297,14 @@ public:
 						{
 							if (++gLoop == gameSettings::settlmentSetting.loopsInOneDay)
 							{
-								//обновления в начале дня
+								//Г®ГЎГ­Г®ГўГ«ГҐГ­ГЁГї Гў Г­Г Г·Г Г«ГҐ Г¤Г­Гї
 								oneDayActions();
 								//std::cout << gLoop << std::endl;
 								gLoop = 0;
 							}
 							else
 							{
-								//игровой цикл каждого тика
+								//ГЁГЈГ°Г®ГўГ®Г© Г¶ГЁГЄГ« ГЄГ Г¦Г¤Г®ГЈГ® ГІГЁГЄГ 
 								oneTikActions();
 								//std::cout << gSecond << std::endl;
 								field.blitField();
