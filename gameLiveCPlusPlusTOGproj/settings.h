@@ -68,7 +68,8 @@ enum taskType
 	getStone,
 	buildingFarm,
 	buildingHouse,
-	getSomething
+	getSomething,
+	getFood
 };
 
 struct position
@@ -81,6 +82,7 @@ struct task
 {
 	position position = { 0,0 };
 	short int workTime = 0;
+	short int type = 0;
 };
 
 struct humanSettings
@@ -154,9 +156,9 @@ struct fieldSettings
 	///tempSizes for tests (100x100); normalSizes (500,500);
 	sizes size = { 100, 100 };			///cells x cells
 	sizes minCountCellInWin = { 0, 0 };	/// minimalCounts cells which we can see in gameWindow
-	short int densityOfTree = size.height * size.width / 30;
-	short int densityOfRock = size.height * size.width / 30;
-	short int densityOfBush = size.height * size.width / 100;
+	short int densityOfTree = size.height * size.width / 10;
+	short int densityOfRock = size.height * size.width / 10;
+	short int densityOfBush = size.height * size.width / 70;
 
 	enum objectEnum
 	{

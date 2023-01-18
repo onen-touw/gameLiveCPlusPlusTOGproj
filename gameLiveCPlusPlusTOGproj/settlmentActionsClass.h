@@ -46,7 +46,7 @@ public:
 
 	void oneDayActions()
 	{
-		// сбор и объединение ресурсов собранных в течении предыдущего дня
+		// Г±ГЎГ®Г° ГЁ Г®ГЎГєГҐГ¤ГЁГ­ГҐГ­ГЁГҐ Г°ГҐГ±ГіГ°Г±Г®Гў Г±Г®ГЎГ°Г Г­Г­Г»Гµ Гў ГІГҐГ·ГҐГ­ГЁГЁ ГЇГ°ГҐГ¤Г»Г¤ГіГ№ГҐГЈГ® Г¤Г­Гї
 		for (int i = 0; i < this->houseAreas.size(); i++) 
 		{
 			this->wood += this->houseAreas[i].getWood();
@@ -76,7 +76,7 @@ public:
 		std::cout << "food: " << food << std::endl;
 		std::cout << "wood: " << wood << std::endl;
 		std::cout << "stone: " << stone << std::endl;
-		// постановка задач для развития поселения на этот день
+		// ГЇГ®Г±ГІГ Г­Г®ГўГЄГ  Г§Г Г¤Г Г· Г¤Г«Гї Г°Г Г§ГўГЁГІГЁГї ГЇГ®Г±ГҐГ«ГҐГ­ГЁГї Г­Г  ГЅГІГ®ГІ Г¤ГҐГ­Гј
 
 		for (int i = 0; i < this->houseAreas.size(); i++)
 		{
@@ -94,14 +94,16 @@ public:
 					{
 						if (this->wood >= gameSettings::settlmentSetting.woodForBildingHouse)
 						{
-							//главная версия
-							/*this->houseAreas[i].createBuilderQueue(taskType::buildingHouse, j);
-							this->food -= gameSettings::settlmentSetting.foodForBirth;
-							this->wood -= gameSettings::settlmentSetting.woodForBildingHouse;
-							this->stone -= gameSettings::settlmentSetting.stoneForBildingHouse;*/
-							///тестовая версия
-							std::cout << "we can build house" << std::endl;
-							this->houseAreas[i].createBuilderQueue(taskType::getSomething, j);
+							//ГЈГ«Г ГўГ­Г Гї ГўГҐГ°Г±ГЁГї
+							if (this->houseAreas[i].createBuilderQueue(taskType::buildingHouse, j))
+							{
+								this->food -= gameSettings::settlmentSetting.foodForBirth;
+								this->wood -= gameSettings::settlmentSetting.woodForBildingHouse;
+								this->stone -= gameSettings::settlmentSetting.stoneForBildingHouse;
+							}
+							//ГІГҐГ±ГІГ®ГўГ Гї ГўГҐГ°Г±ГЁГї
+							/*std::cout << "we can build house" << std::endl;
+							this->houseAreas[i].createBuilderQueue(taskType::getSomething, j);*/
 						}
 						else
 						{
@@ -117,10 +119,10 @@ public:
 				{
 					if (this->wood >= gameSettings::settlmentSetting.woodForBildingFarm)
 					{
-						//главная версия
+						//ГЈГ«Г ГўГ­Г Гї ГўГҐГ°Г±ГЁГї
 						/*this->houseAreas[i].createBuilderQueue(taskType::buildingFarm, j);
 						this->wood -= gameSettings::settlmentSetting.woodForBildingFarm;*/
-						///тестовая версия
+						///ГІГҐГ±ГІГ®ГўГ Гї ГўГҐГ°Г±ГЁГї
 						std::cout << "we can build farm" << std::endl;
 						this->houseAreas[i].createBuilderQueue(taskType::getSomething, j);
 					}
@@ -144,17 +146,73 @@ public:
 			for (int j = 0; j < this->houseAreas[i].getHumans().size(); j++)
 			{
 				position posBefor = this->houseAreas[i].getHumans()[j]->getPosition();
-				position posAfter;
-				field.setPersonCoors(posBefor, "r");
-				if (this->houseAreas[i].getHumans()[j]->humanTransmit())
+				this->field.setPersonCoors(posBefor, "r");
+				short int taskType = this->houseAreas[i].getHumans()[j]->humanTransmit();
+				if (taskType != 0)
 				{
-					posAfter = this->houseAreas[i].getHumans()[j]->getPosition();
-					field.removeObject(posBefor);
+					if (taskType == taskType::getWood || taskType == taskType::getStone || taskType == taskType::getFood)
+					{
+						this->field.removeObject(posBefor);
+					}
+					else if (taskType == taskType::buildingHouse)
+					{
+						this->field.setHouse(posBefor, "");
+						bool houseAreaHouses[4] = { false, false, false, false };
+						if (posBefor.j - 20 >= 0)
+						{
+							if (field.getFieldV()[posBefor.i][posBefor.j - 20].objectType == gameSettings::fieldSetting.objectEnum::house)
+							{
+								houseAreaHouses[0] = true;
+							}
+						}
+						else
+						{
+							houseAreaHouses[0] = true;
+						}
+						if (posBefor.i - 20 >= 0)
+						{
+							if (field.getFieldV()[posBefor.i-20][posBefor.j].objectType == gameSettings::fieldSetting.objectEnum::house)
+							{
+								houseAreaHouses[1] = true;
+							}
+						}
+						else
+						{
+							houseAreaHouses[1] = true;
+						}
+						if (posBefor.j + 20 < 100)
+						{
+							if (field.getFieldV()[posBefor.i][posBefor.j + 20].objectType == gameSettings::fieldSetting.objectEnum::house)
+							{
+								houseAreaHouses[2] = true;
+							}
+						}
+						else
+						{
+							houseAreaHouses[2] = true;
+						}
+						if (posBefor.i + 20 < 100)
+						{
+							if (field.getFieldV()[posBefor.i+20][posBefor.j].objectType == gameSettings::fieldSetting.objectEnum::house)
+							{
+								houseAreaHouses[3] = true;
+							}
+						}
+						else
+						{
+							houseAreaHouses[3] = true;
+						}
+						houseAreas.push_back(houseAreaClass(posBefor, this->field.getFieldV(), this->field.getAreasPointsPosition(posBefor), houseAreaHouses[0], houseAreaHouses[1], houseAreaHouses[2], houseAreaHouses[3]));
+					}
+					else if (taskType == taskType::buildingFarm)
+					{
+
+					}
 					/*field.setPersonCoors(posAfter, "t");*/
 				}
 				else
 				{
-					posAfter = this->houseAreas[i].getHumans()[j]->getPosition();
+					position posAfter = this->houseAreas[i].getHumans()[j]->getPosition();
 					field.setPersonCoors(posAfter, "t");
 				}
 			}
@@ -183,7 +241,7 @@ public:
 			{
 				while (SDL_PollEvent(&event) || this->game)
 				{
-					if (event.type == SDL_QUIT)//отслеживание закрытия окна через кнопку "Крест"
+					if (event.type == SDL_QUIT)//Г®ГІГ±Г«ГҐГ¦ГЁГўГ Г­ГЁГҐ Г§Г ГЄГ°Г»ГІГЁГї Г®ГЄГ­Г  Г·ГҐГ°ГҐГ§ ГЄГ­Г®ГЇГЄГі "ГЉГ°ГҐГ±ГІ"
 					{
 						this->game = false;
 					}
@@ -221,7 +279,7 @@ public:
 						{
 							field.setHouse({ (short)cursor_X,(short)cursor_Y }, "px");
 							position pos = field.findCellByCoord({ (short)cursor_X,(short)cursor_Y });
-							houseAreaClass houseArea = houseAreaClass(pos, field.getFieldV(), field.getAreasPointsPosition(pos));
+							houseAreaClass houseArea = houseAreaClass(pos, field.getFieldV(), field.getAreasPointsPosition(pos), false, false, false, false);
 							this->houseAreas.push_back(houseArea);
 							field.blitField();
 							SDL_UpdateWindowSurface(gameSettings::win);
@@ -239,14 +297,14 @@ public:
 						{
 							if (++gLoop == gameSettings::settlmentSetting.loopsInOneDay)
 							{
-								//обновления в начале дня
+								//Г®ГЎГ­Г®ГўГ«ГҐГ­ГЁГї Гў Г­Г Г·Г Г«ГҐ Г¤Г­Гї
 								oneDayActions();
 								//std::cout << gLoop << std::endl;
 								gLoop = 0;
 							}
 							else
 							{
-								//игровой цикл каждого тика
+								//ГЁГЈГ°Г®ГўГ®Г© Г¶ГЁГЄГ« ГЄГ Г¦Г¤Г®ГЈГ® ГІГЁГЄГ 
 								oneTikActions();
 								//std::cout << gSecond << std::endl;
 								field.blitField();
