@@ -226,5 +226,17 @@
     <Image Include="images\headerImgs\clockX.png">
       <Filter>Файлы ресурсов\headerImgs</Filter>
     </Image>
+    <Image Include="images\headerImgs\food.png">
+      <Filter>Файлы ресурсов\headerImgs</Filter>
+    </Image>
+    <Image Include="images\headerImgs\people.png">
+      <Filter>Файлы ресурсов\headerImgs</Filter>
+    </Image>
+    <Image Include="images\headerImgs\stone.png">
+      <Filter>Файлы ресурсов\headerImgs</Filter>
+    </Image>
+    <Image Include="images\headerImgs\wood.png">
+      <Filter>Файлы ресурсов\headerImgs</Filter>
+    </Image>
   </ItemGroup>
 </Project>

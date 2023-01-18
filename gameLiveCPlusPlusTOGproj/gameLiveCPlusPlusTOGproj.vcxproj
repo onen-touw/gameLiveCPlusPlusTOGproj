@@ -193,9 +193,13 @@
     <Image Include="images\headerImgs\bgTemp.png" />
     <Image Include="images\headerImgs\btnsSpriteList.png" />
     <Image Include="images\headerImgs\clockX.png" />
+    <Image Include="images\headerImgs\food.png" />
     <Image Include="images\headerImgs\numbers.png" />
     <Image Include="images\headerImgs\pauseBtn.png" />
+    <Image Include="images\headerImgs\people.png" />
     <Image Include="images\headerImgs\playBtn.png" />
+    <Image Include="images\headerImgs\stone.png" />
+    <Image Include="images\headerImgs\wood.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
