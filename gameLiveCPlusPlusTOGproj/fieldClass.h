@@ -36,8 +36,12 @@ public:
 	}
 	~fieldClass()
 	{
+		this->clearField();
+		//this->imageVector.clear();
+	}
+	void clearField()
+	{
 		this->fieldV.clear();
-		this->imageVector.clear();
 	}
 	void createFieldV() {
 		fieldV.resize(gameSettings::fieldSetting.size.height);

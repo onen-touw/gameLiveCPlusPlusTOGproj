@@ -27,6 +27,11 @@ public:
 		return stamina;
 	}
 	
+	void setStamina(short int timeStamina)
+	{
+		this->stamina = timeStamina;
+	}
+
 	void setQueue(queueClass queue)
 	{
 		this->tasksQueue = queue;
