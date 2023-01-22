@@ -15,11 +15,9 @@ private:
 
 	std::vector<houseAreaClass> houseAreas;
 
-
 	bool game = true;
 	bool firstHouse = false;
 	bool goodForHouse = false;
-	bool night = false;
 	bool pause = false;
 
 	int cursor_X = 0, cursor_Y = 0;
@@ -27,7 +25,7 @@ private:
 	short int gLoop = 0;
 	short int wood = 0;
 	short int stone = 0;
-	short int food = 0;
+	short int food = gameSettings::settlmentSetting.settlmentStartFood;
 	short int peopleCount = 0;
 
 	short timeRation = 0;
@@ -47,6 +45,37 @@ public:
 	{
 		gameSettings::gameImagesPathVector.clear();
 		gameSettings::headerImagesPathVector.clear();
+	}
+
+	void restart()
+	{
+		this->houseAreas.clear();
+		//fieldClass newField;
+		//this->field = newField;
+		this->field.clearField();
+		
+		game = true;
+		firstHouse = false;
+		goodForHouse = false;
+		pause = false;
+
+		cursor_X = 0, cursor_Y = 0;
+		gSecond = 0;
+		gLoop = 0;
+		wood = 0;
+		stone = 0;
+		food = gameSettings::settlmentSetting.settlmentStartFood;
+		peopleCount = 0;
+
+		field.createFieldV();
+		field.generationObjects();
+
+		field.blitField();
+		header.blitHeader();
+
+		field.blitField();
+
+		SDL_UpdateWindowSurface(gameSettings::win);
 	}
 
 	void oneDayActions()
@@ -73,7 +102,68 @@ public:
 				}
 				else
 				{
+					std::vector<humanClass*> humansInThisArea = houseAreas[i].getHumans();
+					if (this->food == 0)
+					{
+						peopleCount -= humansInThisArea.size();
+						humansInThisArea.clear();
+					}
+					else if (this->food == 1)
+					{
+						while (humansInThisArea.size() > 1)
+						{
+							humansInThisArea.pop_back();
+							peopleCount--;
+						}
+						humansInThisArea[0]->setStamina(gameSettings::humanSetting.stamina / 2);
+					}
+					else if (this->food == 2)
+					{
+						while (humansInThisArea.size() > 1)
+						{
+							humansInThisArea.pop_back();
+							peopleCount--;
+						}
+						humansInThisArea[0]->setStamina(gameSettings::humanSetting.stamina);
+					}
+					else if (this->food == 3)
+					{
+						while (humansInThisArea.size() > 2)
+						{
+							humansInThisArea.pop_back();
+							peopleCount--;
+						}
+						humansInThisArea[0]->setStamina(gameSettings::humanSetting.stamina);
+						humansInThisArea[1]->setStamina(gameSettings::humanSetting.stamina / 2);
+					}
+					else if (this->food == 4)
+					{
+						if (humansInThisArea.size() == 2)
+						{
+							humansInThisArea[0]->setStamina(gameSettings::humanSetting.stamina);
+							humansInThisArea[1]->setStamina(gameSettings::humanSetting.stamina);
+						}
+						else
+						{
+							humansInThisArea[0]->setStamina(gameSettings::humanSetting.stamina);
+							humansInThisArea[1]->setStamina(gameSettings::humanSetting.stamina / 2);
+							humansInThisArea[2]->setStamina(gameSettings::humanSetting.stamina / 2);
+						}
+					}
+					else if (this->food == 5)
+					{
+						humansInThisArea[0]->setStamina(gameSettings::humanSetting.stamina);
+						humansInThisArea[1]->setStamina(gameSettings::humanSetting.stamina);
+						humansInThisArea[2]->setStamina(gameSettings::humanSetting.stamina / 2);
+					}
+					else
+					{
+						humansInThisArea[0]->setStamina(gameSettings::humanSetting.stamina);
+						humansInThisArea[1]->setStamina(gameSettings::humanSetting.stamina);
+						humansInThisArea[2]->setStamina(gameSettings::humanSetting.stamina);
+					}
 					this->houseAreas[i].sendFood(this->food);
+					this->houseAreas[i].setHumans(humansInThisArea);
 					this->food = 0;
 				}
 			}
@@ -83,31 +173,61 @@ public:
 
 		for (int i = 0; i < this->houseAreas.size(); i++)
 		{
-			this->houseAreas[i].setFarmerQueue();
+			for (int j = 0; j < this->houseAreas[i].getBushesInArea().size(); j++)
+			{
+				this->field.updateBushes(this->houseAreas[i].getBushesInArea()[j].getPosition());
+			}
 			if (houseAreas[i].getHumans().size() < 3 && this->food >= ((this->peopleCount + 1) * gameSettings::humanSetting.deilyRation) * 3 + gameSettings::settlmentSetting.foodForBirth)
 			{
 				houseAreas[i].spawnBuilder();
 				food -= gameSettings::settlmentSetting.foodForBirth;
 				peopleCount++;
 			}
-			for (int j = 1; j < this->houseAreas[i].getHumans().size(); j++)
+			for (int j = 0; j < this->houseAreas[i].getHumans().size(); j++)
 			{
-				if (this->food >= ((this->peopleCount + 1) * gameSettings::humanSetting.deilyRation) * 3 + gameSettings::settlmentSetting.foodForBirth)
+				if (j == 0)
 				{
-					if (this->stone >= gameSettings::settlmentSetting.stoneForBildingHouse)
+					this->houseAreas[i].setFarmerQueue();
+				}
+				else
+				{
+					if (this->food >= ((this->peopleCount + 1) * gameSettings::humanSetting.deilyRation) * 3 + gameSettings::settlmentSetting.foodForBirth)
 					{
-						if (this->wood >= gameSettings::settlmentSetting.woodForBildingHouse)
+						if (this->stone >= gameSettings::settlmentSetting.stoneForBildingHouse)
+						{
+							if (this->wood >= gameSettings::settlmentSetting.woodForBildingHouse)
+							{
+								//ãëàâíàÿ âåðñèÿ
+								if (this->houseAreas[i].createBuilderQueue(taskType::buildingHouse, j))
+								{
+									this->food -= gameSettings::settlmentSetting.foodForBirth;
+									this->wood -= gameSettings::settlmentSetting.woodForBildingHouse;
+									this->stone -= gameSettings::settlmentSetting.stoneForBildingHouse;
+								}
+								//òåñòîâàÿ âåðñèÿ
+								/*std::cout << "we can build house" << std::endl;
+								this->houseAreas[i].createBuilderQueue(taskType::getSomething, j);*/
+							}
+							else
+							{
+								this->houseAreas[i].createBuilderQueue(taskType::getWood, j);
+							}
+						}
+						else
+						{
+							this->houseAreas[i].createBuilderQueue(taskType::getStone, j);
+						}
+					}
+					else if (this->houseAreas[i].getFarmsCount() < 4)
+					{
+						if (this->wood >= gameSettings::settlmentSetting.woodForBildingFarm)
 						{
 							//ãëàâíàÿ âåðñèÿ
-							if (this->houseAreas[i].createBuilderQueue(taskType::buildingHouse, j))
-							{
-								this->food -= gameSettings::settlmentSetting.foodForBirth;
-								this->wood -= gameSettings::settlmentSetting.woodForBildingHouse;
-								this->stone -= gameSettings::settlmentSetting.stoneForBildingHouse;
-							}
-							//òåñòîâàÿ âåðñèÿ
-							/*std::cout << "we can build house" << std::endl;
-							this->houseAreas[i].createBuilderQueue(taskType::getSomething, j);*/
+							/*this->houseAreas[i].createBuilderQueue(taskType::buildingFarm, j);
+							this->wood -= gameSettings::settlmentSetting.woodForBildingFarm;*/
+							///òåñòîâàÿ âåðñèÿ
+							std::cout << "we can build farm" << std::endl;
+							this->houseAreas[i].createBuilderQueue(taskType::getSomething, j);
 						}
 						else
 						{
@@ -116,28 +236,8 @@ public:
 					}
 					else
 					{
-						this->houseAreas[i].createBuilderQueue(taskType::getStone, j);
-					}
-				}
-				else if (this->houseAreas[i].getFarmsCount() < 4)
-				{
-					if (this->wood >= gameSettings::settlmentSetting.woodForBildingFarm)
-					{
-						//ãëàâíàÿ âåðñèÿ
-						/*this->houseAreas[i].createBuilderQueue(taskType::buildingFarm, j);
-						this->wood -= gameSettings::settlmentSetting.woodForBildingFarm;*/
-						///òåñòîâàÿ âåðñèÿ
-						std::cout << "we can build farm" << std::endl;
 						this->houseAreas[i].createBuilderQueue(taskType::getSomething, j);
 					}
-					else
-					{
-						this->houseAreas[i].createBuilderQueue(taskType::getWood, j);
-					}
-				}
-				else
-				{
-					this->houseAreas[i].createBuilderQueue(taskType::getSomething, j);
 				}
 			}
 		}
@@ -310,6 +410,7 @@ public:
 								{
 									//îáíîâëåíèÿ â íà÷àëå äíÿ
 									oneDayActions();
+
 									//std::cout << gLoop << std::endl;
 									gLoop = 0;
 								}
@@ -355,6 +456,9 @@ public:
 									break;
 								case gameSettings::headerSetting.btns::restart:
 									std::cout << "menu::\trestart\n";
+									restart();
+									
+
 									break;
 								case gameSettings::headerSetting.btns::faq:
 									std::cout << "menu::\tfaq\n";

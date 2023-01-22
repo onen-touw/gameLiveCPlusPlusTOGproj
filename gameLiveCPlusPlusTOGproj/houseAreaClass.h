@@ -23,10 +23,8 @@ private:
 	std::vector<treeClass> treesInArea;
 	std::vector<rockClass> rocksInArea;
 	std::vector<bushClass> bushesInArea;
-	std::vector<objectClass> objects;
 	std::vector<humanClass*> humans;
 	std::vector<farmClass> farms;
-	std::vector<houseClass> nextHouses; // соседние дома
 	bool houseFarms[4] = { false, false, false, false };
 	bool houseHouses[4] = { false, false, false, false };
 	houseClass house = houseClass(0, 0);
@@ -58,7 +56,14 @@ public:
 		this->humans.push_back(new farmerClass(house.getPosition()));
 		createFarmerQueue(0);
 	}
-	~houseAreaClass() { }
+	~houseAreaClass() 
+	{
+		this->treesInArea.clear();
+		this->rocksInArea.clear();
+		this->bushesInArea.clear();
+		this->humans.clear();
+		this->farms.clear();
+	}
 
 	void spawnBuilder()
 	{
@@ -110,9 +115,19 @@ public:
 		return this->humans;
 	}
 
+	void setHumans(std::vector<humanClass*> humans)
+	{
+		this->humans = humans;
+	}
+
 	std::vector<treeClass> getTrees()
 	{
 		return this->treesInArea;
+	}
+
+	std::vector<bushClass> getBushesInArea()
+	{
+		return this->bushesInArea;
 	}
 
 	short int getWood()
@@ -147,7 +162,7 @@ public:
 
 	void sendFood(int sendFood)
 	{
-		this->foodInArea += sendFood;
+		return;
 	}
 
 	short int getFarmsCount()
@@ -169,7 +184,7 @@ public:
 
 	void createFarmerQueue(short int humanNumber) // без ферм работает (проверено)
 	{
-		
+		this->foodInArea = 0;
 		short int staminaСounter = humans[0]->getStamina();
 		short int distanceToWorkPlace; // расстояние до рабочего места
 		short int distanceFromWorkPlaceToHouse; // расстояние от рабочего места до дома

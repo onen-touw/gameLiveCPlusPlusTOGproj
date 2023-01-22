@@ -71,8 +71,12 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>C:\VC_addons\SDL2-2.24.0\include;C:\VC_addons\SDL2_image-2.6.2\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\VC_addons\SDL2-2.24.0\lib\x64;C:\VC_addons\SDL2_image-2.6.2\lib\x64;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\VC_addons\SDL2-2.24.0\include;C:\VC_addons\SDL2_image-2.6.2\include;$(IncludePath);C:\Users\danii\OneDrive\Рабочий стол\SDL2-2.24.0\include;C:\Users\danii\OneDrive\Рабочий стол\SDL2_image-2.6.2\include;C:\Users\danii\OneDrive\Рабочий стол\SDL2_ttf-2.20.1\include</IncludePath>
+    <LibraryPath>C:\VC_addons\SDL2-2.24.0\lib\x64;C:\VC_addons\SDL2_image-2.6.2\lib\x64;$(LibraryPath);C:\Users\danii\OneDrive\Рабочий стол\SDL2-2.24.0\lib\x64;C:\Users\danii\OneDrive\Рабочий стол\SDL2_image-2.6.2\lib\x64;C:\Users\danii\OneDrive\Рабочий стол\SDL2_ttf-2.20.1\lib\x64</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);;C:\Users\danii\OneDrive\Рабочий стол\SDL2-2.24.0\include;C:\Users\danii\OneDrive\Рабочий стол\SDL2_image-2.6.2\include;C:\Users\danii\OneDrive\Рабочий стол\SDL2_ttf-2.20.1\include</IncludePath>
+    <LibraryPath>$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);C:\Users\danii\OneDrive\Рабочий стол\SDL2-2.24.0\lib\x64;C:\Users\danii\OneDrive\Рабочий стол\SDL2_image-2.6.2\lib\x64;C:\Users\danii\OneDrive\Рабочий стол\SDL2_ttf-2.20.1\lib\x64</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -112,7 +116,9 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;%(AdditionalDependencies);SDL2.lib
+;SDL2main.lib
+;SDL2_image.lib;SDL2_ttf.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -129,6 +135,9 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>$(CoreLibraryDependencies);%(AdditionalDependencies);SDL2.lib
+;SDL2main.lib
+;SDL2_image.lib;SDL2_ttf.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
