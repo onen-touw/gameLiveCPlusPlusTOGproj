@@ -40,6 +40,9 @@
     <Filter Include="Файлы ресурсов\headerImgs">
       <UniqueIdentifier>{a3c9d432-f12d-4aff-955c-c0a3c824a091}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Файлы заголовков\notUsed">
+      <UniqueIdentifier>{b23ba078-1ab0-47e9-8d73-b31c377f075a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -94,6 +97,15 @@
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="headerClass.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="bigWindowsClass.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="fontClass.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="faqWindowClass.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>
@@ -153,6 +165,18 @@
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="headerClass.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="bigWindowsClass.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="fontClass.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="LogOutTemp.h">
+      <Filter>Файлы заголовков\notUsed</Filter>
+    </ClInclude>
+    <ClInclude Include="faqWindowClass.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>
@@ -226,5 +250,10 @@
     <Image Include="images\headerImgs\clockX.png">
       <Filter>Файлы ресурсов\headerImgs</Filter>
     </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="font\courier.ttf">
+      <Filter>Файлы ресурсов</Filter>
+    </Font>
   </ItemGroup>
 </Project>

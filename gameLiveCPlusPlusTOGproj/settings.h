@@ -2,6 +2,7 @@
 
 #include<SDL.h>
 #include<SDL_image.h>
+#include<SDL_ttf.h>
 
 #include <iostream>
 #include <vector>
@@ -234,6 +235,8 @@ namespace gameSettings {
 	extern objectSettings objectSetting;
 	extern settlmentSettings settlmentSetting;
 	extern headerSettings headerSetting;
+
+	//extern bool DEBUG;					///temp for debug
 
 	extern SDL_Window* win;						///object win
 	extern SDL_Surface* surface;				///object surface

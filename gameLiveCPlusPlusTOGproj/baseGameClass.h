@@ -67,6 +67,13 @@ public:
 			std::cout << "problem::surface\n";
 			success = false;
 		}
+
+		if (TTF_Init()!=0)
+		{
+			std::cout << "problem::ttfInit\n";
+			success = false;
+		}
+
 		return success;
 	}
 };

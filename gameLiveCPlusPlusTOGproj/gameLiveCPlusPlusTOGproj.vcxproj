@@ -71,12 +71,17 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+
+    <IncludePath>C:\VC_addons\SDL2-2.24.0\include;C:\VC_addons\SDL2_image-2.6.2\include;C:\VC_addons\SDL2_ttf-2.20.1\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\VC_addons\SDL2-2.24.0\lib\x64;C:\VC_addons\SDL2_image-2.6.2\lib\x64;C:\VC_addons\SDL2_ttf-2.20.1\lib\x64;$(LibraryPath)</LibraryPath>
+
     <IncludePath>C:\VC_addons\SDL2-2.24.0\include;C:\VC_addons\SDL2_image-2.6.2\include;$(IncludePath);C:\Users\danii\OneDrive\Рабочий стол\SDL2-2.24.0\include;C:\Users\danii\OneDrive\Рабочий стол\SDL2_image-2.6.2\include;C:\Users\danii\OneDrive\Рабочий стол\SDL2_ttf-2.20.1\include</IncludePath>
     <LibraryPath>C:\VC_addons\SDL2-2.24.0\lib\x64;C:\VC_addons\SDL2_image-2.6.2\lib\x64;$(LibraryPath);C:\Users\danii\OneDrive\Рабочий стол\SDL2-2.24.0\lib\x64;C:\Users\danii\OneDrive\Рабочий стол\SDL2_image-2.6.2\lib\x64;C:\Users\danii\OneDrive\Рабочий стол\SDL2_ttf-2.20.1\lib\x64</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);;C:\Users\danii\OneDrive\Рабочий стол\SDL2-2.24.0\include;C:\Users\danii\OneDrive\Рабочий стол\SDL2_image-2.6.2\include;C:\Users\danii\OneDrive\Рабочий стол\SDL2_ttf-2.20.1\include</IncludePath>
     <LibraryPath>$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);C:\Users\danii\OneDrive\Рабочий стол\SDL2-2.24.0\lib\x64;C:\Users\danii\OneDrive\Рабочий стол\SDL2_image-2.6.2\lib\x64;C:\Users\danii\OneDrive\Рабочий стол\SDL2_ttf-2.20.1\lib\x64</LibraryPath>
+
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -116,9 +121,9 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;%(AdditionalDependencies);SDL2.lib
-;SDL2main.lib
-;SDL2_image.lib;SDL2_ttf.lib</AdditionalDependencies>
+
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
+
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -142,11 +147,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="baseGameClass.cpp" />
+    <ClCompile Include="bigWindowsClass.cpp" />
     <ClCompile Include="builderClass.cpp" />
     <ClCompile Include="bushClass.cpp" />
+    <ClCompile Include="faqWindowClass.cpp" />
     <ClCompile Include="farmClass.cpp" />
     <ClCompile Include="farmerClass.cpp" />
     <ClCompile Include="fieldClass.cpp" />
+    <ClCompile Include="fontClass.cpp" />
     <ClCompile Include="headerClass.cpp" />
     <ClCompile Include="houseAreaClass.cpp" />
     <ClCompile Include="houseClass.cpp" />
@@ -162,11 +170,15 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="baseGameClass.h" />
+    <ClInclude Include="bigWindowsClass.h" />
     <ClInclude Include="builderClass.h" />
     <ClInclude Include="bushClass.h" />
+    <ClInclude Include="faqWindowClass.h" />
+    <ClInclude Include="LogOutTemp.h" />
     <ClInclude Include="farmClass.h" />
     <ClInclude Include="farmerClass.h" />
     <ClInclude Include="binarySort.h" />
+    <ClInclude Include="fontClass.h" />
     <ClInclude Include="headerClass.h" />
     <ClInclude Include="searchNearestObject.h" />
     <ClInclude Include="fieldClass.h" />
@@ -205,6 +217,9 @@
     <Image Include="images\headerImgs\numbers.png" />
     <Image Include="images\headerImgs\pauseBtn.png" />
     <Image Include="images\headerImgs\playBtn.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="font\courier.ttf" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
