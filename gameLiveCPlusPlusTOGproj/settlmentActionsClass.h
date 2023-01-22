@@ -407,6 +407,7 @@ public:
 								case gameSettings::headerSetting.btns::restart:
 									std::cout << "menu::\trestart\n";
 									///pass
+									restart();
 									break;
 								case gameSettings::headerSetting.btns::faq:
 									/// if first house is built then put a pause
