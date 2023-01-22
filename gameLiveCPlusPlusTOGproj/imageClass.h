@@ -20,10 +20,10 @@ private:
 			return;
 		}
 		//flower = SDL_ConvertSurface(flower, gameSettings::surface->format, NULL);
-		if (flower == nullptr) {
+		/*if (flower == nullptr) {
 			std::cout << "Can't convert: " << SDL_GetError() << std::endl;
 			return;
-		}
+		}*/
 		imageVector[enumName] = flower;
 		return;
 	}
@@ -51,6 +51,16 @@ public:
 			this->load(vPaths[i].path, vPaths[i].position);
 		}
 	}
+
+	SDL_Surface* loadOneImg(std::string path) {
+		SDL_Surface* flower = IMG_Load(path.c_str());
+		if (flower == nullptr) {
+			std::cout << "Can't load: " << IMG_GetError() << std::endl;
+			return nullptr;
+		}
+		return flower;
+	}
+
 
 	void logOut() {
 		for (int i = 0; i < imageVector.size(); i++)

@@ -11,6 +11,8 @@ namespace gameSettings {
 	settlmentSettings settlmentSetting;
 	headerSettings headerSetting;
 
+	//bool DEBUG = true;
+
 	SDL_Window* win = nullptr;
 	SDL_Surface* surface = nullptr;
 	std::vector<imagePath>gameImagesPathVector = {

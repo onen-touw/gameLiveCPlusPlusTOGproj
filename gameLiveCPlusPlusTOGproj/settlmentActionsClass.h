@@ -4,6 +4,10 @@
 #include "fieldClass.h"
 #include"houseAreaClass.h"
 #include"headerClass.h"
+#include "faqWindowClass.h"
+#include"fontClass.h"
+#include"LogOutTemp.h"
+
 
 class settlmentActionsClass
 {
@@ -13,6 +17,7 @@ private:
 	fieldClass field;
 	headerClass header;
 
+
 	std::vector<houseAreaClass> houseAreas;
 
 
@@ -21,6 +26,8 @@ private:
 	bool goodForHouse = false;
 	bool night = false;
 	bool pause = false;
+	//bool cursorLock = false;
+	bool infoWinOpen = false;
 
 	int cursor_X = 0, cursor_Y = 0;
 	short int gSecond = 0;
@@ -233,48 +240,122 @@ public:
 		if (baseGame.initModuls())
 		{
 			SDL_Event event;
+			fontClass fontCl;
+			faqWindowClass faq = faqWindowClass(images.loadOneImg("./images/headerImgs/bgTemp.png"), images.loadOneImg("./images/headerImgs/btnBg.png"), fontCl.getFont());
 
-			///bliting
+			///start bliting
 			header.blitHeader();
-
 			field.blitField();
 
 			SDL_UpdateWindowSurface(gameSettings::win);
 
-			while (this->game)
+	
+			while (SDL_PollEvent(&event) || this->game)
 			{
-				while (SDL_PollEvent(&event) || this->game)
+				if (event.type == SDL_QUIT)
 				{
-					if (event.type == SDL_QUIT)
-					{
-						this->game = false;
-					}
+					this->game = false;
+				}
+				else if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_RIGHT) {
+					this->field.transmitField(directions::right);
+				}
+				else if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_UP)
+				{
+					this->field.transmitField(directions::up);
+				}
+				else if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_LEFT)
+				{
+					this->field.transmitField(directions::left);
+				}
+				else if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_DOWN)
+				{
+					this->field.transmitField(directions::down);
+				}
+				else if (event.type == SDL_MOUSEMOTION)
+				{
+					cursor_X = event.motion.x; cursor_Y = event.motion.y;
+				}
 
-					else if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_RIGHT) {
-						this->field.transmitField(directions::right);
-					}
-					else if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_UP)
+				else if (event.button.button == SDL_BUTTON_LEFT && event.type == SDL_MOUSEBUTTONUP)
+				{
+					SDL_GetMouseState(&this->cursor_X, &this->cursor_Y);
+					if (!this->infoWinOpen)
 					{
-						this->field.transmitField(directions::up);
-					}
-					else if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_LEFT)
-					{
-						this->field.transmitField(directions::left);
-					}
-					else if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_DOWN)
-					{
-						this->field.transmitField(directions::down);
-					}
-					else if (event.type == SDL_MOUSEMOTION)
-					{
-						cursor_X = event.motion.x; cursor_Y = event.motion.y;
-					}
+						if (this->cursor_Y < gameSettings::winObjSize.menuHeader)
+						{
+							if (this->cursor_X >= this->header.getBtnSpriteListX())
+							{
+								switch (this->header.btnParse(this->cursor_X))
+								{
+								case gameSettings::headerSetting.btns::playPause:
+									if (this->firstHouse)
+									{
+										!this->pause ? this->pause = true : this->pause = false;
+										this->header.toggleForPlayBtn(this->pause);
+									}
+									break;
+								case gameSettings::headerSetting.btns::devide2:
+									if (this->timeRation != 1) { this->timeRation /= 2; }	///1 - timeRation lower limit
+									std::cout << "time::\t" << gameSettings::settlmentSetting.secondsInOneLoop / this->timeRation << "\n";
+									this->header.blitXClock(this->timeRation);
+									break;
+								case gameSettings::headerSetting.btns::multipl2:
+									if (this->timeRation != 8) { this->timeRation *= 2; }	///8 - timeRation upper limit
+									std::cout << "time::\t" << gameSettings::settlmentSetting.secondsInOneLoop / this->timeRation << "\n";
+									this->header.blitXClock(this->timeRation);
+									break;
+								case gameSettings::headerSetting.btns::restart:
+									std::cout << "menu::\trestart\n";
+									///pass
+									break;
+								case gameSettings::headerSetting.btns::faq:
+									/// if first house is built then put a pause
+									///if no then cursor Lock(infoWinOpen) because field
+									/// are updating when cursor is in motion
+									/// => faq will be overlapped by a field
+									if (this->firstHouse)
+									{
+										if (!this->pause)
+										{
+											this->pause = true;
+											this->header.toggleForPlayBtn(this->pause);
+										}
+									}
+									this->infoWinOpen = true;
+									faq.blit();
+									std::cout << "menu::\tfaq\n";
+									break;
+								case gameSettings::headerSetting.btns::quit:
+									std::cout << "menu::\tquit\n";
+									return 0;
+									break;
 
-					if (!firstHouse)
+								default:
+									break;
+								}
+							}
+						}
+					}
+					else
 					{
-						this->field.blitField();
+						if (faq.btnCheck(cursor_X, cursor_Y))
+						{
+							this->infoWinOpen = false;
+							std::cout << "123131\n";
+							this->field.blitField();
+							SDL_UpdateWindowSurface(gameSettings::win);
+
+						}
+					}
+				}
+
+				if (!firstHouse)
+				{
+					if (!this->infoWinOpen)
+					{
 						if (cursor_Y > gameSettings::winObjSize.menuHeader)
 						{
+							this->field.blitField();
 							this->goodForHouse = field.chosePositionForHouse({ (short int)cursor_X, (short int)cursor_Y });
 							SDL_UpdateWindowSurface(gameSettings::win);
 						}
@@ -300,88 +381,36 @@ public:
 							}
 						}
 					}
-					else
-					{
-						if (!this->pause)
-						{
-							if (++gSecond == this-> itInOneLoop )
-							{
-								if (++gLoop == gameSettings::settlmentSetting.loopsInOneDay)
-								{
-									//îáíîâëåíèÿ â íà÷àëå äíÿ
-									oneDayActions();
-									//std::cout << gLoop << std::endl;
-									gLoop = 0;
-								}
-								else
-								{
-									//èãðîâîé öèêë êàæäîãî òèêà
-									oneTikActions();
-									//std::cout << gSecond << std::endl;
-									field.blitField();
-									SDL_UpdateWindowSurface(gameSettings::win);
-
-									this->itInOneLoop =int( gameSettings::settlmentSetting.secondsInOneLoop / this->timeRation);
-								}
-								gSecond = 0;
-							}
-						}
-					}
-					if (event.button.button == SDL_BUTTON_LEFT && event.type == SDL_MOUSEBUTTONUP)
-					{
-						if (this->cursor_Y < gameSettings::winObjSize.menuHeader)
-						{
-							SDL_GetMouseState(&this->cursor_X, &this->cursor_Y );
-							if (this->cursor_X >= this->header.getBtnSpriteListX())
-							{
-								switch (this->header.btnParse(this->cursor_X))
-								{
-								case gameSettings::headerSetting.btns::playPause:
-									if (this->firstHouse)
-									{
-										!this->pause ? this->pause = true : this->pause = false;
-										this->header.toggleForPlayBtn(this->pause);
-									}
-									break;
-								case gameSettings::headerSetting.btns::devide2:
-									if (this->timeRation != 1) { this->timeRation /= 2; }
-									std::cout << "time::\t" <<gameSettings::settlmentSetting.secondsInOneLoop / this->timeRation << "\n";
-									this->header.blitXClock(this->timeRation);
-									break;
-								case gameSettings::headerSetting.btns::multipl2:
-									if (this->timeRation != 8) { this->timeRation *= 2; }
-									std::cout << "time::\t" << gameSettings::settlmentSetting.secondsInOneLoop / this->timeRation << "\n";
-									this->header.blitXClock(this->timeRation);
-									break;
-								case gameSettings::headerSetting.btns::restart:
-									std::cout << "menu::\trestart\n";
-									break;
-								case gameSettings::headerSetting.btns::faq:
-									std::cout << "menu::\tfaq\n";
-									break;
-								case gameSettings::headerSetting.btns::quit:
-									std::cout << "menu::\tquit\n";
-									return 0;
-									break;
-
-								default:
-									break;
-								}
-							}
-						}
-					}
-
-					SDL_Delay(1000 / 60);
 				}
+				else
+				{
+					if (!this->pause)
+					{
+						if (++gSecond == this-> itInOneLoop )
+						{
+							if (++gLoop == gameSettings::settlmentSetting.loopsInOneDay)
+							{
+								oneDayActions();
+								gLoop = 0;
+							}
+							else
+							{
+								oneTikActions();
+								field.blitField();
+								SDL_UpdateWindowSurface(gameSettings::win);
+								this->itInOneLoop =int( gameSettings::settlmentSetting.secondsInOneLoop / this->timeRation);
+							}
+							gSecond = 0;
+						}
+					}
+				}
+				SDL_Delay(1000 / 60);
 			}
 		}
-
 		else
 		{
 			std::cout << "problemm\n";
 		}
-
-
 		return 0;
 	}
 };

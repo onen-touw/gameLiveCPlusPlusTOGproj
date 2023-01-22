@@ -171,8 +171,9 @@ public:
 			SDL_BlitScaled(this->imageVector[gameSettings::headerSetting.headerImgs::playBtn], NULL, gameSettings::surface, &mr);
 		}
 		SDL_UpdateWindowSurface(gameSettings::win);
-
 	}
+
+
 
 };
 
