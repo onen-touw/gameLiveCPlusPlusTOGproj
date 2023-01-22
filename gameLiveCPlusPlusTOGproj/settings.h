@@ -48,8 +48,6 @@ struct imagePath
 	short int position;
 };
 
-
-
 enum directions
 {
 	up,
@@ -131,10 +129,10 @@ struct settlmentSettings
 	short int secondsInOneLoop = 32;		/// !!!должно быть кратно максимальному ускорению!!!
 	short int loopsInOneDay = 90;		/// = stamina
 	short startTimeRation = 1;			/// !!!степень двойки!!! до 8
-
-	short int foodForBirth = 40;
-	short int stoneForBildingHouse = 30;
-	short int woodForBildingHouse = 30;
+	short int settlmentStartFood = 0;
+	short int foodForBirth = 100;
+	short int stoneForBildingHouse = 80;
+	short int woodForBildingHouse = 100;
 	short int woodForBildingFarm = 15;
 };
 
@@ -160,9 +158,9 @@ struct fieldSettings
 	///tempSizes for tests (100x100); normalSizes (500,500);
 	sizes size = { 100, 100 };			///cells x cells
 	sizes minCountCellInWin = { 0, 0 };	/// minimalCounts cells which we can see in gameWindow (defined in baseGameClass during initialization)
-	short int densityOfTree = size.height * size.width / 10;
-	short int densityOfRock = size.height * size.width / 10;
-	short int densityOfBush = size.height * size.width / 70;
+	short int densityOfTree = size.height * size.width / 35;
+	short int densityOfRock = size.height * size.width / 45;
+	short int densityOfBush = size.height * size.width / 200;
 
 	enum objectEnum
 	{
